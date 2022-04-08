@@ -1,0 +1,12 @@
+# dependencies
+node_modules/
+
+# production bundles
+dist/
+public/js/app.js
+
+# don't commit secret passwords
+.env
+
+# To Do List
+TODO.ts
