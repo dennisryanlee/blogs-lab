@@ -6,3 +6,28 @@ export interface Blog {
   authoremail: string;
   authorid: string;
 }
+
+export interface Author {
+  id: string;
+  authorname: string;
+  email: string;
+}
+
+export interface Tag {
+  tagname: string;
+}
+
+export interface newBlogInfo {
+  title: string;
+  content: string;
+  authorid: number;
+}
+
+export interface newAuthorInfo {
+  authorname: string;
+  email: string;
+}
+
+export interface newTagInfo {
+  tagname: string;
+}
