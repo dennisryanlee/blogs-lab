@@ -15,6 +15,75 @@ const router = express.Router();
  * New Tag requires "tagname"
  */
 
+// Create a Blog
+router.post("/api/blogs", async (req, res) => {
+  try {
+    const { title, content, authorid } = req.body;
+    const newBlogInfo = { title: title, content: content, authorid: authorid }; // package the new info into an object
+    const results = await db.Blogs.createNewBlog(newBlogInfo);
+
+    if (results.affectedRows) {
+      // if the blog was added
+      res.status(200).json({ message: `New blog titled ${title} from ${authorid} was made!` });
+    } else {
+      // if the blog was not added
+      res.status(400).json({ message: `Sorry, we don't publish trash like ${title} on this app.` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `Blogging is tough work and it is time for my break, try again later` }); // send status of 500
+  }
+});
+
+// Create an Author
+router.post("/api/authors", async (req, res) => {
+  const { authorname, email } = req.body;
+  try {
+    const newAuthorInfo = { authorname: authorname, email: email }; // package the new info into an object
+    const results = await db.Authors.createNewAuthor(newAuthorInfo);
+
+    if (results.affectedRows) {
+      // if the author was added
+      res.status(200).json({ message: `Welcome ${authorname}!` });
+    } else {
+      // if the author was not added
+      res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
+  }
+});
+
+// Create a Tag
+router.post("/api/tags", async (req, res) => {
+  const { tagname } = req.body;
+  try {
+    const newTagInfo = { tagname: tagname }; // package the new info into an object
+    const results = await db.Tags.createNewTag(newTagInfo);
+
+    if (results.affectedRows) {
+      // if the tag was added
+      res.status(200).json({ message: `New "${tagname}" was added, get out there and start tagging!` });
+    } else {
+      // if the tag was not added
+      res.status(400).json({ message: `"${tagname}" needs more work` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `We could not add "${tagname}, try again later, I'm sure it was good` }); // send status of 500
+  }
+});
+
 // Get all Blogs
 router.get("/api/blogs", async (req, res) => {
   try {
