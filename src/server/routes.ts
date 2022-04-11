@@ -220,4 +220,70 @@ router.put("/api/tags/:id", async (req, res) => {
   }
 });
 
+// Delete a Blog
+router.delete("/api/blogs/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const DeleteBlogResponse = await db.Blogs.deleteBlog(Number(id)); // use the id to delete the blog
+
+    if (DeleteBlogResponse.affectedRows) {
+      // if it was deleted
+      res.status(200).json({ message: `Blog ${id} was deleted!` });
+    } else {
+      // if it was never there to begin with
+      res.status(404).json({ message: `Zoinks!  That blog never existed` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `We tried, we failed, Blog ${id} is too powerful` }); // send status of 500
+  }
+});
+
+// Delete an Author
+router.delete("/api/authors/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const DeleteAuthorResponse = await db.Authors.deleteAuthor(Number(id)); // use the id to delete the author
+
+    if (DeleteAuthorResponse.affectedRows) {
+      // if it was deleted
+      res.status(200).json({ message: `Author ${id} was killed!  How could you?!?!` });
+    } else {
+      // if it was never there to begin with
+      res.status(404).json({ message: `Who are you even talking about?` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `We tried, we failed, Author ${id} is too powerful` }); // send status of 500
+  }
+});
+
+// Delete a Tag
+router.delete("/api/tags/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const DeleteTagResponse = await db.Tags.deleteTag(Number(id)); // use the id to delete the author
+
+    if (DeleteTagResponse.affectedRows) {
+      // if it was deleted
+      res.status(200).json({ message: `You know you're not supposed to remove tags right?  Tag ${id} was removed` });
+    } else {
+      // if it was never there to begin with
+      res.status(404).json({ message: `We don't carry that line of tags in this store` });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `We tried, we failed, Tag ${id} is too powerful` }); // send status of 500
+  }
+});
+
 export default router;
