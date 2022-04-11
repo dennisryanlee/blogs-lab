@@ -13,7 +13,7 @@ const createNewAuthor = (newAuthorInfo: Type.newAuthorInfo) => Query(`INSERT INT
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x
 
-const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors;`);
+const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors`, []);
 
 // readOne-x will query the database and return an array containing a single x specified by its id
 
