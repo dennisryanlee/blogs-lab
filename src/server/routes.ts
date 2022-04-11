@@ -80,7 +80,7 @@ router.post("/api/tags", async (req, res) => {
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
     console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
-    res.status(500).json({ message: `We could not add "${tagname}, try again later, I'm sure it was good` }); // send status of 500
+    res.status(500).json({ message: `We could not add '${tagname}', try again later, (I'm sure it was good!)` }); // send status of 500
   }
 });
 
@@ -138,7 +138,7 @@ router.get("/api/blogs/:id", async (req, res) => {
       res.status(200).json(BlogArray);
     } else {
       // if the Blog does not exist, send a 404 error
-      res.status(404).json({ message: "does not exist" });
+      res.status(404).json({ message: `The blog with ID:${id} does not exist` });
     }
   } catch (error) {
     const myError: MysqlError = error;
@@ -160,7 +160,7 @@ router.get("/api/authors/:id", async (req, res) => {
       res.status(200).json(AuthorArray);
     } else {
       // if the Author does not exist, send a 404 error
-      res.status(404).json({ message: "does not exist" });
+      res.status(404).json({ message: `Missing Person Alert!  The Author with ID: ${id} does not exist` });
     }
   } catch (error) {
     const myError: MysqlError = error;

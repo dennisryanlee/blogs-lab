@@ -13,7 +13,7 @@ const createNewTag = (newTagInfo: Type.newTagInfo) => Query(`INSERT INTO Authors
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x
 
-const readAllTags = () => Query<Type.Tag[]>(`SELECT * FROM Tags`);
+const readAllTags = () => Query<Type.Tag[]>(`SELECT * FROM Tags;`);
 
 // readOne-x will query the database and return an array containing a single x specified by its id
 
