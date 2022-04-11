@@ -7,13 +7,13 @@ import * as Type from "../../types";
 // insert into chirps (id: number, userid: number, content: string, location: string) values (id, userid, content, location);
 // const writeOne = (userid: number, content: string, location: string) => Query("INSERT INTO chirps (userid, content, location) VALUES (?, ?, ?)", [userid, content, location]); // id will be provided by the DB
 
-//! double check about the auto-destructuring mysql is going to do with the newBlogInfo object
-const createNewAuthor = (newAuthorInfo: Type.newAuthorInfo) => Query(`INSERT INTO Authors (?) VALUES (?)`, [newAuthorInfo]);
+// using SET allows us to destructure an object whose keys match column names, so that we can add those values where they belong
+const createNewAuthor = (newAuthorInfo: Type.newAuthorInfo) => Query(`INSERT INTO Authors SET ?`, [newAuthorInfo]);
 
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x
 
-const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors`, []);
+const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors`);
 
 // readOne-x will query the database and return an array containing a single x specified by its id
 

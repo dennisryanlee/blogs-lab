@@ -7,8 +7,8 @@ import * as Type from "../../types";
 // insert into chirps (id: number, userid: number, content: string, location: string) values (id, userid, content, location);
 // const writeOne = (userid: number, content: string, location: string) => Query("INSERT INTO chirps (userid, content, location) VALUES (?, ?, ?)", [userid, content, location]); // id will be provided by the DB
 
-//! double check about the auto-destructuring mysql is going to do with the newBlogInfo object
-const createNewTag = (newTagInfo: Type.newTagInfo) => Query(`INSERT INTO Tags (?) VALUES (?)`, [newTagInfo]);
+// using SET allows us to destructure an object whose keys match column names, so that we can add those values where they belong
+const createNewTag = (newTagInfo: Type.newTagInfo) => Query(`INSERT INTO Tags SET ?`, [newTagInfo]);
 
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x

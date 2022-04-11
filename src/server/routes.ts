@@ -70,10 +70,10 @@ router.post("/api/tags", async (req, res) => {
 
     if (results.affectedRows) {
       // if the tag was added
-      res.status(200).json({ message: `New "${tagname}" was added, get out there and start tagging!` });
+      res.status(200).json({ message: `New Tag called ${tagname} was added, get out there and start tagging!` });
     } else {
       // if the tag was not added
-      res.status(400).json({ message: `"${tagname}" needs more work` });
+      res.status(400).json({ message: `Hey, your Tag called ${tagname} needs more work` });
     }
   } catch (error) {
     const myError: MysqlError = error;
@@ -101,7 +101,7 @@ router.get("/api/blogs", async (req, res) => {
 // Get all Authors
 router.get("/api/authors", async (req, res) => {
   try {
-    const data = await db.Authors.readAllAuthors; // Read all Authors
+    const data = await db.Authors.readAllAuthors(); // Read all Authors
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
     const myError: MysqlError = error;
@@ -115,7 +115,7 @@ router.get("/api/authors", async (req, res) => {
 // Get all Tags
 router.get("/api/tags", async (req, res) => {
   try {
-    const data = await db.Tags.readAllTags; // Read all Tags
+    const data = await db.Tags.readAllTags(); // Read all Tags
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
     const myError: MysqlError = error;
@@ -182,7 +182,7 @@ router.get("/api/tags/:id", async (req, res) => {
       res.status(200).json(TagArray);
     } else {
       // if the Tag does not exist, send a 404 error
-      res.status(404).json({ message: "does not exist" });
+      res.status(404).json({ message: `This is a bit awkward, but the tag with ID:${id} does not exist` });
     }
   } catch (error) {
     const myError: MysqlError = error;
@@ -341,7 +341,7 @@ router.delete("/api/tags/:id", async (req, res) => {
 
     if (DeleteTagResponse.affectedRows) {
       // if it was deleted
-      res.status(200).json({ message: `You know you're not supposed to remove tags right?  Tag ${id} was removed` });
+      res.status(200).json({ message: `You know you're not supposed to remove tags right?  Ugh ok fine, Tag ${id} was removed` });
     } else {
       // if it was never there to begin with
       res.status(404).json({ message: `We don't carry that line of tags in this store` });
