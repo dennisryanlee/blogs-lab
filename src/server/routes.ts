@@ -59,8 +59,9 @@ router.get("/api/tags", async (req, res) => {
 
 // Get single Blog
 router.get("/api/blogs/:id", async (req, res) => {
+  // if we destructure id from req.params here, we can reference it in both the try and catch blocks
+  const { id } = req.params; // grab the id from req.params...
   try {
-    const { id } = req.params; // grab the id from req.params...
     const BlogArray = await db.Blogs.readOneBlog(Number(id)); // ...and use it as a number later.
 
     if (BlogArray.length) {
@@ -75,14 +76,14 @@ router.get("/api/blogs/:id", async (req, res) => {
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
     console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
-    res.status(500).json({ message: `Get single Blog for ID:${req.params.id} failed.  Big oofs here` }); // send status of 500
+    res.status(500).json({ message: `Get single Blog for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
 
 // Get single Author
 router.get("/api/authors/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
   try {
-    const { id } = req.params; // grab the id from req.params...
     const AuthorArray = await db.Authors.readOneAuthor(Number(id)); // ...and use it as a number later.
 
     if (AuthorArray.length) {
@@ -97,14 +98,14 @@ router.get("/api/authors/:id", async (req, res) => {
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
     console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
-    res.status(500).json({ message: `Get single Author for ID:${req.params.id} failed.  Big oofs here` }); // send status of 500
+    res.status(500).json({ message: `Get single Author for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
 
 // Get single Tag
 router.get("/api/tags/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
   try {
-    const { id } = req.params; // grab the id from req.params...
     const TagArray = await db.Tags.readOneTag(Number(id)); // ...and use it as a number later.
 
     if (TagArray.length) {
@@ -119,7 +120,104 @@ router.get("/api/tags/:id", async (req, res) => {
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
     console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
-    res.status(500).json({ message: `Get single Tag for ID:${req.params.id} failed.  Big oofs here` }); // send status of 500
+    res.status(500).json({ message: `Get single Tag for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
+
+// Edit a Blog
+router.put("/api/blogs/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const { title, content, authorid } = req.body; // grab the updated info from the body...
+    const newBlogInfo = { title: title, content: content, authorid: authorid }; // package the updated info into an object
+
+    const [results] = await db.Blogs.readOneBlog(Number(id)); // ...and use the id as a number to get that particular blog.
+
+    if (results) {
+      // if the blog exists in the database, send it as the response
+
+      const updateResults = await db.Blogs.updateBlog(newBlogInfo, Number(id)); // newBlogInfo contains theupdated info, id specifies the blog
+
+      if (updateResults.affectedRows) {
+        res.status(200).json({ message: `Blog ${id} was updated to show ${content}` });
+      } else {
+        res.status(400).json({ message: `Oh my stars, we could not update the blog with ID:${id}` });
+      }
+    } else {
+      // if the blog does not exist, send a 404 error
+      res.status(404).json({ message: "Whoopsie-daisy, that blog does not exist" });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}` }); // send status of 500
+  }
+});
+
+// Edit an Author
+router.put("/api/authors/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const { authorname, email } = req.body; // grab the updated info from the body...
+    const newAuthorInfo = { authorname: authorname, email: email }; // package the updated info into an object
+
+    const [results] = await db.Authors.readOneAuthor(Number(id)); // ...and use the id as a number to get that particular author.
+
+    if (results) {
+      // if the author exists in the database, send it as the response
+
+      const updateResults = await db.Authors.updateAuthor(newAuthorInfo, Number(id)); // newBlogInfo contains theupdated info, id specifies the blog
+
+      if (updateResults.affectedRows) {
+        res.status(200).json({ message: `Author ${id} was updated to show ${authorname}, and ${email}` });
+      } else {
+        res.status(400).json({ message: `Oh my stars, we could not update the Author with ID:${id}` });
+      }
+    } else {
+      // if the blog does not exist, send a 404 error
+      res.status(404).json({ message: "Whoopsie-daisy, that author does not exist" });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `Updating Authors is hard!  Something went wrong when we tried to update the author with ID:${id}` }); // send status of 500
+  }
+});
+
+// Edit a Tag
+router.put("/api/tags/:id", async (req, res) => {
+  const { id } = req.params; // grab the id from req.params...
+  try {
+    const { tagname } = req.body; // grab the updated info from the body...
+    const newTagInfo = { tagname: tagname }; // package the updated info into an object
+
+    const [results] = await db.Tags.readOneTag(Number(id)); // ...and use the id as a number to get that particular tag.
+
+    if (results) {
+      // if the tag exists in the database, send it as the response
+
+      const updateResults = await db.Tags.updateTag(newTagInfo, Number(id)); // newTagInfo contains the updated info, id specifies the tag
+
+      if (updateResults.affectedRows) {
+        res.status(200).json({ message: `Tag ${id} was updated to show ${tagname}` });
+      } else {
+        res.status(400).json({ message: `Oh my stars, we could not update the tag with ID:${id}` });
+      }
+    } else {
+      // if the blog does not exist, send a 404 error
+      res.status(404).json({ message: "Whoopsie-daisy, that tag does not exist" });
+    }
+  } catch (error) {
+    const myError: MysqlError = error;
+    console.log(`\n`);
+    console.log(error); // if an error happens, log the error
+    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+    res.status(500).json({ message: `Updating Tags is hard!  Something went wrong when we tried to update the tag with ID:${id}` }); // send status of 500
+  }
+});
+
 export default router;
