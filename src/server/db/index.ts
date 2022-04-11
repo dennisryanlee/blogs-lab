@@ -1,6 +1,8 @@
 import * as mysql from "mysql"; // import mysql so that we can make requests from the database
 import { OkPacket as mySQLSuccessMsg } from "mysql";
-import Blogs from "./queries";
+import Blogs from "./BlogQueries";
+import Authors from "./AuthorQueries";
+import Tags from "./TagQueries";
 import * as dotenv from "dotenv";
 import { DATABASE_CONFIG } from "../config"; // import the database config object containing the connection info
 import * as Types from "../../types";
@@ -29,5 +31,7 @@ export const Query = <T = mySQLSuccessMsg>(query: string, values?: unknown[]) =>
 
 export default {
   // this is where the tables from the database will be exported
-  Blogs, // Blogs contains the query functions defined in queries.ts
+  Blogs, // Blogs contains the query functions defined in BlogQueries.ts
+  Authors, // Authors contains the query functions defined in AuthorQueries.ts
+  Tags, // Tags contains the query functions defined in TagQueries.ts
 };
