@@ -1,5 +1,5 @@
 import * as express from "express";
-import db from "./db";
+import db from "../db";
 import { MysqlError } from "mysql";
 
 const router = express.Router();
@@ -355,4 +355,4 @@ router.delete("/api/tags/:id", async (req, res) => {
   }
 });
 
-export default router;
+// export default router;

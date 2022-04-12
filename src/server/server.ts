@@ -1,12 +1,18 @@
 import * as express from "express";
-import apiRouter from "./routes";
+// import apiRouter from "./routes/routes";
+import blogRouter from "./routes/blogRoutes";
+import authorRouter from "./routes/authorRoutes";
+import tagRouter from "./routes/tagRoutes";
 import * as path from "path";
 
 const app = express();
 
 app.use(express.static("public")); // send public directory to client
 app.use(express.json()); // allows for req.body parsing
-app.use(apiRouter); // sets up the routes for us
+// app.use(apiRouter); // sets up the routes for us
+app.use(blogRouter);
+app.use(authorRouter);
+app.use(tagRouter);
 
 const clientPaths = ["/", "blogs"]; // establishes paths for client to use
 
