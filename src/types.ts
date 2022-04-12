@@ -31,3 +31,14 @@ export interface newAuthorInfo {
 export interface newTagInfo {
   tagname: string;
 }
+
+export interface AppProps {}
+
+export interface LoginPageProps {
+  username: string;
+  password: string;
+  loggedIn: boolean;
+  handleUsernameChange: Function;
+  handlePasswordChange: Function;
+  handleloggedIn: Function;
+}

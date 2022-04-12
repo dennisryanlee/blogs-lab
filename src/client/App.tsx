@@ -1,64 +1,85 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import * as React from "react";
+import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import * as Types from "../types";
+import Navbar from "./Navbar";
+import Loginpage from "./Login";
+import NewAuthor from "./NewAuthor";
+import Blogs from "./Blogs";
+import Authors from "./Authors";
+import AuthorDetails from "./AuthorDetails";
+import BlogDetails from "./BlogDetails";
 
-/* HOOK REACT EXAMPLE */
-const App = (props: AppProps) => {
-	const [greeting, setGreeting] = useState<string>('');
+const App = (props: Types.AppProps) => {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loggedIn, setloggedIn] = useState<boolean>(false);
 
-	useEffect(() => {
-		async function getGreeting() {
-			try {
-				const res = await fetch('/api/hello');
-				const greeting = await res.json();
-				setGreeting(greeting);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-		getGreeting();
-	}, []);
+  const nav = useNavigate(); // lets us navigate the user around
 
-	return (
-		<main className="container my-5">
-			<h1 className="text-primary text-center">Hello {greeting}!</h1>
-		</main>
-	);
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setPassword(e.target.value);
+  };
+
+  const handleloggedIn = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (!username) {
+      alert("Please enter your Username");
+      return;
+    }
+    if (!password) {
+      alert("Please enter your passwprd");
+      return;
+    }
+    if (password.length <= 8) {
+      alert("Enter a stronger password");
+      return;
+    }
+    if (username.includes("Ervin Howell")) {
+      const secretTrackz = new Audio(`../secretTrack.mp3`);
+      secretTrackz.play();
+    }
+
+    nav("/blogs");
+
+    return setloggedIn(!loggedIn);
+  };
+
+  useEffect(() => {}, []);
+
+  return (
+    <>
+      <main className="container my-5">
+        <h1 className="text-primary text-center">Blogs, duh.</h1>
+      </main>
+      <Routes>
+        <Navbar></Navbar>
+        <Route
+          path="/"
+          element={
+            <Loginpage
+              username={username}
+              password={password}
+              loggedIn={loggedIn}
+              handleUsernameChange={handleUsernameChange}
+              handlePasswordChange={handlePasswordChange}
+              handleloggedIn={handleloggedIn}
+            />
+          }
+        />
+        <Route path="/newauthor" element={<NewAuthor />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
+        <Route path="/authors" element={<Authors />} />
+        <Route path="/authors/:id" element={<AuthorDetails />} />
+      </Routes>
+    </>
+  );
 };
-
-interface AppProps {}
-
-/* CLASS REACT EXAMPLE */
-// class App extends React.Component<IAppProps, IAppState> {
-// 	constructor(props: IAppProps) {
-// 		super(props);
-// 		this.state = {
-// 			name: null
-// 		};
-// 	}
-
-// 	async componentDidMount() {
-// 		try {
-// 			let r = await fetch('/api/hello');
-// 			let name = await r.json();
-// 			this.setState({ name });
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	}
-
-// 	render() {
-// 		return (
-// 			<main className="container my-5">
-// 				<h1 className="text-primary text-center">Hello {this.state.name}!</h1>
-// 			</main>
-// 		);
-// 	}
-// }
-
-// export interface IAppProps {}
-
-// export interface IAppState {
-// 	name: string;
-// }
 
 export default App;
