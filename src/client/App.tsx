@@ -25,7 +25,7 @@ const App = (props: Types.AppProps) => {
     return setPassword(e.target.value);
   };
 
-  const handleloggedIn = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!username) {
@@ -50,6 +50,13 @@ const App = (props: Types.AppProps) => {
     return setloggedIn(!loggedIn);
   };
 
+  const handleLoggingOut = (e: MouseEvent<HTMLButtonElement>) => {
+    setUsername("");
+    setPassword("");
+    setloggedIn(!loggedIn);
+    nav("/");
+  };
+
   useEffect(() => {}, []);
 
   return (
@@ -58,7 +65,15 @@ const App = (props: Types.AppProps) => {
         <h1 className="text-primary text-center">Blogs, duh.</h1>
       </main>
       <Routes>
-        <Navbar></Navbar>
+        <Navbar
+          username={username}
+          password={password}
+          loggedIn={loggedIn}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+          handleLoggingIn={handleLoggingIn}
+          handleLoggingOut={handleLoggingOut}
+        ></Navbar>
         <Route
           path="/"
           element={
@@ -68,7 +83,7 @@ const App = (props: Types.AppProps) => {
               loggedIn={loggedIn}
               handleUsernameChange={handleUsernameChange}
               handlePasswordChange={handlePasswordChange}
-              handleloggedIn={handleloggedIn}
+              handleLoggingIn={handleLoggingIn}
             />
           }
         />

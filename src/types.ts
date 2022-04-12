@@ -40,5 +40,6 @@ export interface LoginPageProps {
   loggedIn: boolean;
   handleUsernameChange: Function;
   handlePasswordChange: Function;
-  handleloggedIn: Function;
+  handleLoggingIn: Function;
+  handleLoggingOut?: Function;
 }
