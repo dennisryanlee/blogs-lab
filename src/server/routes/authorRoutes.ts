@@ -6,9 +6,9 @@ const authorRouter = express.Router();
 
 // Create an Author
 authorRouter.post("/api/authors", async (req, res) => {
-  const { authorname, email } = req.body;
+  const { authorname, authorbio, email } = req.body;
   try {
-    const newAuthorInfo = { authorname: authorname, email: email }; // package the new info into an object
+    const newAuthorInfo = { authorname: authorname, authorbio: authorbio, email: email }; // package the new info into an object
     const results = await db.Authors.createNewAuthor(newAuthorInfo);
 
     if (results.affectedRows) {

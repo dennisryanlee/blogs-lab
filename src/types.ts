@@ -43,3 +43,18 @@ export interface LoginPageProps {
   handleLoggingIn: Function;
   handleLoggingOut?: Function;
 }
+
+export interface NewAuthorProps {
+  username: string;
+  email: string;
+  authorbio: string;
+  handleUsernameChange: Function;
+  handleEmailChange: Function;
+  handleAuthorBioChange: Function;
+}
+
+export interface NavbarProps {
+  navToAuthors: Function;
+  navToBlogs: Function;
+  handleLoggingOut: Function;
+}
