@@ -22,8 +22,9 @@ export const Query = <T = mysql.OkPacket>(query: string, values?: unknown[]) => 
   // values is optional because when querying all of something, we don't need to specify a specific something
 
   return new Promise<T>((resolve, reject) => {
-    const formattedSQL = mysql.format(query, values);
-    console.log({ formattedSQL });
+    const formattedSQL = mysql.format(query, values); // formats the mysql requests
+    console.log({ formattedSQL }); // logs the mysql requests for debugging
+
     Connection.query(query, values, (err, results) => {
       if (err) reject(err);
       return resolve(results);

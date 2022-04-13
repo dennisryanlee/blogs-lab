@@ -59,3 +59,11 @@ export interface NavbarProps {
   navToBlogs: Function;
   handleLoggingOut: Function;
 }
+
+export interface BlogsProps {
+  blogsArray: Blog[];
+}
+
+export interface AuthorsProps {
+  authorsArray: Author[];
+}

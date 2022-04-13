@@ -16,14 +16,37 @@ const App = (props: Types.AppProps) => {
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
   const [loggedIn, setloggedIn] = useState<boolean>(false);
+  const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
+  const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
 
   const nav = useNavigate(); // lets us navigate the user around
+
+  const navToAuthors = () => {
+    nav("/authors");
+  };
+
+  const navToBlogs = () => {
+    nav("/blogs");
+  };
 
   const handleAuthorBioChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     return setAuthorBio(e.target.value);
   };
 
-  const handleNewAuthorLogin = (e: ChangeEvent<HTMLButtonElement>) => {
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setPassword(e.target.value);
+  };
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setEmail(e.target.value);
+  };
+
+  // Creates a new author, and logs them in
+  const handleNewAuthorLogin = () => {
     if (!username) {
       alert("Please fill in your author name (username)");
       return;
@@ -36,66 +59,36 @@ const App = (props: Types.AppProps) => {
       alert("Please fill in your author bio");
       return;
     }
-    setPassword("New Author Pass");
-    setloggedIn(!loggedIn);
 
-    setEmail("");
-    setAuthorBio("");
-    navToBlogs();
-  };
+    fetch("/api/authors/", {
+      // use the route:  /api/chirps/ ...
+      method: "POST", // ...send a POST request...
+      headers: {
+        // ...specifying the type of content...
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ authorname: username, authorbio: authorbio, email: email }), // ...and deliver the content
+    })
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            setPassword("New Author Pass"); // set the password
 
-  const navToAuthors = () => {
-    nav("/authors");
-  };
+            setEmail(""); // clear input fields
+            setAuthorBio(""); // clear input fields
+            setloggedIn(!loggedIn); // update state to reflect a logged in status
 
-  const navToBlogs = () => {
-    nav("/blogs");
-  };
-
-  //! work on this to add a new author
-  //   const handleNewAuthor = () => {
-  //     if (checkLocationBoxContent() && checkTextBoxContent()) {
-  //       // if there is a location and content entered...
-  //       fetch("/api/chirps/", {
-  //         // use the route:  /api/chirps/ ...
-  //         method: "POST", // ...send a POST request...
-  //         headers: {
-  //           // ...specifying the type of content...
-  //           "content-type": "application/json",
-  //         },
-  //         body: JSON.stringify({ userid: 123, content: textBoxContent, location: locationBoxContent }), // ...and deliver the content
-  //       })
-  //         .then((res) => {
-  //           // then with that response
-  //           res.json().then((data) => {
-  //             // parse as JSON data, then with that data
-  //             if (res.ok) {
-  //               // if there was an OK response
-  //               getAllChirps(); // then get all chirps
-  //             } else {
-  //               // if there was not an OK response
-  //               throw new Error(data.message); // throw a new error
-  //             }
-  //           });
-  //         })
-  //         .catch((error) => console.log(error));
-  //     }
-
-  //     setPassword("newAuthor");
-  //     nav("/blogs");
-  //     return setloggedIn(!loggedIn);
-  //   };
-
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setPassword(e.target.value);
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setEmail(e.target.value);
+            return navToBlogs(); // navigate user to blogs
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
@@ -130,7 +123,46 @@ const App = (props: Types.AppProps) => {
     nav("/");
   };
 
-  useEffect(() => {}, []);
+  const getAllBlogs = () => {
+    fetch("/api/blogs") // GET from "/api/blogs"
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            setBlogsArray(data); // set the data to state
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const getAllAuthors = () => {
+    fetch("/api/authors") // GET from "/api/authors"
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            setAuthorsArray(data); // set the data to state
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getAllBlogs();
+    getAllAuthors();
+  }, []);
 
   return (
     <>
@@ -171,9 +203,9 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
-        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs" element={<Blogs blogsArray={blogsArray} />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
-        <Route path="/authors" element={<Authors />} />
+        <Route path="/authors" element={<Authors authorsArray={authorsArray} />} />
         <Route path="/authors/:id" element={<AuthorDetails />} />
       </Routes>
     </>
