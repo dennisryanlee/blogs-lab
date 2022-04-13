@@ -9,6 +9,7 @@ import Blogs from "./Blogs";
 import Authors from "./Authors";
 import AuthorDetails from "./AuthorDetails";
 import BlogDetails from "./BlogDetails";
+import Validation from "../server/Utils/DataValidation";
 
 const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
@@ -47,16 +48,17 @@ const App = (props: Types.AppProps) => {
 
   // Creates a new author, and logs them in
   const handleNewAuthorLogin = () => {
-    if (!username) {
-      alert("Please fill in your author name (username)");
-      return;
-    }
-    if (!email) {
-      alert("Please fill in your email");
-      return;
-    }
-    if (!authorbio) {
-      alert("Please fill in your author bio");
+    // Validation
+    if (
+      !Validation.isValidStringClient([username, email, authorbio]) ||
+      !Validation.isValidStringLengthClient([
+        [username, 45],
+        [email, 45],
+        [authorbio, 500],
+      ]) ||
+      Validation.isValidEmailClient(email)
+    ) {
+      alert("Please check your data");
       return;
     }
 
@@ -94,16 +96,8 @@ const App = (props: Types.AppProps) => {
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!username) {
-      alert("Please enter your Username");
-      return;
-    }
-    if (!password) {
-      alert("Please enter your password");
-      return;
-    }
-    if (password.length <= 8) {
-      alert("Enter a stronger password");
+    if (!Validation.isValidStringClient([username, password]) || password.length <= 8) {
+      alert("Check your credentials");
       return;
     }
     if (username.includes("Ervin Howell")) {

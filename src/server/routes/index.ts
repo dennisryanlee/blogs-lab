@@ -6,8 +6,8 @@ import tagRouter from "../routes/tagRoutes";
 
 const apiRouter = express.Router();
 
-apiRouter.use("/blogs", blogRouter);
-apiRouter.use("/authors", authorRouter);
-apiRouter.use("/tags", tagRouter);
+apiRouter.use("/api/blogs", blogRouter);
+apiRouter.use("/api/authors", authorRouter);
+apiRouter.use("/api/tags", tagRouter);
 
 export default apiRouter;

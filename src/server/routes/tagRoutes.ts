@@ -1,14 +1,22 @@
 import * as express from "express";
 import db from "../db";
 import { MysqlError } from "mysql";
+import Validation from "../Utils/DataValidation";
 
 const tagRouter = express.Router();
 
+// Current route is /api/tags
+
 // Create a Tag
-tagRouter.post("/api/tags", async (req, res) => {
+tagRouter.post("/", async (req, res) => {
   const { tagname } = req.body;
+
+  // Validation
+  Validation.isValidString(res, tagname);
+  Validation.isValidStringLength(res, [[tagname, 45]]);
+
+  const newTagInfo = { tagname }; // package the new info into an object
   try {
-    const newTagInfo = { tagname: tagname }; // package the new info into an object
     const results = await db.Tags.createNewTag(newTagInfo);
 
     if (results.affectedRows) {
@@ -28,7 +36,7 @@ tagRouter.post("/api/tags", async (req, res) => {
 });
 
 // Get all Tags
-tagRouter.get("/api/tags", async (req, res) => {
+tagRouter.get("/", async (req, res) => {
   try {
     const data = await db.Tags.readAllTags(); // Read all Tags
     res.status(200).json(data); // send 200 and the data
@@ -42,10 +50,14 @@ tagRouter.get("/api/tags", async (req, res) => {
 });
 
 // Get single Tag
-tagRouter.get("/api/tags/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
+tagRouter.get("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  // Validation
+  Validation.isValidID(res, id);
+
   try {
-    const TagArray = await db.Tags.readOneTag(Number(id)); // ...and use it as a number later.
+    const TagArray = await db.Tags.readOneTag(id); // ...and use it as a number later.
 
     if (TagArray.length) {
       // if the Tag exists in the database, send it as the response
@@ -64,13 +76,18 @@ tagRouter.get("/api/tags/:id", async (req, res) => {
 });
 
 // Edit a Tag
-tagRouter.put("/api/tags/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
-  try {
-    const { tagname } = req.body; // grab the updated info from the body...
-    const newTagInfo = { tagname: tagname }; // package the updated info into an object
+tagRouter.put("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+  const { tagname } = req.body; // grab the updated info from the body...
 
-    const [results] = await db.Tags.readOneTag(Number(id)); // ...and use the id as a number to get that particular tag.
+  // Validation
+  Validation.isValidID(res, id);
+  Validation.isValidString(res, tagname);
+  Validation.isValidStringLength(res, [[tagname, 45]]);
+
+  try {
+    const newTagInfo = { tagname }; // package the updated info into an object
+    const [results] = await db.Tags.readOneTag(id); // ...and use the id as a number to get that particular tag.
 
     if (results) {
       // if the tag exists in the database, send it as the response
@@ -96,10 +113,14 @@ tagRouter.put("/api/tags/:id", async (req, res) => {
 });
 
 // Delete a Tag
-tagRouter.delete("/api/tags/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
+tagRouter.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  // Validation
+  Validation.isValidID(res, id);
+
   try {
-    const DeleteTagResponse = await db.Tags.deleteTag(Number(id)); // use the id to delete the author
+    const DeleteTagResponse = await db.Tags.deleteTag(id); // use the id to delete the author
 
     if (DeleteTagResponse.affectedRows) {
       // if it was deleted

@@ -1,14 +1,26 @@
 import * as express from "express";
 import db from "../db";
 import { MysqlError } from "mysql";
+import Validation from "../Utils/DataValidation";
 
 const blogRouter = express.Router();
 
+// Current route is /api/blogs
+
 // Create a Blog
-blogRouter.post("/api/blogs", async (req, res) => {
+blogRouter.post("/", async (req, res) => {
   try {
     const { title, content, authorid } = req.body;
-    const newBlogInfo = { title: title, content: content, authorid: authorid }; // package the new info into an object
+
+    // Validation
+    Validation.isValidString(res, [title, content]);
+    Validation.isValidStringLength(res, [
+      [content, 1500],
+      [title, 45],
+    ]);
+    Validation.isValidID(res, authorid);
+
+    const newBlogInfo = { title, content, authorid }; // package the new info into an object
     const results = await db.Blogs.createNewBlog(newBlogInfo);
 
     if (results.affectedRows) {
@@ -28,7 +40,7 @@ blogRouter.post("/api/blogs", async (req, res) => {
 });
 
 // Get all Blogs
-blogRouter.get("/api/blogs", async (req, res) => {
+blogRouter.get("/", async (req, res) => {
   try {
     const data = await db.Blogs.readAllBlogs(); // Read all Blogs
     res.status(200).json(data); // send 200 and the data
@@ -42,11 +54,15 @@ blogRouter.get("/api/blogs", async (req, res) => {
 });
 
 // Get single Blog
-blogRouter.get("/api/blogs/:id", async (req, res) => {
+blogRouter.get("/:id", async (req, res) => {
   // if we destructure id from req.params here, we can reference it in both the try and catch blocks
-  const { id } = req.params; // grab the id from req.params...
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  // Validation
+  Validation.isValidID(res, id);
+
   try {
-    const BlogArray = await db.Blogs.readOneBlog(Number(id)); // ...and use it as a number later.
+    const BlogArray = await db.Blogs.readOneBlog(id); // ...and use it as a number later.
 
     if (BlogArray.length) {
       // if the Blog exists in the database, send it as the response
@@ -65,13 +81,23 @@ blogRouter.get("/api/blogs/:id", async (req, res) => {
 });
 
 // Edit a Blog
-blogRouter.put("/api/blogs/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
-  try {
-    const { title, content, authorid } = req.body; // grab the updated info from the body...
-    const newBlogInfo = { title: title, content: content, authorid: authorid }; // package the updated info into an object
+blogRouter.put("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+  const { title, content, authorid } = req.body; // grab the updated info from the body...
 
-    const [results] = await db.Blogs.readOneBlog(Number(id)); // ...and use the id as a number to get that particular blog.
+  // Validation
+  Validation.isValidString(res, [title, content]);
+  Validation.isValidStringLength(res, [
+    [content, 1500],
+    [title, 45],
+  ]);
+  Validation.isValidID(res, authorid);
+  Validation.isValidID(res, id);
+
+  try {
+    const newBlogInfo = { title, content, authorid }; // package the updated info into an object
+
+    const [results] = await db.Blogs.readOneBlog(id); // ...and use the id as a number to get that particular blog.
 
     if (results) {
       // if the blog exists in the database, send it as the response
@@ -97,10 +123,14 @@ blogRouter.put("/api/blogs/:id", async (req, res) => {
 });
 
 // Delete a Blog
-blogRouter.delete("/api/blogs/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
+blogRouter.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  // ID Validation
+  Validation.isValidID(res, id);
+
   try {
-    const DeleteBlogResponse = await db.Blogs.deleteBlog(Number(id)); // use the id to delete the blog
+    const DeleteBlogResponse = await db.Blogs.deleteBlog(id); // use the id to delete the blog
 
     if (DeleteBlogResponse.affectedRows) {
       // if it was deleted

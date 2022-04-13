@@ -14,7 +14,7 @@ const clientPaths = ["/", "blogs"]; // establishes paths for client to use
 app.use(clientPaths, (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
 
 // if the client tries to access /api/* they will be notified
-app.use("/api/*", (req, res) => res.sendStatus(404).json({ message: "Bad Route!" }));
+app.use("/api/*", (req, res) => res.status(404).json({ message: "Bad Route!" }));
 
 // redirects client back to home after attempting an incorrect route not handled above
 app.use("*", (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));

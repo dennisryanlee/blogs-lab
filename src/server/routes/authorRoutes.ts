@@ -1,14 +1,26 @@
 import * as express from "express";
 import db from "../db";
 import { MysqlError } from "mysql";
+import Validation from "../Utils/DataValidation";
 
 const authorRouter = express.Router();
 
+// Current route is /api/authors
+
 // Create an Author
-authorRouter.post("/api/authors", async (req, res) => {
+authorRouter.post("/", async (req, res) => {
   const { authorname, authorbio, email } = req.body;
+
+  Validation.isValidString(res, [authorname, authorbio, email]);
+  Validation.isValidEmail(res, email);
+  Validation.isValidStringLength(res, [
+    [authorname, 45],
+    [authorbio, 500],
+    [email, 45],
+  ]);
+
   try {
-    const newAuthorInfo = { authorname: authorname, authorbio: authorbio, email: email }; // package the new info into an object
+    const newAuthorInfo = { authorname, authorbio, email }; // package the new info into an object
     const results = await db.Authors.createNewAuthor(newAuthorInfo);
 
     if (results.affectedRows) {
@@ -28,7 +40,7 @@ authorRouter.post("/api/authors", async (req, res) => {
 });
 
 // Get all Authors
-authorRouter.get("/api/authors", async (req, res) => {
+authorRouter.get("/", async (req, res) => {
   try {
     const data = await db.Authors.readAllAuthors(); // Read all Authors
     res.status(200).json(data); // send 200 and the data
@@ -42,10 +54,13 @@ authorRouter.get("/api/authors", async (req, res) => {
 });
 
 // Get single Author
-authorRouter.get("/api/authors/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
+authorRouter.get("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  Validation.isValidID(res, id);
+
   try {
-    const AuthorArray = await db.Authors.readOneAuthor(Number(id)); // ...and use it as a number later.
+    const AuthorArray = await db.Authors.readOneAuthor(id); // ...and use it as a number later.
 
     if (AuthorArray.length) {
       // if the Author exists in the database, send it as the response
@@ -64,18 +79,30 @@ authorRouter.get("/api/authors/:id", async (req, res) => {
 });
 
 // Edit an Author
-authorRouter.put("/api/authors/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
-  try {
-    const { authorname, email } = req.body; // grab the updated info from the body...
-    const newAuthorInfo = { authorname: authorname, email: email }; // package the updated info into an object
+authorRouter.put("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
 
-    const [results] = await db.Authors.readOneAuthor(Number(id)); // ...and use the id as a number to get that particular author.
+  Validation.isValidID(res, id);
+
+  try {
+    const { authorname, authorbio, email } = req.body; // grab the updated info from the body...
+
+    Validation.isValidString(res, [authorname, authorbio, email]);
+    Validation.isValidEmail(res, email);
+    Validation.isValidStringLength(res, [
+      [authorname, 45],
+      [authorbio, 500],
+      [email, 45],
+    ]);
+
+    const newAuthorInfo = { authorname, authorbio, email }; // package the updated info into an object
+
+    const [results] = await db.Authors.readOneAuthor(id); // ...and use the id as a number to get that particular author.
 
     if (results) {
       // if the author exists in the database, send it as the response
 
-      const updateResults = await db.Authors.updateAuthor(newAuthorInfo, Number(id)); // newBlogInfo contains theupdated info, id specifies the blog
+      const updateResults = await db.Authors.updateAuthor(newAuthorInfo, id); // newBlogInfo contains theupdated info, id specifies the blog
 
       if (updateResults.affectedRows) {
         res.status(200).json({ message: `Author ${id} was updated to show ${authorname}, and ${email}` });
@@ -96,10 +123,13 @@ authorRouter.put("/api/authors/:id", async (req, res) => {
 });
 
 // Delete an Author
-authorRouter.delete("/api/authors/:id", async (req, res) => {
-  const { id } = req.params; // grab the id from req.params...
+authorRouter.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id); // grab the id from req.params...
+
+  Validation.isValidID(res, id);
+
   try {
-    const DeleteAuthorResponse = await db.Authors.deleteAuthor(Number(id)); // use the id to delete the author
+    const DeleteAuthorResponse = await db.Authors.deleteAuthor(id); // use the id to delete the author
 
     if (DeleteAuthorResponse.affectedRows) {
       // if it was deleted
