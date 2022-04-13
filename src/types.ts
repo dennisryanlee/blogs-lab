@@ -51,6 +51,7 @@ export interface NewAuthorProps {
   handleUsernameChange: Function;
   handleEmailChange: Function;
   handleAuthorBioChange: Function;
+  handleNewAuthorLogin: Function;
 }
 
 export interface NavbarProps {

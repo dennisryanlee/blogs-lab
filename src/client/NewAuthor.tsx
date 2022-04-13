@@ -17,7 +17,7 @@ const NewAuthor = (props: Types.NewAuthorProps) => {
               className="form-control col-md-7 mt-1"
               onChange={(e) => props.handleAuthorBioChange(e)}
             ></textarea>
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => props.handleEmailChange(e)}>
+            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => props.handleNewAuthorLogin(e)}>
               Submit
             </Button>
           </div>

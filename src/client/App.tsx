@@ -23,6 +23,27 @@ const App = (props: Types.AppProps) => {
     return setAuthorBio(e.target.value);
   };
 
+  const handleNewAuthorLogin = (e: ChangeEvent<HTMLButtonElement>) => {
+    if (!username) {
+      alert("Please fill in your author name (username)");
+      return;
+    }
+    if (!email) {
+      alert("Please fill in your email");
+      return;
+    }
+    if (!authorbio) {
+      alert("Please fill in your author bio");
+      return;
+    }
+    setPassword("New Author Pass");
+    setloggedIn(!loggedIn);
+
+    setEmail("");
+    setAuthorBio("");
+    navToBlogs();
+  };
+
   const navToAuthors = () => {
     nav("/authors");
   };
@@ -97,7 +118,7 @@ const App = (props: Types.AppProps) => {
       secretTrackz.play();
     }
 
-    nav("/blogs");
+    navToBlogs();
 
     return setloggedIn(!loggedIn);
   };
@@ -116,10 +137,12 @@ const App = (props: Types.AppProps) => {
       <main className="container my-5">
         <h1 className="text-primary text-center">Blogs, duh.</h1>
       </main>
+      {loggedIn && (
+        <div className="d-flex justify-content-center">
+          <Navbar navToAuthors={navToAuthors} navToBlogs={navToBlogs} handleLoggingOut={handleLoggingOut}></Navbar>
+        </div>
+      )}
 
-      <div className="d-flex justify-content-center">
-        <Navbar navToAuthors={navToAuthors} navToBlogs={navToBlogs} handleLoggingOut={handleLoggingOut}></Navbar>
-      </div>
       <Routes>
         <Route
           path="/"
@@ -144,6 +167,7 @@ const App = (props: Types.AppProps) => {
               handleUsernameChange={handleUsernameChange}
               handleEmailChange={handleEmailChange}
               handleAuthorBioChange={handleAuthorBioChange}
+              handleNewAuthorLogin={handleNewAuthorLogin}
             />
           }
         />
