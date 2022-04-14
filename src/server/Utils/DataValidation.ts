@@ -16,6 +16,17 @@ function isValidString(res: Response, array: string[]) {
   }
 }
 
+/**
+ * array.every() executes a function for every value in the array
+ * thus, for every string passed in, it checks if it exists, and if it is of type string
+ * array.every() returns true if all values in the array pass the test
+ * array.every() returns false if any one value fails the test
+ * thus, if a string fails the test, it evaluates to false
+ * we want it to run the code inside the IF block, so we negate it
+ * therefore, on bad strings, we go inside the iF block
+ * and on good strings, we do nothing
+ */
+
 // String Validation - Returns false when there is bad data
 function isValidStringClient(array: string[]) {
   if (!array.every((string) => string && typeof string === "string")) {
@@ -67,8 +78,8 @@ const Validation = {
   isValidString,
   isValidStringClient,
   isValidEmail,
+  isValidEmailClient,
   isValidStringLength,
   isValidStringLengthClient,
-  isValidEmailClient,
 };
 export default Validation;

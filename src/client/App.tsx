@@ -96,7 +96,7 @@ const App = (props: Types.AppProps) => {
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!Validation.isValidStringClient([username, password]) || password.length <= 8) {
+    if (Validation.isValidStringClient([username, password]) || password.length <= 8) {
       alert("Check your credentials");
       return;
     }
