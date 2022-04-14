@@ -50,7 +50,7 @@ function isValidStringLengthClient(array: [string, number][]) {
 }
 
 // Email Validation - checks if a given email matches an email pattern
-function isValidEmail(res: Response, email) {
+function isValidEmail(res: Response, email: string) {
   const emailRegex: RegExp =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isEmail: boolean = emailRegex.test(email.toLocaleLowerCase());

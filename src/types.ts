@@ -1,15 +1,16 @@
 export interface Blog {
   title: string;
   content: string;
-  blogid: string;
+  id: string;
   authorname: string;
-  authoremail: string;
+  email: string;
   authorid: string;
 }
 
 export interface Author {
   id: string;
   authorname: string;
+  authorbio: string;
   email: string;
 }
 

@@ -50,8 +50,8 @@ const App = (props: Types.AppProps) => {
   const handleNewAuthorLogin = () => {
     // Validation
     if (
-      !Validation.isValidStringClient([username, email, authorbio]) ||
-      !Validation.isValidStringLengthClient([
+      Validation.isValidStringClient([username, email, authorbio]) ||
+      Validation.isValidStringLengthClient([
         [username, 45],
         [email, 45],
         [authorbio, 500],
@@ -69,7 +69,7 @@ const App = (props: Types.AppProps) => {
         // ...specifying the type of content...
         "content-type": "application/json",
       },
-      body: JSON.stringify({ authorname: username, authorbio: authorbio, email: email }), // ...and deliver the content
+      body: JSON.stringify({ username, authorbio, email }), // ...and deliver the content
     })
       .then((res) => {
         // then with that response
