@@ -20,6 +20,7 @@ const Blogs = (props: Types.BlogsProps) => {
               {blog.content.length > 50 && <div className="card-text">{blog.content.slice(0, 50)}...</div>}
 
               <hr></hr>
+
               <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => nav(`/blogs/${blog.id}`)}>
                 View this Blog
               </Button>

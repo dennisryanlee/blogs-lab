@@ -5,6 +5,7 @@ import * as Types from "../types";
 import Navbar from "./Navbar";
 import Loginpage from "./Login";
 import NewAuthor from "./NewAuthor";
+import NewBlog from "./NewBlog";
 import Blogs from "./Blogs";
 import Authors from "./Authors";
 import AuthorDetails from "./AuthorDetails";
@@ -16,11 +17,17 @@ const App = (props: Types.AppProps) => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
+  const [authorid, setAuthorId] = useState<number>(0);
+
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const [loggedIn, setloggedIn] = useState<boolean>(false);
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
 
   const nav = useNavigate(); // lets us navigate the user around
+
+  // Navs ***************************************************************************************************
 
   const navToAuthors = () => {
     nav("/authors");
@@ -30,8 +37,22 @@ const App = (props: Types.AppProps) => {
     nav("/blogs");
   };
 
+  const navToNewBlog = () => {
+    nav("/newblog");
+  };
+
+  // Inputs ***************************************************************************************************
+
   const handleAuthorBioChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     return setAuthorBio(e.target.value);
+  };
+
+  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    return setContent(e.target.value);
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    return setTitle(e.target.value);
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +67,8 @@ const App = (props: Types.AppProps) => {
     return setEmail(e.target.value);
   };
 
-  // Creates a new author, and logs them in
+  // New Blogs / Authors ***************************************************************************************************
+
   const handleNewAuthorLogin = () => {
     // Validation
     if (
@@ -93,6 +115,47 @@ const App = (props: Types.AppProps) => {
       .catch((error) => console.log(error));
   };
 
+  //! new blog is waiting for a way to get authorid from logging in
+  const handleNewBlog = () => {
+    // Validation
+    if (
+      Validation.isValidStringClient([title, content]) ||
+      Validation.isValidStringLengthClient([
+        [content, 1500],
+        [title, 45],
+      ])
+    ) {
+      alert("Please check your data");
+      return;
+    }
+
+    fetch("/api/blogs/", {
+      // use the route:  /api/chirps/ ...
+      method: "POST", // ...send a POST request...
+      headers: {
+        // ...specifying the type of content...
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ title, content, authorid }), // ...and deliver the content
+    })
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            return navToBlogs(); // navigate user to blogs
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // Logging in and out ***************************************************************************************************
+
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -116,6 +179,8 @@ const App = (props: Types.AppProps) => {
     setloggedIn(!loggedIn);
     nav("/");
   };
+
+  // Get Blogs / Authors ***************************************************************************************************
 
   const getAllBlogs = () => {
     fetch("/api/blogs") // GET from "/api/blogs"
@@ -165,7 +230,7 @@ const App = (props: Types.AppProps) => {
       </main>
       {loggedIn && (
         <div className="d-flex justify-content-center">
-          <Navbar navToAuthors={navToAuthors} navToBlogs={navToBlogs} handleLoggingOut={handleLoggingOut}></Navbar>
+          <Navbar navToNewBlog={navToNewBlog} navToAuthors={navToAuthors} navToBlogs={navToBlogs} handleLoggingOut={handleLoggingOut}></Navbar>
         </div>
       )}
 
@@ -197,8 +262,12 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
+        <Route
+          path="/newblog"
+          element={<NewBlog title={title} content={content} handleNewBlog={handleNewBlog} handleContentChange={handleContentChange} handleTitleChange={handleTitleChange} />}
+        />
         <Route path="/blogs" element={<Blogs blogsArray={blogsArray} />} />
-        <Route path="/blogs/:id" element={<BlogDetails />} />
+        <Route path="/blogs/:id" element={<BlogDetails blogsArray={blogsArray} />} />
         <Route path="/authors" element={<Authors authorsArray={authorsArray} />} />
         <Route path="/authors/:id" element={<AuthorDetails />} />
       </Routes>

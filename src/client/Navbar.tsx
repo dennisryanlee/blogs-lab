@@ -5,7 +5,10 @@ import * as Types from "../types";
 const Navbar = (props: Types.NavbarProps) => {
   return (
     <>
-      <div>
+      <div className="mb-4">
+        <Button variant="contained" onClick={() => props.navToNewBlog()} className="btn btn-primary">
+          New Blog
+        </Button>
         <Button variant="contained" onClick={() => props.navToBlogs()} className="btn btn-primary">
           Blogs
         </Button>

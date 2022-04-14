@@ -55,10 +55,19 @@ export interface NewAuthorProps {
   handleNewAuthorLogin: Function;
 }
 
+export interface NewBlogProps {
+  title: string;
+  content: string;
+  handleNewBlog: Function;
+  handleContentChange: Function;
+  handleTitleChange: Function;
+}
+
 export interface NavbarProps {
   navToAuthors: Function;
   navToBlogs: Function;
   handleLoggingOut: Function;
+  navToNewBlog: Function;
 }
 
 export interface BlogsProps {
@@ -67,4 +76,8 @@ export interface BlogsProps {
 
 export interface AuthorsProps {
   authorsArray: Author[];
+}
+
+export interface BlogDetailsProps {
+  blogsArray: Blog[];
 }
