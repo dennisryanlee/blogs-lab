@@ -10,13 +10,16 @@ const blogRouter = express.Router();
 // Create a Blog
 blogRouter.post("/", async (req, res) => {
   try {
-    const { title, content, authorid } = req.body;
+    req.body.parse;
+    let { title, content, authorid } = req.body;
+
+    authorid = Number(authorid);
 
     // Validation
     await Validation.isValidString([title, content]);
     await Validation.isValidStringLength([
-      [content, 1500],
       [title, 45],
+      [content, 1500],
     ]);
     await Validation.isValidID(authorid);
 
@@ -31,7 +34,7 @@ blogRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Sorry, we don't publish trash like ${title} on this app.` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -48,7 +51,7 @@ blogRouter.get("/", async (req, res) => {
     const data = await db.Blogs.readAllBlogs(); // Read all Blogs
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -65,9 +68,9 @@ blogRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   // Validation
-  await Validation.isValidID(id);
 
   try {
+    await Validation.isValidID(id);
     const BlogArray = await db.Blogs.readOneBlog(id); // ...and use it as a number later.
 
     if (BlogArray.length) {
@@ -78,7 +81,7 @@ blogRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `The blog with ID:${id} does not exist` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -92,18 +95,20 @@ blogRouter.get("/:id", async (req, res) => {
 // Edit a Blog
 blogRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
-  const { title, content, authorid } = req.body; // grab the updated info from the body...
+  req.body.parse;
 
-  // Validation
-  await Validation.isValidString([title, content]);
-  await Validation.isValidStringLength([
-    [content, 1500],
-    [title, 45],
-  ]);
-  await Validation.isValidID(authorid);
-  await Validation.isValidID(id);
+  const { title, content, authorid } = req.body; // grab the updated info from the body...
+  const authoridnum = Number(authorid);
 
   try {
+    // Validation
+    await Validation.isValidString([title, content]);
+    await Validation.isValidStringLength([
+      [content, 1500],
+      [title, 45],
+    ]);
+    await Validation.isValidID(authoridnum);
+    await Validation.isValidID(id);
     const newBlogInfo = { title, content, authorid }; // package the updated info into an object
 
     const [results] = await db.Blogs.readOneBlog(id); // ...and use the id as a number to get that particular blog.
@@ -123,7 +128,7 @@ blogRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that blog does not exist" });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -138,10 +143,9 @@ blogRouter.put("/:id", async (req, res) => {
 blogRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  // ID Validation
-  await Validation.isValidID(id);
-
   try {
+    // ID Validation
+    await Validation.isValidID(id);
     const DeleteBlogResponse = await db.Blogs.deleteBlog(id); // use the id to delete the blog
 
     if (DeleteBlogResponse.affectedRows) {
@@ -152,7 +156,7 @@ blogRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `Zoinks!  That blog never existed` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 

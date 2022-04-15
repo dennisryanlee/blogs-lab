@@ -9,14 +9,15 @@ const tagRouter = express.Router();
 
 // Create a Tag
 tagRouter.post("/", async (req, res) => {
-  const { tagname } = req.body;
+  req.body.parse;
 
-  // Validation
-  await Validation.isValidString(tagname);
-  await Validation.isValidStringLength([[tagname, 45]]);
+  const { tagname } = req.body;
 
   const newTagInfo = { tagname }; // package the new info into an object
   try {
+    // Validation
+    await Validation.isValidString([tagname]);
+    await Validation.isValidStringLength([[tagname, 45]]);
     const results = await db.Tags.createNewTag(newTagInfo);
 
     if (results.affectedRows) {
@@ -27,7 +28,7 @@ tagRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Hey, your Tag called ${tagname} needs more work` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -44,7 +45,7 @@ tagRouter.get("/", async (req, res) => {
     const data = await db.Tags.readAllTags(); // Read all Tags
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -59,10 +60,9 @@ tagRouter.get("/", async (req, res) => {
 tagRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  // Validation
-  await Validation.isValidID(id);
-
   try {
+    // Validation
+    await Validation.isValidID(id);
     const TagArray = await db.Tags.readOneTag(id); // ...and use it as a number later.
 
     if (TagArray.length) {
@@ -73,7 +73,7 @@ tagRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `This is a bit awkward, but the tag with ID:${id} does not exist` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -87,14 +87,15 @@ tagRouter.get("/:id", async (req, res) => {
 // Edit a Tag
 tagRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
+  req.body.parse;
+
   const { tagname } = req.body; // grab the updated info from the body...
 
-  // Validation
-  await Validation.isValidID(id);
-  await Validation.isValidString(tagname);
-  await Validation.isValidStringLength([[tagname, 45]]);
-
   try {
+    // Validation
+    await Validation.isValidID(id);
+    await Validation.isValidString([tagname]);
+    await Validation.isValidStringLength([[tagname, 45]]);
     const newTagInfo = { tagname }; // package the updated info into an object
     const [results] = await db.Tags.readOneTag(id); // ...and use the id as a number to get that particular tag.
 
@@ -113,7 +114,7 @@ tagRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that tag does not exist" });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -128,10 +129,9 @@ tagRouter.put("/:id", async (req, res) => {
 tagRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  // Validation
-  await Validation.isValidID(id);
-
   try {
+    // Validation
+    await Validation.isValidID(id);
     const DeleteTagResponse = await db.Tags.deleteTag(id); // use the id to delete the author
 
     if (DeleteTagResponse.affectedRows) {
@@ -142,7 +142,7 @@ tagRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `We don't carry that line of tags in this store` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 

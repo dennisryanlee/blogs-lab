@@ -3,7 +3,7 @@ import { Response } from "express";
 // ID Validation - checks if a given number is a positive integer
 function isValidInteger(id: number) {
   return new Promise((resolve, reject) => {
-    if (id || isNaN(id) || Math.floor(id) !== id || id < 1) {
+    if (!id || isNaN(id) || Math.floor(id) !== id || id < 1) {
       reject("Bad data - not an integer");
     } else {
       resolve("Good data - is an integer");
@@ -30,9 +30,10 @@ function isValidStringClient(array: string[]) {
 }
 
 // String Length Validation - checks if an array of strings are within the given lengths
+// [["myString", 20], ["mySecondString", 35]]
 function isValidStringLength(array: [string, number][]) {
   return new Promise((resolve, reject) => {
-    if (!array.every((pair) => pair[0].length > pair[1])) {
+    if (!array.every((pair) => pair[0].length < pair[1])) {
       reject("Bad data - string is not in range");
     } else {
       resolve("Good data - string is in range");

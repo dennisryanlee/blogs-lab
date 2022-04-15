@@ -9,17 +9,17 @@ const authorRouter = express.Router();
 
 // Create an Author
 authorRouter.post("/", async (req, res) => {
+  req.body.parse;
   const { authorname, authorbio, email } = req.body;
 
-  await Validation.isValidString([authorname, authorbio, email]);
-  await Validation.isValidEmail(email);
-  await Validation.isValidStringLength([
-    [authorname, 45],
-    [authorbio, 500],
-    [email, 45],
-  ]);
-
   try {
+    await Validation.isValidString([authorname, authorbio, email]);
+    await Validation.isValidEmail(email);
+    await Validation.isValidStringLength([
+      [authorname, 45],
+      [authorbio, 500],
+      [email, 45],
+    ]);
     const newAuthorInfo = { authorname, authorbio, email }; // package the new info into an object
     const results = await db.Authors.createNewAuthor(newAuthorInfo);
 
@@ -31,7 +31,7 @@ authorRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -48,7 +48,7 @@ authorRouter.get("/", async (req, res) => {
     const data = await db.Authors.readAllAuthors(); // Read all Authors
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -63,9 +63,8 @@ authorRouter.get("/", async (req, res) => {
 authorRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  await Validation.isValidID(id);
-
   try {
+    await Validation.isValidID(id);
     const AuthorArray = await db.Authors.readOneAuthor(id); // ...and use it as a number later.
 
     if (AuthorArray.length) {
@@ -76,7 +75,7 @@ authorRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `Missing Person Alert!  The Author with ID: ${id} does not exist` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -90,11 +89,10 @@ authorRouter.get("/:id", async (req, res) => {
 // Edit an Author
 authorRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
-
-  await Validation.isValidID(id);
-
+  req.body.parse;
   try {
     const { authorname, authorbio, email } = req.body; // grab the updated info from the body...
+    await Validation.isValidID(id);
 
     await Validation.isValidString([authorname, authorbio, email]);
     await Validation.isValidEmail(email);
@@ -123,7 +121,7 @@ authorRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that author does not exist" });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
@@ -138,9 +136,8 @@ authorRouter.put("/:id", async (req, res) => {
 authorRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  await Validation.isValidID(id);
-
   try {
+    await Validation.isValidID(id);
     const DeleteAuthorResponse = await db.Authors.deleteAuthor(id); // use the id to delete the author
 
     if (DeleteAuthorResponse.affectedRows) {
@@ -151,7 +148,7 @@ authorRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `Who are you even talking about?` });
     }
   } catch (error) {
-    if ("sqlMessage" in error) {
+    if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
