@@ -12,8 +12,8 @@ tagRouter.post("/", async (req, res) => {
   const { tagname } = req.body;
 
   // Validation
-  Validation.isValidString(res, tagname);
-  Validation.isValidStringLength(res, [[tagname, 45]]);
+  await Validation.isValidString(tagname);
+  await Validation.isValidStringLength([[tagname, 45]]);
 
   const newTagInfo = { tagname }; // package the new info into an object
   try {
@@ -27,11 +27,14 @@ tagRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Hey, your Tag called ${tagname} needs more work` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
-    res.status(500).json({ message: `We could not add '${tagname}', try again later, (I'm sure it was good!)` }); // send status of 500
+
+    res.status(500).json({ message: `We could not add '${tagname}', try again later...(I'm sure it was good!)` }); // send status of 500
   }
 });
 
@@ -41,10 +44,13 @@ tagRouter.get("/", async (req, res) => {
     const data = await db.Tags.readAllTags(); // Read all Tags
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: "Get All Tags failed, big R.I.P" }); // send status of 500
   }
 });
@@ -54,7 +60,7 @@ tagRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   // Validation
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const TagArray = await db.Tags.readOneTag(id); // ...and use it as a number later.
@@ -67,10 +73,13 @@ tagRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `This is a bit awkward, but the tag with ID:${id} does not exist` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Get single Tag for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
@@ -81,9 +90,9 @@ tagRouter.put("/:id", async (req, res) => {
   const { tagname } = req.body; // grab the updated info from the body...
 
   // Validation
-  Validation.isValidID(res, id);
-  Validation.isValidString(res, tagname);
-  Validation.isValidStringLength(res, [[tagname, 45]]);
+  await Validation.isValidID(id);
+  await Validation.isValidString(tagname);
+  await Validation.isValidStringLength([[tagname, 45]]);
 
   try {
     const newTagInfo = { tagname }; // package the updated info into an object
@@ -104,10 +113,13 @@ tagRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that tag does not exist" });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Updating Tags is hard!  Something went wrong when we tried to update the tag with ID:${id}` }); // send status of 500
   }
 });
@@ -117,7 +129,7 @@ tagRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   // Validation
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const DeleteTagResponse = await db.Tags.deleteTag(id); // use the id to delete the author
@@ -130,10 +142,13 @@ tagRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `We don't carry that line of tags in this store` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `We tried, we failed, Tag ${id} is too powerful` }); // send status of 500
   }
 });

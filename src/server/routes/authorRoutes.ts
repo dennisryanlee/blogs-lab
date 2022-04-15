@@ -11,9 +11,9 @@ const authorRouter = express.Router();
 authorRouter.post("/", async (req, res) => {
   const { authorname, authorbio, email } = req.body;
 
-  Validation.isValidString(res, [authorname, authorbio, email]);
-  Validation.isValidEmail(res, email);
-  Validation.isValidStringLength(res, [
+  await Validation.isValidString([authorname, authorbio, email]);
+  await Validation.isValidEmail(email);
+  await Validation.isValidStringLength([
     [authorname, 45],
     [authorbio, 500],
     [email, 45],
@@ -31,10 +31,13 @@ authorRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
   }
 });
@@ -45,10 +48,13 @@ authorRouter.get("/", async (req, res) => {
     const data = await db.Authors.readAllAuthors(); // Read all Authors
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: "Get All Authors failed, big R.I.P" }); // send status of 500
   }
 });
@@ -57,7 +63,7 @@ authorRouter.get("/", async (req, res) => {
 authorRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const AuthorArray = await db.Authors.readOneAuthor(id); // ...and use it as a number later.
@@ -70,10 +76,13 @@ authorRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `Missing Person Alert!  The Author with ID: ${id} does not exist` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Get single Author for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
@@ -82,14 +91,14 @@ authorRouter.get("/:id", async (req, res) => {
 authorRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const { authorname, authorbio, email } = req.body; // grab the updated info from the body...
 
-    Validation.isValidString(res, [authorname, authorbio, email]);
-    Validation.isValidEmail(res, email);
-    Validation.isValidStringLength(res, [
+    await Validation.isValidString([authorname, authorbio, email]);
+    await Validation.isValidEmail(email);
+    await Validation.isValidStringLength([
       [authorname, 45],
       [authorbio, 500],
       [email, 45],
@@ -114,10 +123,13 @@ authorRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that author does not exist" });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Updating Authors is hard!  Something went wrong when we tried to update the author with ID:${id}` }); // send status of 500
   }
 });
@@ -126,7 +138,7 @@ authorRouter.put("/:id", async (req, res) => {
 authorRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const DeleteAuthorResponse = await db.Authors.deleteAuthor(id); // use the id to delete the author
@@ -139,10 +151,13 @@ authorRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `Who are you even talking about?` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `We tried, we failed, Author ${id} is too powerful` }); // send status of 500
   }
 });

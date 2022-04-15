@@ -13,12 +13,12 @@ blogRouter.post("/", async (req, res) => {
     const { title, content, authorid } = req.body;
 
     // Validation
-    Validation.isValidString(res, [title, content]);
-    Validation.isValidStringLength(res, [
+    await Validation.isValidString([title, content]);
+    await Validation.isValidStringLength([
       [content, 1500],
       [title, 45],
     ]);
-    Validation.isValidID(res, authorid);
+    await Validation.isValidID(authorid);
 
     const newBlogInfo = { title, content, authorid }; // package the new info into an object
     const results = await db.Blogs.createNewBlog(newBlogInfo);
@@ -31,10 +31,13 @@ blogRouter.post("/", async (req, res) => {
       res.status(400).json({ message: `Sorry, we don't publish trash like ${title} on this app.` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Blogging is tough work and it is time for my break, try again later` }); // send status of 500
   }
 });
@@ -45,10 +48,13 @@ blogRouter.get("/", async (req, res) => {
     const data = await db.Blogs.readAllBlogs(); // Read all Blogs
     res.status(200).json(data); // send 200 and the data
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: "Get All Blogs failed, big R.I.P" }); // send status of 500
   }
 });
@@ -59,7 +65,7 @@ blogRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   // Validation
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const BlogArray = await db.Blogs.readOneBlog(id); // ...and use it as a number later.
@@ -72,10 +78,13 @@ blogRouter.get("/:id", async (req, res) => {
       res.status(404).json({ message: `The blog with ID:${id} does not exist` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Get single Blog for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
 });
@@ -86,13 +95,13 @@ blogRouter.put("/:id", async (req, res) => {
   const { title, content, authorid } = req.body; // grab the updated info from the body...
 
   // Validation
-  Validation.isValidString(res, [title, content]);
-  Validation.isValidStringLength(res, [
+  await Validation.isValidString([title, content]);
+  await Validation.isValidStringLength([
     [content, 1500],
     [title, 45],
   ]);
-  Validation.isValidID(res, authorid);
-  Validation.isValidID(res, id);
+  await Validation.isValidID(authorid);
+  await Validation.isValidID(id);
 
   try {
     const newBlogInfo = { title, content, authorid }; // package the updated info into an object
@@ -114,10 +123,13 @@ blogRouter.put("/:id", async (req, res) => {
       res.status(404).json({ message: "Whoopsie-daisy, that blog does not exist" });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}` }); // send status of 500
   }
 });
@@ -127,7 +139,7 @@ blogRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   // ID Validation
-  Validation.isValidID(res, id);
+  await Validation.isValidID(id);
 
   try {
     const DeleteBlogResponse = await db.Blogs.deleteBlog(id); // use the id to delete the blog
@@ -140,10 +152,13 @@ blogRouter.delete("/:id", async (req, res) => {
       res.status(404).json({ message: `Zoinks!  That blog never existed` });
     }
   } catch (error) {
-    const myError: MysqlError = error;
+    if ("sqlMessage" in error) {
+      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+    }
+
     console.log(`\n`);
     console.log(error); // if an error happens, log the error
-    console.log(`\n${myError.sqlMessage}\n`); // log the sql error as well message
+
     res.status(500).json({ message: `We tried, we failed, Blog ${id} is too powerful` }); // send status of 500
   }
 });

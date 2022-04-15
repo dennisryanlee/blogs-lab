@@ -1,31 +1,26 @@
 import { Response } from "express";
 
 // ID Validation - checks if a given number is a positive integer
-function isValidInteger(res: Response, id: number) {
-  if (id || isNaN(id) || Math.floor(id) !== id || id < 1) {
-    res.status(400).json({ message: "Crap data" });
-    return;
-  }
+function isValidInteger(id: number) {
+  return new Promise((resolve, reject) => {
+    if (id || isNaN(id) || Math.floor(id) !== id || id < 1) {
+      reject("Bad data - not an integer");
+    } else {
+      resolve("Good data - is an integer");
+    }
+  });
 }
 
 // String Validation - checks if a given array of strings exist, and if they are of type string
-function isValidString(res: Response, array: string[]) {
-  if (!array.every((string) => string && typeof string === "string")) {
-    res.status(400).json({ message: "Crap data" });
-    return;
-  }
+function isValidString(array: string[]) {
+  return new Promise((resolve, reject) => {
+    if (!array.every((string) => string && typeof string === "string")) {
+      reject("Bad data - not a valid string");
+    } else {
+      resolve("Good data - is a string");
+    }
+  });
 }
-
-/**
- * array.every() executes a function for every value in the array
- * thus, for every string passed in, it checks if it exists, and if it is of type string
- * array.every() returns true if all values in the array pass the test
- * array.every() returns false if any one value fails the test
- * thus, if a string fails the test, it evaluates to false
- * we want it to run the code inside the IF block, so we negate it
- * therefore, on bad strings, we go inside the iF block
- * and on good strings, we do nothing
- */
 
 // String Validation - Returns false when there is bad data
 function isValidStringClient(array: string[]) {
@@ -35,11 +30,14 @@ function isValidStringClient(array: string[]) {
 }
 
 // String Length Validation - checks if an array of strings are within the given lengths
-function isValidStringLength(res: Response, array: [string, number][]) {
-  if (!array.every((pair) => pair[0].length > pair[1])) {
-    res.status(400).json({ message: "Crap data" });
-    return;
-  }
+function isValidStringLength(array: [string, number][]) {
+  return new Promise((resolve, reject) => {
+    if (!array.every((pair) => pair[0].length > pair[1])) {
+      reject("Bad data - string is not in range");
+    } else {
+      resolve("Good data - string is in range");
+    }
+  });
 }
 
 // String Length Validation - Returns false when there is bad data
@@ -50,15 +48,18 @@ function isValidStringLengthClient(array: [string, number][]) {
 }
 
 // Email Validation - checks if a given email matches an email pattern
-function isValidEmail(res: Response, email: string) {
+function isValidEmail(email: string) {
   const emailRegex: RegExp =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isEmail: boolean = emailRegex.test(email.toLocaleLowerCase());
 
-  if (!isEmail) {
-    res.status(400).json({ message: `crap data` });
-    return;
-  }
+  return new Promise((resolve, reject) => {
+    if (!isEmail) {
+      reject(`Bad data - not an email`);
+    } else {
+      resolve("Good data - is an email");
+    }
+  });
 }
 
 // Email Validation - returns true if there is bad data
@@ -83,3 +84,14 @@ const Validation = {
   isValidStringLengthClient,
 };
 export default Validation;
+
+/**
+ * array.every() executes a function for every value in the array
+ * thus, for every string passed in, it checks if it exists, and if it is of type string
+ * array.every() returns true if all values in the array pass the test
+ * array.every() returns false if any one value fails the test
+ * thus, if a string fails the test, it evaluates to false
+ * we want it to run the code inside the IF block, so we negate it
+ * therefore, on bad strings, we go inside the iF block
+ * and on good strings, we do nothing
+ */
