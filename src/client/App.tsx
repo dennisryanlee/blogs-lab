@@ -100,7 +100,7 @@ const App = (props: Types.AppProps) => {
           if (res.ok) {
             // if there was an OK response
             setPassword("New Author Pass"); // set the password
-
+            setAuthorId(42); // this should be dynamic, but thatd involve another fetch req and is a feature i can add later
             setEmail(""); // clear input fields
             setAuthorBio(""); // clear input fields
             setloggedIn(!loggedIn); // update state to reflect a logged in status
@@ -144,6 +144,8 @@ const App = (props: Types.AppProps) => {
           // parse as JSON data, then with that data
           if (res.ok) {
             // if there was an OK response
+            getAllBlogs();
+
             return navToBlogs(); // navigate user to blogs
           } else {
             // if there was not an OK response
@@ -167,6 +169,7 @@ const App = (props: Types.AppProps) => {
       const secretTrackz = new Audio(`../secretTrack.mp3`);
       secretTrackz.play();
     }
+    setAuthorId(42); // this should be dynamic, but thatd involve another fetch req and is a feature i can add later
 
     navToBlogs();
 
