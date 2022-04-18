@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Blogs = (props: Types.BlogsProps) => {
   const nav = useNavigate();
+
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
@@ -21,7 +22,28 @@ const Blogs = (props: Types.BlogsProps) => {
 
               <hr></hr>
 
-              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => nav(`/blogs/${blog.id}`)}>
+              <Button
+                variant="contained"
+                className="btn btn-warning btn-sm"
+                onClick={() => {
+                  fetch(`/api/blogs/${blog.id}`) // GET from "/api/blogs"
+                    .then((res) => {
+                      // then with that response
+                      res.json().then((data) => {
+                        // parse as JSON data, then with that data
+                        if (res.ok) {
+                          // if there was an OK response
+                          props.setBlogsArray(data); // set the data to state
+                        } else {
+                          // if there was not an OK response
+                          throw new Error(data.message); // throw a new error
+                        }
+                      });
+                    })
+                    .catch((error) => console.log(error));
+                  nav(`/blogs/${blog.id}`);
+                }}
+              >
                 View this Blog
               </Button>
             </div>
@@ -33,8 +55,3 @@ const Blogs = (props: Types.BlogsProps) => {
 };
 
 export default Blogs;
-{
-  /* <Button variant="contained" className="btn btn-warning btn-sm" to={`/blogs/${blog.blogid}`}>
-                Manage Post
-              </Button> */
-}

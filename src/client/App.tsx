@@ -30,10 +30,12 @@ const App = (props: Types.AppProps) => {
   // Navs ***************************************************************************************************
 
   const navToAuthors = () => {
+    getAllAuthors();
     nav("/authors");
   };
 
   const navToBlogs = () => {
+    getAllBlogs();
     nav("/blogs");
   };
 
@@ -65,6 +67,11 @@ const App = (props: Types.AppProps) => {
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setEmail(e.target.value);
+  };
+
+  const handleClearTitleAndContent = () => {
+    setTitle("");
+    setContent("");
   };
 
   // New Blogs / Authors ***************************************************************************************************
@@ -144,8 +151,8 @@ const App = (props: Types.AppProps) => {
           // parse as JSON data, then with that data
           if (res.ok) {
             // if there was an OK response
-            getAllBlogs();
-
+            getAllBlogs(); // get all blogs - now with the newly created blog
+            handleClearTitleAndContent(); // clear the inputs
             return navToBlogs(); // navigate user to blogs
           } else {
             // if there was not an OK response
@@ -267,12 +274,21 @@ const App = (props: Types.AppProps) => {
         />
         <Route
           path="/newblog"
-          element={<NewBlog title={title} content={content} handleNewBlog={handleNewBlog} handleContentChange={handleContentChange} handleTitleChange={handleTitleChange} />}
+          element={
+            <NewBlog
+              title={title}
+              content={content}
+              handleNewBlog={handleNewBlog}
+              handleContentChange={handleContentChange}
+              handleTitleChange={handleTitleChange}
+              handleClearTitleAndContent={handleClearTitleAndContent}
+            />
+          }
         />
-        <Route path="/blogs" element={<Blogs blogsArray={blogsArray} />} />
+        <Route path="/blogs" element={<Blogs setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
         <Route path="/blogs/:id" element={<BlogDetails blogsArray={blogsArray} />} />
-        <Route path="/authors" element={<Authors authorsArray={authorsArray} />} />
-        <Route path="/authors/:id" element={<AuthorDetails />} />
+        <Route path="/authors" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
+        <Route path="/authors/:id" element={<AuthorDetails authorsArray={authorsArray} />} />
       </Routes>
     </>
   );

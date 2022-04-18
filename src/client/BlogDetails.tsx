@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "@mui/material";
 import * as Types from "../types";
 import { useParams } from "react-router-dom";
 
@@ -16,10 +17,16 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
 
               <hr></hr>
 
-              {blog.content.length < 50 && <div className="card-text">{blog.content}</div>}
-              {blog.content.length > 50 && <div className="card-text">{blog.content.slice(0, 50)}...</div>}
+              <div className="card-text">{blog.content}</div>
 
               <hr></hr>
+
+              <Button variant="contained" className="btn btn-warning my-2 ms-2 col-md-6" type="button">
+                Edit Blog
+              </Button>
+              <Button variant="contained" className="btn btn-danger my-2 ms-2 col-md-6" type="button">
+                Delete Blog
+              </Button>
             </div>
           </div>
         ))}

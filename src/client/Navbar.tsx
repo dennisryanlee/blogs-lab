@@ -24,9 +24,3 @@ const Navbar = (props: Types.NavbarProps) => {
 };
 
 export default Navbar;
-
-{
-  /* <Link className="btn btn-warning btn-sm" to={`/chirps`}>
-  Manage Chirp
-</Link>; */
-}

@@ -14,6 +14,16 @@ const NewBlog = (props: Types.NewBlogProps) => {
             <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => props.handleNewBlog(e)}>
               Submit
             </Button>
+            <Button
+              variant="contained"
+              className="btn btn-primary my-2 ms-2 col-md-6"
+              type="button"
+              onClick={() => {
+                props.handleClearTitleAndContent();
+              }}
+            >
+              Cancel
+            </Button>
           </div>
         </div>
       </div>

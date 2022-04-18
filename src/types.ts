@@ -61,6 +61,7 @@ export interface NewBlogProps {
   handleNewBlog: Function;
   handleContentChange: Function;
   handleTitleChange: Function;
+  handleClearTitleAndContent: Function;
 }
 
 export interface NavbarProps {
@@ -71,13 +72,19 @@ export interface NavbarProps {
 }
 
 export interface BlogsProps {
+  setBlogsArray: Function;
   blogsArray: Blog[];
-}
-
-export interface AuthorsProps {
-  authorsArray: Author[];
 }
 
 export interface BlogDetailsProps {
   blogsArray: Blog[];
+}
+
+export interface AuthorsProps {
+  setAuthorsArray: Function;
+  authorsArray: Author[];
+}
+
+export interface AuthorDetailsProps {
+  authorsArray: Author[];
 }
