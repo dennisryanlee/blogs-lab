@@ -6,6 +6,47 @@ import { useParams } from "react-router-dom";
 const BlogDetails = (props: Types.BlogDetailsProps) => {
   const { id } = useParams(); // we just need the id from the useParams object, so we can destructure it
 
+  const updateBlog = () => {
+    fetch(`/api/blogs/${id}`, {
+      // use the route:  /api/chirps/ ...
+      method: "PUT", // ...send a PUT request...
+      headers: {
+        // ...specifying the type of content...
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ title: props.title, content: props.content, authorid: 25 }), // ...and deliver the content}
+    })
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse the response, then with the response
+          if (res.ok) {
+            // if it was a good response
+            props.navToBlogs();
+          } else {
+            // if it was a bad response
+            throw new Error(data.message);
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const deleteBlog = () => {
+    // contact /api/blogs/:id with a DELETE request to delete the specified blog
+    fetch(`/api/blogs/${id}`, { method: "DELETE" })
+      .then((res) => {
+        res.json().then((data) => {
+          if (res.ok) {
+            props.navToBlogs();
+          } else {
+            throw new Error(data.message);
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
@@ -41,7 +82,7 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                 </Button>
               )}
               {!props.isEditing && (
-                <Button variant="contained" color="error" className="btn my-2 ms-2 col-md-2" type="button">
+                <Button variant="contained" color="error" className="btn my-2 ms-2 col-md-2" type="button" onClick={() => deleteBlog()}>
                   Delete
                 </Button>
               )}
@@ -65,9 +106,9 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                   className="btn my-2 ms-2 col-md-2"
                   type="button"
                   onClick={() => {
+                    updateBlog();
                     props.setIsEditing(false);
                     props.handleClearTitleAndContent();
-                    //! make the fetch here
                   }}
                 >
                   Submit

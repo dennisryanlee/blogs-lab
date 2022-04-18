@@ -18,7 +18,7 @@ const App = (props: Types.AppProps) => {
 
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
-  const [authorid, setAuthorId] = useState<number>(0);
+  const [authorid, setAuthorId] = useState<number>(25);
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -298,6 +298,7 @@ const App = (props: Types.AppProps) => {
               isEditing={isEditing}
               title={title}
               content={content}
+              navToBlogs={navToBlogs}
               setTitle={setTitle}
               setContent={setContent}
               setIsEditing={setIsEditing}

@@ -81,6 +81,7 @@ export interface BlogDetailsProps {
   isEditing: boolean;
   title: string;
   content: string;
+  navToBlogs: Function;
   setTitle: Function;
   setContent: Function;
   setIsEditing: Function;
