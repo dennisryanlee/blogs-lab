@@ -78,6 +78,15 @@ export interface BlogsProps {
 
 export interface BlogDetailsProps {
   blogsArray: Blog[];
+  isEditing: boolean;
+  title: string;
+  content: string;
+  setTitle: Function;
+  setContent: Function;
+  setIsEditing: Function;
+  handleContentChange: Function;
+  handleTitleChange: Function;
+  handleClearTitleAndContent: Function;
 }
 
 export interface AuthorsProps {
@@ -87,4 +96,6 @@ export interface AuthorsProps {
 
 export interface AuthorDetailsProps {
   authorsArray: Author[];
+  isEditing: boolean;
+  setIsEditing: Function;
 }

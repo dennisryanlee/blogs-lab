@@ -102,13 +102,13 @@ blogRouter.put("/:id", async (req, res) => {
 
   try {
     // Validation
+    await Validation.isValidID(id);
+    await Validation.isValidID(authoridnum);
     await Validation.isValidString([title, content]);
     await Validation.isValidStringLength([
       [content, 1500],
       [title, 45],
     ]);
-    await Validation.isValidID(authoridnum);
-    await Validation.isValidID(id);
     const newBlogInfo = { title, content, authorid }; // package the updated info into an object
 
     const [results] = await db.Blogs.readOneBlog(id); // ...and use the id as a number to get that particular blog.

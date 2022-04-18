@@ -15,13 +15,18 @@ import Validation from "../server/Utils/DataValidation";
 const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
   const [authorid, setAuthorId] = useState<number>(0);
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+
   const [loggedIn, setloggedIn] = useState<boolean>(false);
+
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
 
@@ -122,7 +127,6 @@ const App = (props: Types.AppProps) => {
       .catch((error) => console.log(error));
   };
 
-  //! new blog is waiting for a way to get authorid from logging in
   const handleNewBlog = () => {
     // Validation
     if (
@@ -286,9 +290,25 @@ const App = (props: Types.AppProps) => {
           }
         />
         <Route path="/blogs" element={<Blogs setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
-        <Route path="/blogs/:id" element={<BlogDetails blogsArray={blogsArray} />} />
+        <Route
+          path="/blogs/:id"
+          element={
+            <BlogDetails
+              blogsArray={blogsArray}
+              isEditing={isEditing}
+              title={title}
+              content={content}
+              setTitle={setTitle}
+              setContent={setContent}
+              setIsEditing={setIsEditing}
+              handleContentChange={handleContentChange}
+              handleTitleChange={handleTitleChange}
+              handleClearTitleAndContent={handleClearTitleAndContent}
+            />
+          }
+        />
         <Route path="/authors" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
-        <Route path="/authors/:id" element={<AuthorDetails authorsArray={authorsArray} />} />
+        <Route path="/authors/:id" element={<AuthorDetails authorsArray={authorsArray} isEditing={isEditing} setIsEditing={setIsEditing} />} />
       </Routes>
     </>
   );

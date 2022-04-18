@@ -10,23 +10,83 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
     <>
       <div className="d-flex flex-wrap justify-content-around">
         {props.blogsArray.map((blog) => (
-          <div key={`blog-${blog.id}`} className="card col-md-2">
+          <div key={`blog-${blog.id}`} className="card col-md-6 mx-2">
             <div className="card-body">
-              <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
-              <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
+              {!props.isEditing && (
+                <>
+                  <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
+                  <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
 
-              <hr></hr>
+                  <hr></hr>
 
-              <div className="card-text">{blog.content}</div>
+                  <div className="card-text">{blog.content}</div>
 
-              <hr></hr>
+                  <hr></hr>
+                </>
+              )}
 
-              <Button variant="contained" className="btn btn-warning my-2 ms-2 col-md-6" type="button">
-                Edit Blog
-              </Button>
-              <Button variant="contained" className="btn btn-danger my-2 ms-2 col-md-6" type="button">
-                Delete Blog
-              </Button>
+              {!props.isEditing && (
+                <Button
+                  variant="contained"
+                  color="warning"
+                  className="btn my-2 ms-2 col-md-2"
+                  type="button"
+                  onClick={() => {
+                    props.setIsEditing(true);
+                    props.setTitle(blog.title);
+                    props.setContent(blog.content);
+                  }}
+                >
+                  Edit
+                </Button>
+              )}
+              {!props.isEditing && (
+                <Button variant="contained" color="error" className="btn my-2 ms-2 col-md-2" type="button">
+                  Delete
+                </Button>
+              )}
+
+              {props.isEditing && (
+                <>
+                  <input value={props.title.toLocaleUpperCase()} onChange={(e) => props.handleTitleChange(e)} className="card-title form-control" />
+
+                  <hr></hr>
+
+                  <textarea value={props.content} onChange={(e) => props.handleContentChange(e)} className="card-text form-control"></textarea>
+
+                  <hr></hr>
+                </>
+              )}
+
+              {props.isEditing && (
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="btn my-2 ms-2 col-md-2"
+                  type="button"
+                  onClick={() => {
+                    props.setIsEditing(false);
+                    props.handleClearTitleAndContent();
+                    //! make the fetch here
+                  }}
+                >
+                  Submit
+                </Button>
+              )}
+              {props.isEditing && (
+                <Button
+                  variant="contained"
+                  color="info"
+                  className="btn my-2 ms-2 col-md-2"
+                  type="button"
+                  onClick={() => {
+                    props.setIsEditing(false);
+                    props.handleClearTitleAndContent();
+                  }}
+                >
+                  Cancel
+                </Button>
+              )}
             </div>
           </div>
         ))}
