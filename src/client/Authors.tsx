@@ -6,6 +6,25 @@ import { useNavigate } from "react-router-dom";
 
 const Authors = (props: Types.AuthorsProps) => {
   const nav = useNavigate();
+
+  const getSingleAuthor = (authorid: Number) => {
+    fetch(`/api/authors/${authorid}`) // GET from "/api/authors"
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            props.setAuthorsArray(data); // set the data to state
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+    nav(`/authors/${authorid}`);
+  };
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
@@ -21,28 +40,7 @@ const Authors = (props: Types.AuthorsProps) => {
 
               <hr></hr>
 
-              <Button
-                variant="contained"
-                className="btn btn-warning btn-sm"
-                onClick={() => {
-                  fetch(`/api/authors/${author.id}`) // GET from "/api/blogs"
-                    .then((res) => {
-                      // then with that response
-                      res.json().then((data) => {
-                        // parse as JSON data, then with that data
-                        if (res.ok) {
-                          // if there was an OK response
-                          props.setAuthorsArray(data); // set the data to state
-                        } else {
-                          // if there was not an OK response
-                          throw new Error(data.message); // throw a new error
-                        }
-                      });
-                    })
-                    .catch((error) => console.log(error));
-                  nav(`/authors/${author.id}`);
-                }}
-              >
+              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleAuthor(Number(author.id))}>
                 View this Author
               </Button>
             </div>
