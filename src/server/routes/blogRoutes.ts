@@ -118,6 +118,9 @@ blogRouter.put("/:id", async (req, res) => {
       const updateResults = await db.Blogs.updateBlog(newBlogInfo, Number(id)); // newBlogInfo contains theupdated info, id specifies the blog
 
       if (updateResults.affectedRows) {
+        //! if insert works, now we can add the tag
+        // updateResults.insertId gives the new blog id
+
         res.status(200).json({ message: `Blog ${id} was updated to show ${content}` });
       } else {
         res.status(400).json({ message: `Oh my stars, we could not update the blog with ID:${id}` });
