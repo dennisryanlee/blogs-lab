@@ -63,6 +63,9 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                   <div className="card-text">{blog.content}</div>
 
                   <hr></hr>
+                  <span className="badge rounded-pill bg-secondary text-dark">{blog.tagname}</span>
+
+                  <hr></hr>
                 </>
               )}
 

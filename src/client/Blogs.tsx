@@ -41,6 +41,10 @@ const Blogs = (props: Types.BlogsProps) => {
 
               <hr></hr>
 
+              <span className="badge rounded-pill bg-secondary text-dark">{blog.tagname}</span>
+
+              <hr></hr>
+
               <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.id))}>
                 View this Blog
               </Button>

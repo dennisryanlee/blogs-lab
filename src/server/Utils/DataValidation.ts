@@ -11,6 +11,17 @@ function isValidInteger(id: number) {
   });
 }
 
+function isValidIntegerClient(id: number) {
+  // if the id does not exist
+  // if the id is not a number
+  // if when the id is rounded it does not match the original id
+  // if the id is less than 1
+  // return true
+  if (!id || isNaN(id) || Math.floor(id) !== id || id < 1) {
+    return true;
+  }
+}
+
 // String Validation - checks if a given array of strings exist, and if they are of type string
 function isValidString(array: string[]) {
   return new Promise((resolve, reject) => {
@@ -77,6 +88,8 @@ function isValidEmailClient(email: string) {
 const Validation = {
   isValidInteger,
   isValidID: isValidInteger,
+  isValidIntegerClient,
+  isValidIDBlient: isValidIntegerClient,
   isValidString,
   isValidStringClient,
   isValidEmail,

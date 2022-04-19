@@ -7,6 +7,7 @@ export interface Blog {
   authorname: string;
   email: string;
   authorid: string;
+  tagname: string;
 }
 
 export interface Author {

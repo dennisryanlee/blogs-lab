@@ -13,7 +13,10 @@ const createNewBlog = (newBlogInfo: Type.newBlogInfo) => Query(`INSERT INTO Blog
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x
 
-const readAllBlogs = () => Query<Type.Blog[]>("SELECT a.authorname, a.email, b.authorid, b.id, b.title, b.content FROM Blogs b INNER JOIN Authors a ON a.id = b.authorid;");
+const readAllBlogs = () =>
+  Query<Type.Blog[]>(
+    "SELECT a.authorname, a.email, b.authorid, b.id AS blogid, b.title, b.content, t.tagname FROM Blogs b INNER JOIN Authors a ON a.id = b.authorid INNER JOIN Blogtags bt ON bt.blogid = b.id INNER JOIN Tags t ON bt.tagid = t.id;"
+  );
 
 // readOne-x will query the database and return an array containing a single x specified by its id
 

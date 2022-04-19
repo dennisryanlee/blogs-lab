@@ -135,14 +135,13 @@ const App = (props: Types.AppProps) => {
 
   const handleNewBlog = () => {
     // Validation
-
     if (
       Validation.isValidStringClient([title, content]) ||
       Validation.isValidStringLengthClient([
         [content, 1500],
         [title, 45],
       ]) ||
-      Validation.isValidInteger(selectedTagId)
+      Validation.isValidIntegerClient(selectedTagId)
     ) {
       alert("Please check your data");
       return;
