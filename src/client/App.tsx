@@ -35,17 +35,20 @@ const App = (props: Types.AppProps) => {
   // Navs ***************************************************************************************************
 
   const navToAuthors = () => {
-    getAllAuthors();
-    nav("/authors");
+    getAllAuthors(); // get all authors
+    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
+    nav("/authors"); // nav to authors view
   };
 
   const navToBlogs = () => {
-    getAllBlogs();
-    nav("/blogs");
+    getAllBlogs(); // get all blogs
+    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
+    nav("/blogs"); // nav to blogs view
   };
 
   const navToNewBlog = () => {
-    nav("/newblog");
+    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
+    nav("/newblog"); // nav to new blog view
   };
 
   // Inputs ***************************************************************************************************
@@ -309,7 +312,7 @@ const App = (props: Types.AppProps) => {
           }
         />
         <Route path="/authors" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
-        <Route path="/authors/:id" element={<AuthorDetails authorsArray={authorsArray} isEditing={isEditing} setIsEditing={setIsEditing} />} />
+        <Route path="/authors/:id" element={<AuthorDetails navToAuthors={navToAuthors} authorsArray={authorsArray} isEditing={isEditing} setIsEditing={setIsEditing} />} />
       </Routes>
     </>
   );

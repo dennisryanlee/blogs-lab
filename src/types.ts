@@ -98,5 +98,6 @@ export interface AuthorsProps {
 export interface AuthorDetailsProps {
   authorsArray: Author[];
   isEditing: boolean;
+  navToAuthors: Function;
   setIsEditing: Function;
 }

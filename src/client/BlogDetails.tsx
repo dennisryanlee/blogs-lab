@@ -4,7 +4,7 @@ import * as Types from "../types";
 import { useParams } from "react-router-dom";
 
 const BlogDetails = (props: Types.BlogDetailsProps) => {
-  const { id } = useParams(); // we just need the id from the useParams object, so we can destructure it
+  const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
 
   const updateBlog = () => {
     fetch(`/api/blogs/${id}`, {
