@@ -312,7 +312,23 @@ const App = (props: Types.AppProps) => {
           }
         />
         <Route path="/authors" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
-        <Route path="/authors/:id" element={<AuthorDetails navToAuthors={navToAuthors} authorsArray={authorsArray} isEditing={isEditing} setIsEditing={setIsEditing} />} />
+        <Route
+          path="/authors/:id"
+          element={
+            <AuthorDetails
+              email={email}
+              setEmail={setEmail}
+              handleEmailChange={handleEmailChange}
+              authorbio={authorbio}
+              setAuthorBio={setAuthorBio}
+              handleAuthorBioChange={handleAuthorBioChange}
+              navToAuthors={navToAuthors}
+              authorsArray={authorsArray}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+            />
+          }
+        />
       </Routes>
     </>
   );

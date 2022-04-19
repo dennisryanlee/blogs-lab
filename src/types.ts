@@ -97,7 +97,13 @@ export interface AuthorsProps {
 
 export interface AuthorDetailsProps {
   authorsArray: Author[];
+  email: string;
+  authorbio: string;
   isEditing: boolean;
+  setEmail: Function;
+  setAuthorBio: Function;
+  handleAuthorBioChange: Function;
+  handleEmailChange: Function;
   navToAuthors: Function;
   setIsEditing: Function;
 }
