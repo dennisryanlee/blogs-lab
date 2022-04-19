@@ -1,3 +1,5 @@
+export interface AppProps {}
+
 export interface Blog {
   title: string;
   content: string;
@@ -16,6 +18,7 @@ export interface Author {
 
 export interface Tag {
   tagname: string;
+  id: number;
 }
 
 export interface newBlogInfo {
@@ -31,9 +34,13 @@ export interface newAuthorInfo {
 
 export interface newTagInfo {
   tagname: string;
+  id: number;
 }
 
-export interface AppProps {}
+export interface newBlogTagInfo {
+  blogid: number;
+  tagid: number;
+}
 
 export interface LoginPageProps {
   username: string;
@@ -58,6 +65,9 @@ export interface NewAuthorProps {
 export interface NewBlogProps {
   title: string;
   content: string;
+  tagsArray: Tag[];
+  selectedTagId: Number;
+  setSelectedTagId: Function;
   handleNewBlog: Function;
   handleContentChange: Function;
   handleTitleChange: Function;

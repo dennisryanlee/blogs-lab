@@ -9,8 +9,7 @@ const blogRouter = express.Router();
 // Create a Blog
 blogRouter.post("/", async (req, res) => {
   try {
-    req.body.parse;
-    let { title, content, authorid } = req.body;
+    let { title, content, authorid, tagid } = req.body;
 
     authorid = Number(authorid);
 
@@ -21,11 +20,21 @@ blogRouter.post("/", async (req, res) => {
       [content, 1500],
     ]);
     await Validation.isValidID(authorid);
+    await Validation.isValidInteger(tagid);
 
     const newBlogInfo = { title, content, authorid }; // package the new info into an object
     const results = await db.Blogs.createNewBlog(newBlogInfo);
 
     if (results.affectedRows) {
+      let blogid = results.insertId; // insert Id is the Id of the blog we've just created
+
+      tagid = Number(tagid); // cast to type number
+      blogid = Number(blogid); // cast to type number
+
+      // do database call here to insert into blogtags
+      const newBlogTagInfo = { blogid, tagid }; // package the new Blogtag info into an object
+      await db.Tags.createNewBlogTag(newBlogTagInfo); // make a new BlogTag
+
       // if the blog was added
       res.status(200).json({ message: `New blog titled ${title} from ${authorid} was made!` });
     } else {

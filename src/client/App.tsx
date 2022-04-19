@@ -16,6 +16,9 @@ const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [tagsArray, setTagsArray] = useState<Types.Tag[]>([]);
+  const [selectedTagId, setSelectedTagId] = useState<number>(0);
+
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
   const [authorid, setAuthorId] = useState<number>(25);
@@ -132,15 +135,21 @@ const App = (props: Types.AppProps) => {
 
   const handleNewBlog = () => {
     // Validation
+
     if (
       Validation.isValidStringClient([title, content]) ||
       Validation.isValidStringLengthClient([
         [content, 1500],
         [title, 45],
-      ])
+      ]) ||
+      Validation.isValidInteger(selectedTagId)
     ) {
       alert("Please check your data");
       return;
+    }
+
+    if (!selectedTagId) {
+      alert("Hey don't forget your tag!");
     }
 
     fetch("/api/blogs/", {
@@ -150,7 +159,7 @@ const App = (props: Types.AppProps) => {
         // ...specifying the type of content...
         "content-type": "application/json",
       },
-      body: JSON.stringify({ title, content, authorid }), // ...and deliver the content
+      body: JSON.stringify({ title, content, authorid, tagid: selectedTagId }), // ...and deliver the content
     })
       .then((res) => {
         // then with that response
@@ -197,7 +206,7 @@ const App = (props: Types.AppProps) => {
     nav("/");
   };
 
-  // Get Blogs / Authors ***************************************************************************************************
+  // Thats SO Fetch! ***************************************************************************************************
 
   const getAllBlogs = () => {
     fetch("/api/blogs") // GET from "/api/blogs"
@@ -235,9 +244,28 @@ const App = (props: Types.AppProps) => {
       .catch((error) => console.log(error));
   };
 
+  const getAllTags = () => {
+    fetch(`/api/tags`)
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            setTagsArray(data); // set the data to state
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   useEffect(() => {
     getAllBlogs();
     getAllAuthors();
+    getAllTags();
   }, []);
 
   return (
@@ -285,6 +313,9 @@ const App = (props: Types.AppProps) => {
             <NewBlog
               title={title}
               content={content}
+              tagsArray={tagsArray}
+              selectedTagId={selectedTagId}
+              setSelectedTagId={setSelectedTagId}
               handleNewBlog={handleNewBlog}
               handleContentChange={handleContentChange}
               handleTitleChange={handleTitleChange}

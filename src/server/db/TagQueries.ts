@@ -9,6 +9,9 @@ import * as Type from "../../types";
 
 // using SET allows us to destructure an object whose keys match column names, so that we can add those values where they belong
 const createNewTag = (newTagInfo: Type.newTagInfo) => Query(`INSERT INTO Tags SET ?`, [newTagInfo]);
+const createNewBlogTag = (newBlogTagInfo: Type.newBlogTagInfo) => Query(`INSERT INTO Blogtags SET ?`, [newBlogTagInfo]);
+
+// INSERT INTO Blogtags (blogid, tagid) VALUES (?,?) [blogid,tagid]
 
 //*************************  READ  *****************************/
 // readAll-x will query the database and return an array of x
@@ -23,9 +26,6 @@ const readOneTag = (id: number) => Query<Type.Tag[]>(`SELECT * FROM Tags WHERE i
 // update-x will update the content of x matching the id provided
 // new-x-Info is an object as defined in types.ts
 
-//! if i make it possible to update the author on a particular blog, i first need to check if that author exists since that is a foreign key
-//! if the new author does not exist it will send an error, which i can send to the front end
-
 const updateTag = (newTagInfo: Type.newTagInfo, id: number) => Query(`UPDATE Tags SET ? WHERE id = ?`, [newTagInfo, id]);
 
 //*************************  DESTROY  *****************************/
@@ -33,12 +33,10 @@ const updateTag = (newTagInfo: Type.newTagInfo, id: number) => Query(`UPDATE Tag
 
 const deleteTag = (id: number) => Query(`DELETE FROM Tags WHERE id = ?`, [id]);
 
-//! if i want to be able to delete authors, i need to enable cascading deletions
-//! or delete first from blogs where the authorid matches, then delete the author
-
 export default {
   // export functions so that we may call them from another file
   createNewTag,
+  createNewBlogTag,
   readAllTags,
   readOneTag,
   updateTag,
