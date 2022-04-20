@@ -48,6 +48,12 @@ const updateBlog = (newBlogInfo: Type.newBlogInfo, id: number) => Query(`UPDATE 
 // delete-x will delete the row from the x table where the id matches
 
 const deleteBlog = (id: number) => Query(`DELETE FROM Blogs WHERE id = ?`, [id]);
+const deleteBlogTag = (id: number) =>
+  Query(
+    `DELETE FROM BlogTags WHERE Blogid = ?;
+`,
+    [id]
+  );
 
 //! if i want to be able to delete authors, i need to enable cascading deletions
 //! or delete first from blogs where the authorid matches, then delete the author
@@ -59,4 +65,5 @@ export default {
   readOneBlog,
   updateBlog,
   deleteBlog,
+  deleteBlogTag,
 };

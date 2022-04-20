@@ -157,6 +157,7 @@ blogRouter.delete("/:id", async (req, res) => {
   try {
     // ID Validation
     await Validation.isValidID(id);
+    await db.Blogs.deleteBlogTag(id);
     const DeleteBlogResponse = await db.Blogs.deleteBlog(id); // use the id to delete the blog
 
     if (DeleteBlogResponse.affectedRows) {
