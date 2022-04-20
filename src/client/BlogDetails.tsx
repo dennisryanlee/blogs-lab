@@ -51,7 +51,7 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
     <>
       <div className="d-flex flex-wrap justify-content-around">
         {props.blogsArray.map((blog) => (
-          <div key={`blog-${blog.id}`} className="card col-md-6 mx-2">
+          <div key={`blog-${blog.blogid}`} className="card col-md-6 mx-2">
             <div className="card-body">
               {!props.isEditing && (
                 <>
@@ -85,7 +85,16 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                 </Button>
               )}
               {!props.isEditing && (
-                <Button variant="contained" color="error" className="btn my-2 ms-2 col-md-2" type="button" onClick={() => deleteBlog()}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  className="btn my-2 ms-2 col-md-2"
+                  type="button"
+                  onClick={() => {
+                    props.stuckem();
+                    deleteBlog();
+                  }}
+                >
                   Delete
                 </Button>
               )}
@@ -110,6 +119,7 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                   type="button"
                   onClick={() => {
                     updateBlog();
+                    props.chefskiss();
                     props.setIsEditing(false);
                     props.handleClearTitleAndContent();
                   }}

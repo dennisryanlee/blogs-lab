@@ -3,7 +3,7 @@ export interface AppProps {}
 export interface Blog {
   title: string;
   content: string;
-  id: string;
+  blogid: string;
   authorname: string;
   email: string;
   authorid: string;
@@ -92,6 +92,8 @@ export interface BlogDetailsProps {
   isEditing: boolean;
   title: string;
   content: string;
+  chefskiss: Function;
+  stuckem: Function;
   navToBlogs: Function;
   setTitle: Function;
   setContent: Function;
@@ -112,6 +114,7 @@ export interface AuthorDetailsProps {
   authorbio: string;
   isEditing: boolean;
   setEmail: Function;
+  chefskiss: Function;
   setAuthorBio: Function;
   handleAuthorBioChange: Function;
   handleEmailChange: Function;

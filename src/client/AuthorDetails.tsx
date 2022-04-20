@@ -94,6 +94,7 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
                   type="button"
                   onClick={() => {
                     props.setIsEditing(false);
+                    props.chefskiss();
                     updateAuthor();
                   }}
                 >

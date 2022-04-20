@@ -7,6 +7,7 @@ const Blogs = (props: Types.BlogsProps) => {
   const nav = useNavigate();
 
   const getSingleBlog = (blogid: number) => {
+    console.log(blogid);
     fetch(`/api/blogs/${blogid}`) // GET from "/api/blogs"
       .then((res) => {
         // then with that response
@@ -29,7 +30,7 @@ const Blogs = (props: Types.BlogsProps) => {
     <>
       <div className="d-flex flex-wrap justify-content-around">
         {props.blogsArray.map((blog) => (
-          <div key={`blog-${blog.id}`} className="card col-md-2">
+          <div key={`blog-${blog.blogid}`} className="card col-md-2">
             <div className="card-body">
               <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
               <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
@@ -45,7 +46,7 @@ const Blogs = (props: Types.BlogsProps) => {
 
               <hr></hr>
 
-              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.id))}>
+              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
                 View this Blog
               </Button>
             </div>

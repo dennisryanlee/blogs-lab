@@ -202,6 +202,9 @@ const App = (props: Types.AppProps) => {
     setUsername("");
     setPassword("");
     setloggedIn(!loggedIn);
+    const secretTrackz2 = new Audio(`../okbye.mp3`);
+    secretTrackz2.play();
+
     nav("/");
   };
 
@@ -259,6 +262,16 @@ const App = (props: Types.AppProps) => {
         });
       })
       .catch((error) => console.log(error));
+  };
+
+  const chefskiss = () => {
+    const secretTrackz3 = new Audio(`../wow.mp3`);
+    secretTrackz3.play();
+  };
+
+  const stuckem = () => {
+    const secretTrackz4 = new Audio(`../stuckem.mp3`);
+    secretTrackz4.play();
   };
 
   useEffect(() => {
@@ -335,6 +348,8 @@ const App = (props: Types.AppProps) => {
               setTitle={setTitle}
               setContent={setContent}
               setIsEditing={setIsEditing}
+              chefskiss={chefskiss}
+              stuckem={stuckem}
               handleContentChange={handleContentChange}
               handleTitleChange={handleTitleChange}
               handleClearTitleAndContent={handleClearTitleAndContent}
@@ -351,6 +366,7 @@ const App = (props: Types.AppProps) => {
               handleEmailChange={handleEmailChange}
               authorbio={authorbio}
               setAuthorBio={setAuthorBio}
+              chefskiss={chefskiss}
               handleAuthorBioChange={handleAuthorBioChange}
               navToAuthors={navToAuthors}
               authorsArray={authorsArray}
