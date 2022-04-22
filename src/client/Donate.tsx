@@ -15,11 +15,13 @@ const Donate = (props: Types.DonateProps) => {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    // stop execution if:  stripe failed to load stripe or elements, a negative number was entered for amount, or if there is nothing entered for the name
+    // stop execution if:  stripe failed to load stripe or elements, a negative number was entered for amount,
+    // or if there is nothing entered for the name
     if (!stripe || !elements || Number(amount) < 0 || !name) return;
 
     const cardData = elements.getElement(CardElement); // gets the card Data the user has entered
 
+    // pass in the cardData, and from the return, destructure the error and paymentMethod for later use
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardData,
@@ -28,22 +30,28 @@ const Donate = (props: Types.DonateProps) => {
       },
     });
 
+    // if there was an error with createPaymentMethod, log it
     if (error) {
       console.log("There was an error: ", error);
     } else {
+      // if there was no error, log the paymentMethod
       console.log("Payment method: ", paymentMethod);
+
+      // fetch '/donate' with a POST req and include amount and paymentMethod in the body
       const res = await fetch("/donate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, paymentMethod }),
+        body: JSON.stringify({ amount, paymentMethod: paymentMethod }),
       });
 
+      // parse the results. then log them
       const paymentResults = await res.json();
       console.log("payment results: ", paymentResults);
 
       // navigate to receipt page here
       props.navToPaymentReceiptPage();
-      // send email with confirmation?
+
+      // send email with confirmation once i can use mailgun
     }
   };
 
