@@ -4,7 +4,7 @@ import Blogs from "./BlogQueries";
 import Authors from "./AuthorQueries";
 import Tags from "./TagQueries";
 import * as dotenv from "dotenv";
-import { DATABASE_CONFIG } from "../config"; // import the database config object containing the connection info
+import { CONFIG } from "../config"; // import the database config object containing the connection info
 import * as Types from "../../types";
 
 dotenv.config();
@@ -14,7 +14,7 @@ dotenv.config();
 // creates a database connection with the following properties
 // make sure to enable 'chirper'@'localhost' in mysql
 
-export const Connection = mysql.createPool(DATABASE_CONFIG);
+export const Connection = mysql.createPool(CONFIG);
 
 export const Query = <T = mysql.OkPacket>(query: string, values?: unknown[]) => {
   // this helper function allows us to abstract this part out from every query we want to make later

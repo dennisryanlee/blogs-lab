@@ -16,7 +16,7 @@ function isValidIntegerClient(id: number) {
   // if the id is not a number
   // if when the id is rounded it does not match the original id
   // if the id is less than 1
-  // return true
+  // return true when any condition is met => true means we do NOT have a valid integer
   if (!id || isNaN(id) || Math.floor(id) !== id || id < 1) {
     return true;
   }

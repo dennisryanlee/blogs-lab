@@ -10,7 +10,14 @@ import Blogs from "./Blogs";
 import Authors from "./Authors";
 import AuthorDetails from "./AuthorDetails";
 import BlogDetails from "./BlogDetails";
+import Donate from "./Donate";
 import Validation from "../server/Utils/DataValidation";
+
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import PaymentReceiptPage from "./PaymentReceiptPage";
+
+const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
 const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
@@ -52,6 +59,16 @@ const App = (props: Types.AppProps) => {
   const navToNewBlog = () => {
     setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
     nav("/newblog"); // nav to new blog view
+  };
+
+  const navToDonate = () => {
+    getAllAuthors(); // get all authors
+    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
+    nav("/donate"); // nav to donate view
+  };
+
+  const navToPaymentReceiptPage = () => {
+    nav("/receipt");
   };
 
   // Inputs ***************************************************************************************************
@@ -287,7 +304,7 @@ const App = (props: Types.AppProps) => {
       </main>
       {loggedIn && (
         <div className="d-flex justify-content-center">
-          <Navbar navToNewBlog={navToNewBlog} navToAuthors={navToAuthors} navToBlogs={navToBlogs} handleLoggingOut={handleLoggingOut}></Navbar>
+          <Navbar navToNewBlog={navToNewBlog} navToAuthors={navToAuthors} navToBlogs={navToBlogs} navToDonate={navToDonate} handleLoggingOut={handleLoggingOut}></Navbar>
         </div>
       )}
 
@@ -305,6 +322,18 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
+
+        <Route
+          path="/donate"
+          element={
+            <Elements stripe={stripe}>
+              <Donate navToPaymentReceiptPage={navToPaymentReceiptPage} />
+            </Elements>
+          }
+        />
+
+        <Route path="/receipt" element={<PaymentReceiptPage />} />
+
         <Route
           path="/newauthor"
           element={

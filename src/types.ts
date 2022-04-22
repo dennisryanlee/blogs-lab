@@ -79,6 +79,7 @@ export interface NavbarProps {
   navToAuthors: Function;
   navToBlogs: Function;
   handleLoggingOut: Function;
+  navToDonate: Function;
   navToNewBlog: Function;
 }
 
@@ -120,4 +121,8 @@ export interface AuthorDetailsProps {
   handleEmailChange: Function;
   navToAuthors: Function;
   setIsEditing: Function;
+}
+
+export interface DonateProps {
+  navToPaymentReceiptPage: Function;
 }
