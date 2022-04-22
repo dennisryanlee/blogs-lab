@@ -35,7 +35,6 @@ export interface newAuthorInfo {
 
 export interface newTagInfo {
   tagname: string;
-  id: number;
 }
 
 export interface newBlogTagInfo {
