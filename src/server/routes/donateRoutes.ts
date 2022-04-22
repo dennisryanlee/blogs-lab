@@ -19,7 +19,7 @@ donateRouter.post("/donate", async (req, res) => {
       confirm: true,
     });
 
-    console.log("fulfilled is: ", fulfilled);
+    console.log(fulfilled);
     res.json(fulfilled);
   } catch (error) {
     console.log(error);

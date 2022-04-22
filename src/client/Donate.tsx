@@ -38,20 +38,27 @@ const Donate = (props: Types.DonateProps) => {
       console.log("Payment method: ", paymentMethod);
 
       // fetch '/donate' with a POST req and include amount and paymentMethod in the body
-      const res = await fetch("/donate", {
+      fetch("/donate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount, paymentMethod: paymentMethod }),
-      });
-
-      // parse the results. then log them
-      const paymentResults = await res.json();
-      console.log("payment results: ", paymentResults);
-
-      // navigate to receipt page here
-      props.navToPaymentReceiptPage();
-
-      // send email with confirmation once i can use mailgun
+      })
+        .then((res) => {
+          // then with that response
+          res.json().then((data) => {
+            // parse as JSON data, then with that data
+            console.log(data);
+            if (res.ok) {
+              // if there was an OK response
+              // navigate to receipt page here
+              props.navToPaymentReceiptPage();
+            } else {
+              // if there was not an OK response
+              throw new Error(data.message); // throw a new error
+            }
+          });
+        })
+        .catch((error) => console.log(error));
     }
   };
 
