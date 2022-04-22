@@ -16,6 +16,7 @@ import Validation from "../server/Utils/DataValidation";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentReceiptPage from "./PaymentReceiptPage";
+import AuthorContact from "./AuthorContact";
 
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
@@ -39,6 +40,8 @@ const App = (props: Types.AppProps) => {
 
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
+
+  const [authorToContact, setAuthorToContact] = useState<string>("");
 
   const nav = useNavigate(); // lets us navigate the user around
 
@@ -69,6 +72,11 @@ const App = (props: Types.AppProps) => {
 
   const navToPaymentReceiptPage = () => {
     nav("/receipt");
+  };
+
+  const navToAuthorContact = () => {
+    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
+    nav("/contact");
   };
 
   // Inputs ***************************************************************************************************
@@ -334,6 +342,8 @@ const App = (props: Types.AppProps) => {
 
         <Route path="/receipt" element={<PaymentReceiptPage />} />
 
+        <Route path="/contact" element={<AuthorContact navToAuthors={navToAuthors} authorToContact={authorToContact} />} />
+
         <Route
           path="/newauthor"
           element={
@@ -398,6 +408,8 @@ const App = (props: Types.AppProps) => {
               chefskiss={chefskiss}
               handleAuthorBioChange={handleAuthorBioChange}
               navToAuthors={navToAuthors}
+              navToAuthorContact={navToAuthorContact}
+              setAuthorToContact={setAuthorToContact}
               authorsArray={authorsArray}
               isEditing={isEditing}
               setIsEditing={setIsEditing}

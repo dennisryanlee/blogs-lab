@@ -73,6 +73,21 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
                 </Button>
               )}
 
+              {!props.isEditing && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="btn my-2 ms-2 col-md-2"
+                  type="button"
+                  onClick={() => {
+                    props.setAuthorToContact(author.authorname.toLocaleUpperCase());
+                    props.navToAuthorContact();
+                  }}
+                >
+                  Email
+                </Button>
+              )}
+
               {props.isEditing && (
                 <>
                   <input value={authorname} onChange={(e) => handleSetAuthorName(e)} className="card-title form-control" />

@@ -121,6 +121,8 @@ export interface AuthorDetailsProps {
   handleAuthorBioChange: Function;
   handleEmailChange: Function;
   navToAuthors: Function;
+  navToAuthorContact: Function;
+  setAuthorToContact: Function;
   setIsEditing: Function;
 }
 
@@ -129,3 +131,8 @@ export interface DonateProps {
 }
 
 export interface PaymentReceiptPage {}
+
+export interface AuthorContactProps {
+  authorToContact: string;
+  navToAuthors: Function;
+}

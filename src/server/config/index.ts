@@ -8,6 +8,9 @@ export const CONFIG = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   stripeSecretKey: process.env.STRIPE_API_SECRET_KEY,
+  mailgunAPIKey: process.env.MAILGUN_API_KEY,
+  mailgunDomain: process.env.MAILGUN_DOMAIN,
+  mailgunToEmail: process.env.MAILGUN_TO_EMAIL,
 };
 
 /**
