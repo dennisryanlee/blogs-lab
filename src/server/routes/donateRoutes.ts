@@ -8,7 +8,7 @@ const stripe = new Stripe(CONFIG.stripeSecretKey, { apiVersion: "2020-08-27" });
 
 // Current route is /donate
 
-donateRouter.post("/donate", async (req, res) => {
+donateRouter.post("/", async (req, res) => {
   const paymentMethod = req.body.paymentMethod.id;
   const amount = req.body.amount;
   try {

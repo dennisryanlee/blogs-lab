@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import * as React from "react";
 import * as Types from "../types";
 import { useNavigate } from "react-router-dom";
+import { Rotate90DegreesCcw } from "@mui/icons-material";
 
 const Blogs = (props: Types.BlogsProps) => {
   const nav = useNavigate();
@@ -26,11 +27,16 @@ const Blogs = (props: Types.BlogsProps) => {
     nav(`/blogs/${blogid}`);
   };
 
+  const getRandomDegree = () => {
+    let myDegree = Math.floor(Math.random() * 180);
+    return `${myDegree}deg`;
+  };
+
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
         {props.blogsArray.map((blog) => (
-          <div key={`blog-${blog.blogid}`} className="card col-md-2">
+          <marquee key={`blog-${blog.blogid}`} className="card col-md-2">
             <div className="card-body">
               <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
               <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
@@ -50,7 +56,7 @@ const Blogs = (props: Types.BlogsProps) => {
                 View this Blog
               </Button>
             </div>
-          </div>
+          </marquee>
         ))}
       </div>
     </>
@@ -58,3 +64,5 @@ const Blogs = (props: Types.BlogsProps) => {
 };
 
 export default Blogs;
+
+// style={{ transform: [{ rotate: getRandomDegree() }] }}
