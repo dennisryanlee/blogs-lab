@@ -84,6 +84,7 @@ export interface NavbarProps {
 }
 
 export interface BlogsProps {
+  username: string;
   setBlogsArray: Function;
   blogsArray: Blog[];
 }
@@ -126,3 +127,5 @@ export interface AuthorDetailsProps {
 export interface DonateProps {
   navToPaymentReceiptPage: Function;
 }
+
+export interface PaymentReceiptPage {}

@@ -27,38 +27,64 @@ const Blogs = (props: Types.BlogsProps) => {
     nav(`/blogs/${blogid}`);
   };
 
-  const getRandomDegree = () => {
-    let myDegree = Math.floor(Math.random() * 180);
-    return `${myDegree}deg`;
-  };
-
   return (
     <>
-      <div className="d-flex flex-wrap justify-content-around">
-        {props.blogsArray.map((blog) => (
-          <marquee key={`blog-${blog.blogid}`} className="card col-md-2">
-            <div className="card-body">
-              <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
-              <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
+      {props.username === "Ervin Howell" && (
+        <div className="d-flex flex-wrap justify-content-around">
+          {props.blogsArray.map((blog) => (
+            // @ts-ignore
+            <marquee key={`blog-${blog.blogid}`} className="card col-md-2">
+              <div className="card-body">
+                <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
+                <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
 
-              <hr></hr>
+                <hr></hr>
 
-              {blog.content.length < 50 && <div className="card-text">{blog.content}</div>}
-              {blog.content.length > 50 && <div className="card-text">{blog.content.slice(0, 50)}...</div>}
+                {blog.content.length < 50 && <div className="card-text">{blog.content}</div>}
+                {blog.content.length > 50 && <div className="card-text">{blog.content.slice(0, 50)}...</div>}
 
-              <hr></hr>
+                <hr></hr>
 
-              <span className="badge rounded-pill bg-secondary text-dark">{blog.tagname}</span>
+                <span className="badge rounded-pill bg-secondary text-dark">{blog.tagname}</span>
 
-              <hr></hr>
+                <hr></hr>
 
-              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
-                View this Blog
-              </Button>
+                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
+                  View this Blog
+                </Button>
+              </div>
+              {/*// @ts-ignore */}
+            </marquee>
+          ))}
+        </div>
+      )}
+      {props.username !== "Ervin Howell" && (
+        <div className="d-flex flex-wrap justify-content-around">
+          {props.blogsArray.map((blog) => (
+            <div key={`blog-${blog.blogid}`} className="card col-md-2">
+              <div className="card-body">
+                <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
+                <h6 className="card-subtitle">Writen by: {blog.authorname}</h6>
+
+                <hr></hr>
+
+                {blog.content.length < 50 && <div className="card-text">{blog.content}</div>}
+                {blog.content.length > 50 && <div className="card-text">{blog.content.slice(0, 50)}...</div>}
+
+                <hr></hr>
+
+                <span className="badge rounded-pill bg-secondary text-dark">{blog.tagname}</span>
+
+                <hr></hr>
+
+                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
+                  View this Blog
+                </Button>
+              </div>
             </div>
-          </marquee>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </>
   );
 };

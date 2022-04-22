@@ -364,7 +364,7 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
-        <Route path="/blogs" element={<Blogs setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
+        <Route path="/blogs" element={<Blogs username={username} setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
         <Route
           path="/blogs/:id"
           element={
