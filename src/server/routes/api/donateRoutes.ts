@@ -1,12 +1,12 @@
 import * as express from "express";
 import Stripe from "stripe";
-import { CONFIG } from "../config/index";
+import { CONFIG } from "../../config";
 
 const donateRouter = express.Router();
 
 const stripe = new Stripe(CONFIG.stripeSecretKey, { apiVersion: "2020-08-27" });
 
-// Current route is /donate
+// Current route is /api/donate
 
 donateRouter.post("/", async (req, res) => {
   const paymentMethod = req.body.paymentMethod.id;

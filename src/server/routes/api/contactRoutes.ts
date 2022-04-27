@@ -2,7 +2,7 @@ import * as express from "express";
 import MailGun from "mailgun.js";
 import * as Mailgun from "mailgun.js";
 import * as FormData from "form-data";
-import { CONFIG } from "../config/index";
+import { CONFIG } from "../../config";
 
 const mailgun = new (<typeof MailGun>(<any>Mailgun))(<any>FormData).client({
   username: "api",
@@ -11,7 +11,7 @@ const mailgun = new (<typeof MailGun>(<any>Mailgun))(<any>FormData).client({
 
 const contactRouter = express.Router();
 
-// Current route is /contact
+// Current route is /api/contact
 
 contactRouter.post("/", async (req, res) => {
   const newEmail = req.body;

@@ -11,10 +11,11 @@ export interface Blog {
 }
 
 export interface Author {
-  id: string;
-  authorname: string;
-  authorbio: string;
-  email: string;
+  id?: string;
+  email?: string;
+  password?: string;
+  authorname?: string;
+  authorbio?: string;
 }
 
 export interface Tag {
@@ -134,4 +135,9 @@ export interface PaymentReceiptPage {}
 export interface AuthorContactProps {
   authorToContact: string;
   navToAuthors: Function;
+}
+
+export interface MySQLResponse {
+  affectedRows?: number;
+  insertID?: number;
 }

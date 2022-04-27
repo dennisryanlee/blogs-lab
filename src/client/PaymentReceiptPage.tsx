@@ -5,7 +5,11 @@ const PaymentReceiptPage = (props: Types.PaymentReceiptPage) => {
   console.log(props);
   return (
     <>
-      <div>Thanks for donating! This will look prettier once I ask Andrew how to pass over that payment object and get that nice url</div>
+      <div>
+        <div className="text-center">
+          Thanks for donating! This will look prettier once I ask Andrew how to pass over that payment object and get that nice url
+        </div>
+      </div>
     </>
   );
 };

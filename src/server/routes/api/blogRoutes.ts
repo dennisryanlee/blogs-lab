@@ -1,6 +1,6 @@
 import * as express from "express";
-import db from "../db";
-import Validation from "../Utils/DataValidation";
+import db from "../../db";
+import Validation from "../../Utils/DataValidation";
 
 const blogRouter = express.Router();
 

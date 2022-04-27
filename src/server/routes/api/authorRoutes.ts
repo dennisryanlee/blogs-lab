@@ -1,7 +1,7 @@
 import * as express from "express";
-import db from "../db";
+import db from "../../db";
 import { MysqlError } from "mysql";
-import Validation from "../Utils/DataValidation";
+import Validation from "../../Utils/DataValidation";
 
 const authorRouter = express.Router();
 
