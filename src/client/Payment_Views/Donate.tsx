@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import * as React from "react";
-import * as Types from "../types";
+import * as Types from "../../types";
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Validation from "../server/Utils/DataValidation";
+import Validation from "../../server/Utils/DataValidation";
 
 const Donate = (props: Types.DonateProps) => {
   const [name, setName] = useState<string>("");
@@ -68,8 +68,20 @@ const Donate = (props: Types.DonateProps) => {
         <div className="row mt-5 justify-content-center">
           <div className="col-md-6 ">
             <form className="form-group p-3 border rounded-lg">
-              <input type="text" placeholder="Donation Recipient" className="form-control my-2" value={name} onChange={(e) => setName(e.target.value)} />
-              <input type="text" placeholder="Donation Amount" className="form-control my-2" value={amount} onChange={(e) => setAmount(e.target.value)} />
+              <input
+                type="text"
+                placeholder="Donation Recipient"
+                className="form-control my-2"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Donation Amount"
+                className="form-control my-2"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
               <CardElement className="form-control" />
               <button onClick={handleSubmit} className="btn btn-primary my-2">
                 Donate!

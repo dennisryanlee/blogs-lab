@@ -4,19 +4,19 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import * as Types from "../types";
 import Navbar from "./Navbar";
 import Loginpage from "./Login";
-import NewAuthor from "./NewAuthor";
-import NewBlog from "./NewBlog";
-import Blogs from "./Blogs";
-import Authors from "./Authors";
-import AuthorDetails from "./AuthorDetails";
-import BlogDetails from "./BlogDetails";
-import Donate from "./Donate";
+import NewAuthor from "./Author_Views/NewAuthor";
+import NewBlog from "./Blog_Views/NewBlog";
+import Blogs from "./Blog_Views/Blogs";
+import Authors from "./Author_Views/Authors";
+import AuthorDetails from "./Author_Views/AuthorDetails";
+import BlogDetails from "./Blog_Views/BlogDetails";
+import Donate from "./Payment_Views/Donate";
 import Validation from "../server/Utils/DataValidation";
 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import PaymentReceiptPage from "./PaymentReceiptPage";
-import AuthorContact from "./AuthorContact";
+import PaymentReceiptPage from "./Payment_Views/PaymentReceiptPage";
+import AuthorContact from "./Author_Views/AuthorContact";
 
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
@@ -312,7 +312,13 @@ const App = (props: Types.AppProps) => {
       </main>
       {loggedIn && (
         <div className="d-flex justify-content-center">
-          <Navbar navToNewBlog={navToNewBlog} navToAuthors={navToAuthors} navToBlogs={navToBlogs} navToDonate={navToDonate} handleLoggingOut={handleLoggingOut}></Navbar>
+          <Navbar
+            navToNewBlog={navToNewBlog}
+            navToAuthors={navToAuthors}
+            navToBlogs={navToBlogs}
+            navToDonate={navToDonate}
+            handleLoggingOut={handleLoggingOut}
+          ></Navbar>
         </div>
       )}
 
