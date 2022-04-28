@@ -2,7 +2,7 @@ import { MysqlError } from "mysql";
 import { Query } from ".";
 import * as Type from "../../types";
 
-const FindAuthor = () => Query<Type.Author[]>("", []);
+const FindAuthor = (column: string, value: string) => Query<Type.Author[]>("SELECT * FROM Authors WHERE ?? = ?", [column, value]);
 const Insert = () => Query<Type.MySQLResponse>("");
 
 export default {

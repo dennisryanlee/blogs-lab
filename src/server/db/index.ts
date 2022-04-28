@@ -3,6 +3,7 @@ import { OkPacket as mySQLSuccessMsg } from "mysql";
 import Blogs from "./BlogQueries";
 import Authors from "./AuthorQueries";
 import Tags from "./TagQueries";
+import Login from "./LoginQueries";
 import * as dotenv from "dotenv";
 import { CONFIG } from "../config"; // import the database config object containing the connection info
 import * as Types from "../../types";
@@ -37,4 +38,5 @@ export default {
   Blogs, // Blogs contains the query functions defined in BlogQueries.ts
   Authors, // Authors contains the query functions defined in AuthorQueries.ts
   Tags, // Tags contains the query functions defined in TagQueries.ts
+  Login,
 };
