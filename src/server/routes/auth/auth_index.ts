@@ -15,10 +15,10 @@ authRouter.get(`/`, (req, res) => {
 
 // Log a user in
 authRouter.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
   try {
-    const email = req.body.email;
-    const password = req.body.password;
-    res.status(200).json({ message: `login successful!` });
+    res.status(200).json({ message: `login successful!`, email, password });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: `login failed` });
@@ -26,6 +26,13 @@ authRouter.post("/login", (req, res) => {
 });
 
 // Register an account
-authRouter.get("/register", (req, res) => {});
+authRouter.get("/register", (req, res) => {
+  try {
+    res.status(200).json({ message: `register successful!` });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: `register failed` });
+  }
+});
 
 export default authRouter;
