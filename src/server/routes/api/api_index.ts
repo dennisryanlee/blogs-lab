@@ -1,17 +1,21 @@
-// routes/api/index.ts
+// /routes/api/api_index.ts
+
 import * as express from "express";
-import blogRouter from "./api_index";
-import authorRouter from "./api_index";
-import tagRouter from "./api_index";
-import donateRouter from "./api_index";
-import contactRouter from "./contactRoutes";
+
+import authorRouter from "../api/authorRoutes";
+import blogRouter from "../api/blogRoutes";
+import contactRouter from "../api/contactRoutes";
+import donateRouter from "../api/donateRoutes";
+import tagRouter from "../api/tagRoutes";
 
 const apiRouter = express.Router();
 
-apiRouter.use("/api/contact", contactRouter);
-apiRouter.use("/api/donate", donateRouter);
-apiRouter.use("/api/blogs", blogRouter);
-apiRouter.use("/api/authors", authorRouter);
-apiRouter.use("/api/tags", tagRouter);
+// Current Route is /api
+
+apiRouter.use("/authors", authorRouter);
+apiRouter.use("/blogs", blogRouter);
+apiRouter.use("/contact", contactRouter);
+apiRouter.use("/donate", donateRouter);
+apiRouter.use("/tags", tagRouter);
 
 export default apiRouter;

@@ -1,12 +1,12 @@
 import * as express from "express";
-import allRouter from "./routes/routes_index";
+import baseRouter from "./routes/routes_index";
 import * as path from "path";
 
 const app = express();
 
 app.use(express.static("public")); // send public directory to client
 app.use(express.json()); // allows for req.body parsing
-app.use(allRouter); // collects and organizes our routes
+app.use(baseRouter); // collects and organizes our routes
 
 const clientPaths = ["/", "blogs"]; // establishes paths for client to use
 
@@ -21,3 +21,13 @@ app.use("*", (req, res) => res.sendFile(path.join(__dirname, "../public/index.ht
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
+
+// move this lol
+import * as bcrypt from "bcrypt";
+function generateHash(password: string) {
+  const salt = bcrypt.genSaltSync(12);
+  const hash = bcrypt.hashSync(password, salt);
+  return hash;
+}
+
+console.log(generateHash("hunter2"));

@@ -11,6 +11,7 @@ export const CONFIG = {
   mailgunAPIKey: process.env.MAILGUN_API_KEY,
   mailgunDomain: process.env.MAILGUN_DOMAIN,
   mailgunToEmail: process.env.MAILGUN_TO_EMAIL,
+  jwtSecretKey: process.env.JWT_SECRET_KEY,
 };
 
 /**

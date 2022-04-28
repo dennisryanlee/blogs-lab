@@ -1,11 +1,14 @@
-// routes/index.ts
+// /routes/routes_index/.ts
+
 import * as express from "express";
 import apiRouter from "./api/api_index";
 import authRouter from "./auth/auth_index";
 
-const allRouter = express.Router();
+const baseRouter = express.Router();
 
-allRouter.use("/api", apiRouter);
-allRouter.use("/auth", authRouter);
+// Current route is /
 
-export default allRouter;
+baseRouter.use("/api", apiRouter);
+baseRouter.use("/auth", authRouter);
+
+export default baseRouter;

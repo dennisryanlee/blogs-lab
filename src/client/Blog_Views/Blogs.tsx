@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import * as React from "react";
-import * as Types from "../types";
+import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
 import { Rotate90DegreesCcw } from "@mui/icons-material";
 
