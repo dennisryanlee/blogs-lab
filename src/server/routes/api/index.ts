@@ -2,17 +2,17 @@
 
 import * as express from "express";
 
-import authorRouter from "../api/authorRoutes";
-import blogRouter from "../api/blogRoutes";
-import contactRouter from "../api/contactRoutes";
-import donateRouter from "../api/donateRoutes";
-import tagRouter from "../api/tagRoutes";
+import usersRouter from "./userRoutes";
+import blogRouter from "./blogRoutes";
+import contactRouter from "./contactRoutes";
+import donateRouter from "./donateRoutes";
+import tagRouter from "./tagRoutes";
 
 const apiRouter = express.Router();
 
 // Current Route is /api
 
-apiRouter.use("/authors", authorRouter);
+apiRouter.use("/users", usersRouter);
 apiRouter.use("/blogs", blogRouter);
 apiRouter.use("/contact", contactRouter);
 apiRouter.use("/donate", donateRouter);

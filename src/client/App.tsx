@@ -50,7 +50,7 @@ const App = (props: Types.AppProps) => {
   const navToAuthors = () => {
     getAllAuthors(); // get all authors
     setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
-    nav("/authors"); // nav to authors view
+    nav("/users"); // nav to authors view
   };
 
   const navToBlogs = () => {
@@ -127,7 +127,7 @@ const App = (props: Types.AppProps) => {
       return;
     }
 
-    fetch("/api/authors/", {
+    fetch("/api/users/", {
       // use the route:  /api/chirps/ ...
       method: "POST", // ...send a POST request...
       headers: {
@@ -254,7 +254,7 @@ const App = (props: Types.AppProps) => {
   };
 
   const getAllAuthors = () => {
-    fetch("/api/authors") // GET from "/api/authors"
+    fetch("/api/users") // GET from "/api/users"
       .then((res) => {
         // then with that response
         res.json().then((data) => {
@@ -401,9 +401,9 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
-        <Route path="/authors" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
+        <Route path="/users" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
         <Route
-          path="/authors/:id"
+          path="/users/:id"
           element={
             <AuthorDetails
               email={email}

@@ -3,47 +3,47 @@ import db from "../../db";
 import { MysqlError } from "mysql";
 import Validation from "../../Utils/DataValidation";
 
-const authorRouter = express.Router();
+const usersRouter = express.Router();
 
-// Current route is /api/authors
+// Current route is /api/users
 
-// Create an Author
-authorRouter.post("/", async (req, res) => {
-  req.body.parse;
-  const { authorname, authorbio, email } = req.body;
+//! Create an Author will be handled in auth routes
+// usersRouter.post("/", async (req, res) => {
+//   req.body.parse;
+//   const { authorname, authorbio, email } = req.body;
 
-  try {
-    await Validation.isValidString([authorname, authorbio, email]);
-    await Validation.isValidEmail(email);
-    await Validation.isValidStringLength([
-      [authorname, 45],
-      [authorbio, 500],
-      [email, 45],
-    ]);
-    const newAuthorInfo = { authorname, authorbio, email }; // package the new info into an object
-    const results = await db.Authors.createNewAuthor(newAuthorInfo);
+//   try {
+//     await Validation.isValidString([authorname, authorbio, email]);
+//     await Validation.isValidEmail(email);
+//     await Validation.isValidStringLength([
+//       [authorname, 45],
+//       [authorbio, 500],
+//       [email, 45],
+//     ]);
+//     const newAuthorInfo = { authorname, authorbio, email }; // package the new info into an object
+//     const results = await db.Authors.createNewAuthor(newAuthorInfo);
 
-    if (results.affectedRows) {
-      // if the author was added
-      res.status(200).json({ message: `Welcome ${authorname}!` });
-    } else {
-      // if the author was not added
-      res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
-    }
-  } catch (error) {
-    if (error.sqlMessage) {
-      console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
-    }
+//     if (results.affectedRows) {
+//       // if the author was added
+//       res.status(200).json({ message: `Welcome ${authorname}!` });
+//     } else {
+//       // if the author was not added
+//       res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
+//     }
+//   } catch (error) {
+//     if (error.sqlMessage) {
+//       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
+//     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+//     console.log(`\n`);
+//     console.log(error); // if an error happens, log the error
 
-    res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
-  }
-});
+//     res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
+//   }
+// });
 
 // Get all Authors
-authorRouter.get("/", async (req, res) => {
+usersRouter.get("/", async (req, res) => {
   try {
     const data = await db.Authors.readAllAuthors(); // Read all Authors
     res.status(200).json(data); // send 200 and the data
@@ -60,7 +60,7 @@ authorRouter.get("/", async (req, res) => {
 });
 
 // Get single Author
-authorRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   try {
@@ -87,7 +87,7 @@ authorRouter.get("/:id", async (req, res) => {
 });
 
 // Edit an Author
-authorRouter.put("/:id", async (req, res) => {
+usersRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
   req.body.parse;
   try {
@@ -133,7 +133,7 @@ authorRouter.put("/:id", async (req, res) => {
 });
 
 // Delete an Author
-authorRouter.delete("/:id", async (req, res) => {
+usersRouter.delete("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
 
   try {
@@ -159,4 +159,4 @@ authorRouter.delete("/:id", async (req, res) => {
   }
 });
 
-export default authorRouter;
+export default usersRouter;

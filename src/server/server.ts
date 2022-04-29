@@ -1,5 +1,5 @@
 import * as express from "express";
-import baseRouter from "./routes/routes_index";
+import baseRouter from "./routes/index";
 import * as path from "path";
 
 const app = express();
@@ -8,10 +8,10 @@ app.use(express.static("public")); // send public directory to client
 app.use(express.json()); // allows for req.body parsing
 app.use(baseRouter); // collects and organizes our routes
 
-const clientPaths = ["/", "blogs"]; // establishes paths for client to use
+const clientPaths = ["/", "/blogs"]; // establishes paths for client to use
 
 // allows for refreshing on client paths
-app.use(clientPaths, (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
+app.get(clientPaths, (req, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
 
 // if the client tries to access /api/* they will be notified
 app.use("/api/*", (req, res) => res.status(404).json({ message: "Bad Route!" }));

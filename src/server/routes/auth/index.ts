@@ -6,18 +6,19 @@ import db from "../../db";
 import { CONFIG } from "../../config";
 import { compareHash } from "../../Utils/Passwords";
 import Validation from "../../Utils/DataValidation";
+import { giveToken, validateToken } from "../../Middleware";
 
 const authRouter = express.Router();
 
 // Current Route is /auth
 
 //Auth test route
-authRouter.get(`/`, (req, res) => {
-  res.json({ message: `authentication router is working!!` });
+authRouter.post(`/`, validateToken, (req, res) => {
+  res.json({ message: `valid token!` });
 });
 
 // Log a user in
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", giveToken, async (req, res) => {
   // pull out the email and plaintext password for convenience
   const email = req.body.email;
   const password = req.body.password;
@@ -47,35 +48,12 @@ authRouter.post("/login", async (req, res) => {
 });
 
 // Register an account
-authRouter.get("/register", (req, res) => {
+authRouter.post("/register", giveToken, (req, res) => {
   try {
     res.status(200).json({ message: `register successful!` });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: `register failed` });
-  }
-});
-
-authRouter.get(`/changethislol`, (req, res) => {
-  try {
-    //grab the token from the headers and split it
-    // bearerToken is expected to be an array: [`bearer`, `tokenhere`]
-    const bearerToken: string[] = req.headers.authorization?.split(` `);
-
-    // check the authorization scheme AND existence of the token
-    if (bearerToken[0] !== `Bearer` || !bearerToken[1]) {
-      res.status(401).json({ message: `Unauthorized` });
-      return;
-    }
-
-    // verify the token, and return the payload
-    const payload = jwt.verify(bearerToken[1], CONFIG.jwtSecretKey);
-    console.log(payload);
-    res.status(200).json({ message: `good to go`, payload });
-  } catch (error) {
-    console.log(`Bad token error incoming (i think)`);
-    console.log(error);
-    res.status(400).json({ message: `Not good to go` });
   }
 });
 

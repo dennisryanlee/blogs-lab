@@ -1,8 +1,8 @@
 // /routes/routes_index/.ts
 
 import * as express from "express";
-import apiRouter from "./api/api_index";
-import authRouter from "./auth/auth_index";
+import apiRouter from "./api/index";
+import authRouter from "./auth/index";
 
 const baseRouter = express.Router();
 
