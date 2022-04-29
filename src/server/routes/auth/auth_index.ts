@@ -1,7 +1,9 @@
 // /routes/auth/auth_index.ts
 
 import * as express from "express";
+import * as jwt from "jsonwebtoken";
 import db from "../../db";
+import { CONFIG } from "../../config";
 import { compareHash } from "../../Utils/Passwords";
 import Validation from "../../Utils/DataValidation";
 
@@ -25,8 +27,14 @@ authRouter.post("/login", async (req, res) => {
     const [userFound] = await db.Login.FindAuthor("email", email);
 
     if (userFound && compareHash(password, userFound.password)) {
+      //! I can probably put some payloads for different roles in the Utils folder and use them here
+      // token takes a payload as the first argument
+      // and the jwt secret signature as the second
+      // optionally provide an expiration for the token as a third argument
+
+      const token = jwt.sign({ userid: userFound.id, email: userFound.email, role: `guest` }, CONFIG.jwtSecretKey, { expiresIn: `10s` });
       // if user is found && the provided password matches the hashed pass on the db
-      res.status(200).json("Login Successful!");
+      res.status(200).json({ token });
     } else {
       // if user fails the checks above, then we return with a 401, and stop execution
       res.status(401).json({ message: "Invalid Credentials" });
