@@ -97,11 +97,6 @@ export interface BlogDetailsProps {
   handleClearTitleAndContent: Function;
 }
 
-export interface AuthorsProps {
-  setAuthorsArray: Function;
-  authorsArray: Author[];
-}
-
 export interface AuthorDetailsProps {
   authorsArray: Author[];
   email: string;

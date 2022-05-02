@@ -1,8 +1,17 @@
 import { Button } from "@mui/material";
 import * as React from "react";
+import { useState } from "react";
 import * as Types from "../../types";
 
 const NewBlog = (props: Types.NewBlogProps) => {
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+
+  const handleClearTitleAndContent = () => {
+    setTitle("");
+    setContent("");
+  };
+
   return (
     <>
       <div className="d-flex justify-content-center mt-5">
@@ -12,15 +21,15 @@ const NewBlog = (props: Types.NewBlogProps) => {
             <input
               placeholder="Blog Title"
               type="text"
-              value={props.title}
+              value={title}
               className="form-control col-md-7 mb-1"
-              onChange={(e) => props.handleTitleChange(e)}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
               placeholder="Your content here"
-              value={props.content}
+              value={content}
               className="form-control col-md-7 my-1"
-              onChange={(e) => props.handleContentChange(e)}
+              onChange={(e) => setContent(e.target.value)}
             ></textarea>
 
             <select
@@ -49,7 +58,7 @@ const NewBlog = (props: Types.NewBlogProps) => {
               className="btn btn-primary my-2 ms-2 col-md-6"
               type="button"
               onClick={() => {
-                props.handleClearTitleAndContent();
+                handleClearTitleAndContent();
               }}
             >
               Cancel

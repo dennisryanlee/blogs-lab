@@ -32,6 +32,7 @@ const App = (props: Types.AppProps) => {
   const [authorbio, setAuthorBio] = useState<string>("");
   const [authorid, setAuthorId] = useState<number>(25);
 
+  //! move these to new blog - moved
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
@@ -41,6 +42,8 @@ const App = (props: Types.AppProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
+
+  //! move to authors
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
 
   const [authorToContact, setAuthorToContact] = useState<string>("");
@@ -398,7 +401,7 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
-        <Route path="/users" element={<Authors setAuthorsArray={setAuthorsArray} authorsArray={authorsArray} />} />
+        <Route path="/users" element={<Authors />} />
         <Route
           path="/users/:id"
           element={
