@@ -1,7 +1,7 @@
 import * as express from "express";
 import db from "../../db/";
 import { MysqlError } from "mysql";
-import Validation from "../../Utils/DataValidation";
+import Validation from "../../Server_Utils/DataValidation";
 
 const tagRouter = express.Router();
 
@@ -32,8 +32,8 @@ tagRouter.post("/", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Create Tag Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `We could not add '${tagname}', try again later...(I'm sure it was good!)` }); // send status of 500
   }
@@ -49,8 +49,8 @@ tagRouter.get("/", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get All Tags Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: "Get All Tags failed, big R.I.P" }); // send status of 500
   }
@@ -77,8 +77,8 @@ tagRouter.get("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get Single Tag Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Get single Tag for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
@@ -118,8 +118,8 @@ tagRouter.put("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Update Tag Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Updating Tags is hard!  Something went wrong when we tried to update the tag with ID:${id}` }); // send status of 500
   }
@@ -146,8 +146,8 @@ tagRouter.delete("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Delete Tag Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `We tried, we failed, Tag ${id} is too powerful` }); // send status of 500
   }

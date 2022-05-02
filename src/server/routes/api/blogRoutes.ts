@@ -1,6 +1,6 @@
 import * as express from "express";
 import db from "../../db";
-import Validation from "../../Utils/DataValidation";
+import Validation from "../../Server_Utils/DataValidation";
 
 const blogRouter = express.Router();
 
@@ -45,10 +45,8 @@ blogRouter.post("/", async (req, res) => {
     if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
-
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
-
+    console.log(`Create Blog error...\n`);
+    console.error(error); // if an error happens, log the error
     res.status(500).json({ message: `Blogging is tough work and it is time for my break, try again later` }); // send status of 500
   }
 });
@@ -62,9 +60,8 @@ blogRouter.get("/", async (req, res) => {
     if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
-
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get All Blogs error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: "Get All Blogs failed, big R.I.P" }); // send status of 500
   }
@@ -92,9 +89,8 @@ blogRouter.get("/:id", async (req, res) => {
     if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
-
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get Single Blog error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Get single Blog for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
@@ -142,9 +138,8 @@ blogRouter.put("/:id", async (req, res) => {
     if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
-
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Update Blog error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}` }); // send status of 500
   }
@@ -171,9 +166,8 @@ blogRouter.delete("/:id", async (req, res) => {
     if (error.sqlMessage) {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
-
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Delete Blog error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `We tried, we failed, Blog ${id} is too powerful` }); // send status of 500
   }

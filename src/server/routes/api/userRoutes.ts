@@ -1,7 +1,7 @@
 import * as express from "express";
 import db from "../../db";
 import { MysqlError } from "mysql";
-import Validation from "../../Utils/DataValidation";
+import Validation from "../../Server_Utils/DataValidation";
 
 const usersRouter = express.Router();
 
@@ -36,7 +36,7 @@ const usersRouter = express.Router();
 //     }
 
 //     console.log(`\n`);
-//     console.log(error); // if an error happens, log the error
+//     console.error(error); // if an error happens, log the error
 
 //     res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
 //   }
@@ -52,8 +52,8 @@ usersRouter.get("/", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get All Authors Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: "Get All Authors failed, big R.I.P" }); // send status of 500
   }
@@ -79,8 +79,8 @@ usersRouter.get("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Get Single Author Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Get single Author for ID:${id} failed.  Big oofs here` }); // send status of 500
   }
@@ -125,8 +125,8 @@ usersRouter.put("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Update Author Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `Updating Authors is hard!  Something went wrong when we tried to update the author with ID:${id}` }); // send status of 500
   }
@@ -152,8 +152,8 @@ usersRouter.delete("/:id", async (req, res) => {
       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
     }
 
-    console.log(`\n`);
-    console.log(error); // if an error happens, log the error
+    console.log(`Delete Author Error...\n`);
+    console.error(error); // if an error happens, log the error
 
     res.status(500).json({ message: `We tried, we failed, Author ${id} is too powerful` }); // send status of 500
   }

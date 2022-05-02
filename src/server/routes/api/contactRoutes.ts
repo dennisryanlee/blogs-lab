@@ -24,7 +24,8 @@ contactRouter.post("/", async (req, res) => {
     });
     res.json(result);
   } catch (error) {
-    console.log(error);
+    console.log(`Mailgun Error...\n`);
+    console.error(error);
     res.status(500).json({ message: "Mailgun misfired" });
   }
 });

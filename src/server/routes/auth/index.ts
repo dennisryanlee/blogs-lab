@@ -4,8 +4,8 @@ import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import db from "../../db";
 import { CONFIG } from "../../config";
-import { compareHash } from "../../Utils/Passwords";
-import Validation from "../../Utils/DataValidation";
+import { compareHash } from "../../Server_Utils/Passwords";
+import Validation from "../../Server_Utils/DataValidation";
 import { giveToken, validateToken } from "../../Middleware";
 
 const authRouter = express.Router();
@@ -41,8 +41,8 @@ authRouter.post("/login", giveToken, async (req, res) => {
       res.status(401).json({ message: "Invalid Credentials" });
     }
   } catch (error) {
-    console.log(`Login fail error incoming`);
-    console.log(error);
+    console.log(`Login Failure Error...\n`);
+    console.error(error);
     res.status(500).json({ message: `login failed` });
   }
 });
@@ -52,7 +52,8 @@ authRouter.post("/register", giveToken, (req, res) => {
   try {
     res.status(200).json({ message: `register successful!` });
   } catch (error) {
-    console.log(error);
+    console.log(`Register Failure Error...\n`);
+    console.error(error);
     res.status(500).json({ message: `register failed` });
   }
 });

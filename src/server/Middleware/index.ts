@@ -45,7 +45,11 @@ export const giveToken = async (req: Request, res: Response, next: NextFunction)
       // and the jwt secret signature as the second
       // optionally provide an expiration for the token as a third argument
 
-      const token = jwt.sign({ userid: userFound.id, email: userFound.email, role: `guest` }, CONFIG.jwtSecretKey, { expiresIn: `10d` });
+      const token = jwt.sign(
+        { username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` },
+        CONFIG.jwtSecretKey,
+        { expiresIn: `10d` }
+      );
       // if user is found && the provided password matches the hashed pass on the db
       res.status(200).json({ token });
     } else {
@@ -54,7 +58,7 @@ export const giveToken = async (req: Request, res: Response, next: NextFunction)
     }
     next();
   } catch (error) {
-    console.log(`Give Token Middleware error incoming`);
+    console.log(`Give Token Middleware error...`);
     console.log(error);
     res.status(401).json({ message: `Login Failed` });
   }

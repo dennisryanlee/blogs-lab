@@ -22,7 +22,8 @@ donateRouter.post("/", async (req, res) => {
     console.log(fulfilled);
     res.json(fulfilled);
   } catch (error) {
-    console.log(error);
+    console.log(`Stripe Error...\n`);
+    console.error(error);
     res.status(500).json({ message: `Payment Error` }); // send status of 500
   }
 });

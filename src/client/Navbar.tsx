@@ -4,6 +4,12 @@ import * as Types from "../types";
 import { Link } from "react-router-dom";
 
 const Navbar = (props: Types.NavbarProps) => {
+  const handleLoggingOut = () => {
+    // setUsername("");
+    // setPassword("");
+    // setloggedIn(!loggedIn);
+    // nav("/");
+  };
   return (
     <>
       <div className="mb-4">
@@ -28,7 +34,14 @@ const Navbar = (props: Types.NavbarProps) => {
           </Button>
         </Link>
         <Link to="/">
-          <Button variant="contained" onClick={() => {}} className="btn btn-primary mx-1">
+          <Button
+            variant="contained"
+            onClick={() => {
+              const secretTrackz2 = new Audio(`../okbye.mp3`);
+              secretTrackz2.play();
+            }}
+            className="btn btn-primary mx-1"
+          >
             Logout
           </Button>
         </Link>

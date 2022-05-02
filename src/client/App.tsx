@@ -15,11 +15,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentReceiptPage from "./Payment_Views/PaymentReceiptPage";
 import AuthorContact from "./Author_Views/AuthorContact";
-import Validation from "./Utils/DataValidation";
+import Validation from "./Client_Utils/DataValidation";
 
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
 const App = (props: Types.AppProps) => {
+  //! move these to login - moved
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -223,7 +224,7 @@ const App = (props: Types.AppProps) => {
       alert("Check your credentials");
       return;
     }
-    if (username.includes("Ervin Howell")) {
+    if (username === "Ervin Howell") {
       const secretTrackz = new Audio(`../secretTrack.mp3`);
       secretTrackz.play();
     }
@@ -234,6 +235,7 @@ const App = (props: Types.AppProps) => {
     return setloggedIn(!loggedIn);
   };
 
+  //! move this to navbar
   const handleLoggingOut = () => {
     setUsername("");
     setPassword("");

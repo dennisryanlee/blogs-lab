@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Types from "../../types";
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Validation from "../../server/Utils/DataValidation";
+import Validation from "../Client_Utils/DataValidation";
 
 const Donate = (props: Types.DonateProps) => {
   const [name, setName] = useState<string>("");
