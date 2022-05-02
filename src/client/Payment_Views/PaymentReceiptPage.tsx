@@ -1,17 +1,24 @@
 import * as React from "react";
 import * as Types from "../../types";
+import { useLocation } from "react-router-dom";
 
-const PaymentReceiptPage = (props: Types.PaymentReceiptPage) => {
-  console.log(props);
+const PaymentReceiptPage = () => {
+  const loc = useLocation();
+
+  const { receipt } = loc.state as ReceiptLocState;
   return (
     <>
       <div>
         <div className="text-center">
-          Thanks for donating! This will look prettier once I ask Andrew how to pass over that payment object and get that nice url
+          Thanks for donating! Your receipt can be found <a href={receipt}>here</a>.
         </div>
       </div>
     </>
   );
 };
+
+interface ReceiptLocState {
+  receipt: string;
+}
 
 export default PaymentReceiptPage;

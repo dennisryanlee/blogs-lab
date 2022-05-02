@@ -115,8 +115,6 @@ export interface DonateProps {
   navToPaymentReceiptPage: Function;
 }
 
-export interface PaymentReceiptPage {}
-
 export interface AuthorContactProps {
   authorToContact: string;
   navToAuthors: Function;

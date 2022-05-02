@@ -4,11 +4,13 @@ import * as Types from "../../types";
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import Validation from "../Client_Utils/DataValidation";
+import { useNavigate } from "react-router-dom";
 
 const Donate = (props: Types.DonateProps) => {
   const [name, setName] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
 
+  const nav = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -32,7 +34,8 @@ const Donate = (props: Types.DonateProps) => {
 
     // if there was an error with createPaymentMethod, log it
     if (error) {
-      console.log("There was an error: ", error);
+      console.log(`Create Payment Method Error...\n`);
+      console.error(error);
     } else {
       // if there was no error, log the paymentMethod
       console.log("Payment method: ", paymentMethod);
@@ -47,18 +50,27 @@ const Donate = (props: Types.DonateProps) => {
           // then with that response
           res.json().then((data) => {
             // parse as JSON data, then with that data
-            console.log(data);
+            // console.log(data);
             if (res.ok) {
               // if there was an OK response
               // navigate to receipt page here
-              props.navToPaymentReceiptPage();
+              const receipt = data.charges.data[0].receipt_url;
+              nav(`/receipt`, {
+                state: {
+                  receipt,
+                },
+              });
+              // props.navToPaymentReceiptPage();
             } else {
               // if there was not an OK response
               throw new Error(data.message); // throw a new error
             }
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(`Posting Payment Error...\n`);
+          console.error(error);
+        });
     }
   };
 
