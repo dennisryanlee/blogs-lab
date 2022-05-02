@@ -75,13 +75,7 @@ export interface NewBlogProps {
   handleClearTitleAndContent: Function;
 }
 
-export interface NavbarProps {
-  navToAuthors: Function;
-  navToBlogs: Function;
-  handleLoggingOut: Function;
-  navToDonate: Function;
-  navToNewBlog: Function;
-}
+export interface NavbarProps {}
 
 export interface BlogsProps {
   username: string;

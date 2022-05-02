@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, Router } from "express";
 import * as jwt from "jsonwebtoken";
 import { CONFIG } from "../config";
 import db from "../db";
-import { compareHash } from "../Utils/Passwords";
+import { compareHash } from "../Server_Utils/Passwords";
 
 // checks if a token is valid
 export const validateToken = (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
     // verify the token, and return the payload
     const payload = jwt.verify(bearerToken[1], CONFIG.jwtSecretKey);
     console.log(payload);
-    res.status(200).json({ message: `good to go`, payload });
+    // res.status(200).json({ message: `good to go`, payload });
 
     next();
   } catch (error) {

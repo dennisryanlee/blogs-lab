@@ -1,5 +1,3 @@
-import { Response } from "express";
-
 // ID Validation - checks if a given number is a positive integer
 function isValidInteger(id: number) {
   return new Promise((resolve, reject) => {
@@ -9,17 +7,6 @@ function isValidInteger(id: number) {
       resolve("Good data - is an integer");
     }
   });
-}
-
-function isValidIntegerClient(id: number) {
-  // if the id does not exist
-  // if the id is not a number
-  // if when the id is rounded it does not match the original id
-  // if the id is less than 1
-  // return true when any condition is met => true means we do NOT have a valid integer
-  if (!id || isNaN(id) || Math.floor(id) !== id || id < 1) {
-    return true;
-  }
 }
 
 // String Validation - checks if a given array of strings exist, and if they are of type string
@@ -33,13 +20,6 @@ function isValidString(array: string[]) {
   });
 }
 
-// String Validation - Returns false when there is bad data
-function isValidStringClient(array: string[]) {
-  if (!array.every((string) => string && typeof string === "string")) {
-    return false;
-  }
-}
-
 // String Length Validation - checks if an array of strings are within the given lengths
 // [["myString", 20], ["mySecondString", 35]]
 function isValidStringLength(array: [string, number][]) {
@@ -50,13 +30,6 @@ function isValidStringLength(array: [string, number][]) {
       resolve("Good data - string is in range");
     }
   });
-}
-
-// String Length Validation - Returns false when there is bad data
-function isValidStringLengthClient(array: [string, number][]) {
-  if (!array.every((pair) => pair[0].length > pair[1])) {
-    return false;
-  }
 }
 
 // Email Validation - checks if a given email matches an email pattern
@@ -74,28 +47,12 @@ function isValidEmail(email: string) {
   });
 }
 
-// Email Validation - returns true if there is bad data
-function isValidEmailClient(email: string) {
-  const emailRegex: RegExp =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const isEmail: boolean = emailRegex.test(email.toLocaleLowerCase());
-
-  if (!isEmail) {
-    return false;
-  }
-}
-
 const Validation = {
   isValidInteger,
   isValidID: isValidInteger,
-  isValidIntegerClient,
-  isValidIDBlient: isValidIntegerClient,
   isValidString,
-  isValidStringClient,
   isValidEmail,
-  isValidEmailClient,
   isValidStringLength,
-  isValidStringLengthClient,
 };
 export default Validation;
 
