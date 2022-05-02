@@ -406,7 +406,6 @@ const App = (props: Types.AppProps) => {
               setAuthorBio={setAuthorBio}
               handleAuthorBioChange={handleAuthorBioChange}
               navToAuthors={navToAuthors}
-              navToAuthorContact={navToAuthorContact}
               setAuthorToContact={setAuthorToContact}
               authorsArray={authorsArray}
               isEditing={isEditing}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button } from "@mui/material";
 import * as Types from "../../types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, ChangeEvent } from "react";
 
 const AuthorDetails = (props: Types.AuthorDetailsProps) => {
@@ -42,6 +42,8 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
       })
       .catch((error) => console.log(error));
   };
+
+  const nav = useNavigate();
 
   return (
     <>
@@ -86,7 +88,7 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
                   type="button"
                   onClick={() => {
                     props.setAuthorToContact(author.authorname.toLocaleUpperCase());
-                    props.navToAuthorContact();
+                    nav("/contact");
                   }}
                 >
                   Email

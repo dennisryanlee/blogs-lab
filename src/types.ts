@@ -112,7 +112,6 @@ export interface AuthorDetailsProps {
   handleAuthorBioChange: Function;
   handleEmailChange: Function;
   navToAuthors: Function;
-  navToAuthorContact: Function;
   setAuthorToContact: Function;
   setIsEditing: Function;
 }
