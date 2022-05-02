@@ -10,7 +10,7 @@ const Loginpage = (props: Types.LoginPageProps) => {
   const [email, setEmail] = useState<string>("");
 
   const handleLogin = () => {
-    //! This needs to do login logic / auth
+    //! This needs to do login / auth logic
   };
   return (
     <>

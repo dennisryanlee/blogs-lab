@@ -20,13 +20,14 @@ import Validation from "./Client_Utils/DataValidation";
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
 const App = (props: Types.AppProps) => {
-  //! move these to login - moved
+  //! move these to login (and new author) - moved
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const [tagsArray, setTagsArray] = useState<Types.Tag[]>([]);
   const [selectedTagId, setSelectedTagId] = useState<number>(0);
 
+  //! move these to new author - moved
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");
   const [authorid, setAuthorId] = useState<number>(25);
@@ -34,6 +35,7 @@ const App = (props: Types.AppProps) => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
+  //! jwt should be able to handle this when i implement it
   const [loggedIn, setloggedIn] = useState<boolean>(false);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);

@@ -1,8 +1,18 @@
 import { Button } from "@mui/material";
 import * as React from "react";
+import { useState } from "react";
 import * as Types from "../../types";
 
 const NewAuthor = (props: Types.NewAuthorProps) => {
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [authorbio, setAuthorBio] = useState<string>("");
+  const [authorid, setAuthorId] = useState<number>(25);
+
+  const handleNewAuthorLogin = () => {
+    //! do new author logic + auth logic here
+  };
+
   return (
     <>
       <div className="d-flex justify-content-center mt-5">
@@ -12,29 +22,24 @@ const NewAuthor = (props: Types.NewAuthorProps) => {
             <input
               placeholder="Author Name (username)"
               type="text"
-              value={props.username}
+              value={username}
               className="form-control col-md-7 mb-1"
-              onChange={(e) => props.handleUsernameChange(e)}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <input
               placeholder="Email"
               type="email"
-              value={props.email}
+              value={email}
               className="form-control col-md-7 my-1"
-              onChange={(e) => props.handleEmailChange(e)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <textarea
               placeholder="Tell us about yourself."
-              value={props.authorbio}
+              value={authorbio}
               className="form-control col-md-7 mt-1"
-              onChange={(e) => props.handleAuthorBioChange(e)}
+              onChange={(e) => setAuthorBio(e.target.value)}
             ></textarea>
-            <Button
-              variant="contained"
-              className="btn btn-primary my-2 ms-2 col-md-6"
-              type="button"
-              onClick={(e) => props.handleNewAuthorLogin(e)}
-            >
+            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => handleNewAuthorLogin()}>
               Submit
             </Button>
           </div>
