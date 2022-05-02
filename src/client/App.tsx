@@ -108,18 +108,21 @@ const App = (props: Types.AppProps) => {
 
   const handleNewAuthorLogin = () => {
     // Validation
-    if (
-      Validation.isValidStringClient([username, email, authorbio]) ||
-      Validation.isValidStringLengthClient([
-        [username, 45],
-        [email, 45],
-        [authorbio, 500],
-      ]) ||
-      Validation.isValidEmailClient(email)
-    ) {
-      alert("Please check your data");
-      return;
-    }
+
+    Validation.isValidString([username, email, authorbio])
+      .then(() =>
+        Validation.isValidStringLength([
+          [username, 45],
+          [email, 45],
+          [authorbio, 500],
+        ])
+      )
+      .then(() => Validation.isValidEmail(email))
+      .catch((error) => {
+        console.error(error);
+        alert("Please check your data");
+        return;
+      });
 
     fetch("/api/users/", {
       // use the route:  /api/chirps/ ...
@@ -154,17 +157,20 @@ const App = (props: Types.AppProps) => {
 
   const handleNewBlog = () => {
     // Validation
-    if (
-      Validation.isValidStringClient([title, content]) ||
-      Validation.isValidStringLengthClient([
-        [content, 1500],
-        [title, 45],
-      ]) ||
-      Validation.isValidIntegerClient(selectedTagId)
-    ) {
-      alert("Please check your data");
-      return;
-    }
+
+    Validation.isValidString([title, content])
+      .then(() =>
+        Validation.isValidStringLength([
+          [content, 1500],
+          [title, 45],
+        ])
+      )
+      .then(() => Validation.isValidInteger(selectedTagId))
+      .catch((error) => {
+        console.error(error);
+        alert("Please check your data");
+        return;
+      });
 
     if (!selectedTagId) {
       alert("Hey don't forget your tag!");
@@ -202,7 +208,13 @@ const App = (props: Types.AppProps) => {
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (Validation.isValidStringClient([username, password]) || password.length <= 8) {
+    Validation.isValidString([username, password]).catch((error) => {
+      console.error(error);
+      alert("Please check your credentials");
+      return;
+    });
+
+    if (password.length <= 8) {
       alert("Check your credentials");
       return;
     }
