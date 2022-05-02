@@ -1,6 +1,5 @@
 import * as express from "express";
 import db from "../../db";
-import { MysqlError } from "mysql";
 import Validation from "../../Server_Utils/DataValidation";
 
 const usersRouter = express.Router();

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import * as jwt from "jsonwebtoken";
-import { CONFIG } from "../config";
+import { JWT_CONFIG } from "../config";
 import db from "../db";
 import { compareHash } from "../Server_Utils/Passwords";
 
@@ -18,7 +18,7 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
     }
 
     // verify the token, and return the payload
-    const payload = jwt.verify(bearerToken[1], CONFIG.jwtSecretKey);
+    const payload = jwt.verify(bearerToken[1], JWT_CONFIG.jwtSecretKey);
     console.log(payload);
     // res.status(200).json({ message: `good to go`, payload });
 
@@ -47,7 +47,7 @@ export const giveToken = async (req: Request, res: Response, next: NextFunction)
 
       const token = jwt.sign(
         { username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` },
-        CONFIG.jwtSecretKey,
+        JWT_CONFIG.jwtSecretKey,
         { expiresIn: `10d` }
       );
       // if user is found && the provided password matches the hashed pass on the db

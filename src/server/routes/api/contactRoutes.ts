@@ -2,11 +2,11 @@ import * as express from "express";
 import MailGun from "mailgun.js";
 import * as Mailgun from "mailgun.js";
 import * as FormData from "form-data";
-import { CONFIG } from "../../config";
+import { MAILGUN_CONFIG } from "../../config";
 
 const mailgun = new (<typeof MailGun>(<any>Mailgun))(<any>FormData).client({
   username: "api",
-  key: CONFIG.mailgunAPIKey,
+  key: MAILGUN_CONFIG.mailgunAPIKey,
 });
 
 const contactRouter = express.Router();
@@ -16,8 +16,8 @@ const contactRouter = express.Router();
 contactRouter.post("/", async (req, res) => {
   const newEmail = req.body;
   try {
-    const result = await mailgun.messages.create(CONFIG.mailgunDomain, {
-      to: CONFIG.mailgunToEmail,
+    const result = await mailgun.messages.create(MAILGUN_CONFIG.mailgunDomain, {
+      to: MAILGUN_CONFIG.mailgunToEmail,
       subject: newEmail.subject,
       from: newEmail.from,
       text: newEmail.message,

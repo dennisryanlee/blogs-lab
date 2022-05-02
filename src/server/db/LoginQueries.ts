@@ -1,4 +1,3 @@
-import { MysqlError } from "mysql";
 import { Query } from ".";
 import * as Type from "../../types";
 

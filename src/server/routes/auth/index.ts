@@ -3,7 +3,7 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import db from "../../db";
-import { CONFIG } from "../../config";
+import { JWT_CONFIG } from "../../config";
 import { compareHash } from "../../Server_Utils/Passwords";
 import Validation from "../../Server_Utils/DataValidation";
 import { giveToken, validateToken } from "../../Middleware";
@@ -33,7 +33,9 @@ authRouter.post("/login", giveToken, async (req, res) => {
       // and the jwt secret signature as the second
       // optionally provide an expiration for the token as a third argument
 
-      const token = jwt.sign({ userid: userFound.id, email: userFound.email, role: `guest` }, CONFIG.jwtSecretKey, { expiresIn: `10d` });
+      const token = jwt.sign({ userid: userFound.id, email: userFound.email, role: `guest` }, JWT_CONFIG.jwtSecretKey, {
+        expiresIn: `10d`,
+      });
       // if user is found && the provided password matches the hashed pass on the db
       res.status(200).json({ token });
     } else {

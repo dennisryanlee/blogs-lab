@@ -1,12 +1,10 @@
 import * as mysql from "mysql"; // import mysql so that we can make requests from the database
-import { OkPacket as mySQLSuccessMsg } from "mysql";
 import Blogs from "./BlogQueries";
 import Authors from "./AuthorQueries";
 import Tags from "./TagQueries";
 import Login from "./LoginQueries";
 import * as dotenv from "dotenv";
-import { CONFIG } from "../config"; // import the database config object containing the connection info
-import * as Types from "../../types";
+import { DB_CONFIG } from "../config"; // import the database config object containing the connection info
 
 dotenv.config();
 
@@ -15,7 +13,7 @@ dotenv.config();
 // creates a database connection with the following properties
 // make sure to enable 'chirper'@'localhost' in mysql
 
-export const Connection = mysql.createPool(CONFIG);
+export const Connection = mysql.createPool(DB_CONFIG);
 
 export const Query = <T = mysql.OkPacket>(query: string, values?: unknown[]) => {
   // this helper function allows us to abstract this part out from every query we want to make later
