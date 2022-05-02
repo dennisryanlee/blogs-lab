@@ -118,6 +118,7 @@ const App = (props: Types.AppProps) => {
         ])
       )
       .then(() => Validation.isValidEmail(email))
+      .then(() => console.log(`Validation complete.`))
       .catch((error) => {
         console.error(error);
         alert("Please check your data");
@@ -166,6 +167,8 @@ const App = (props: Types.AppProps) => {
         ])
       )
       .then(() => Validation.isValidInteger(selectedTagId))
+      .then(() => console.log(`Validation complete.`))
+
       .catch((error) => {
         console.error(error);
         alert("Please check your data");
@@ -208,11 +211,13 @@ const App = (props: Types.AppProps) => {
   const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    Validation.isValidString([username, password]).catch((error) => {
-      console.error(error);
-      alert("Please check your credentials");
-      return;
-    });
+    Validation.isValidString([username, password])
+      .then(() => console.log(`Validation complete.`))
+      .catch((error) => {
+        console.error(error);
+        alert("Please check your credentials");
+        return;
+      });
 
     if (password.length <= 8) {
       alert("Check your credentials");
@@ -293,16 +298,6 @@ const App = (props: Types.AppProps) => {
         });
       })
       .catch((error) => console.log(error));
-  };
-
-  const chefskiss = () => {
-    const secretTrackz3 = new Audio(`../wow.mp3`);
-    secretTrackz3.play();
-  };
-
-  const stuckem = () => {
-    const secretTrackz4 = new Audio(`../stuckem.mp3`);
-    secretTrackz4.play();
   };
 
   useEffect(() => {
@@ -393,8 +388,6 @@ const App = (props: Types.AppProps) => {
               setTitle={setTitle}
               setContent={setContent}
               setIsEditing={setIsEditing}
-              chefskiss={chefskiss}
-              stuckem={stuckem}
               handleContentChange={handleContentChange}
               handleTitleChange={handleTitleChange}
               handleClearTitleAndContent={handleClearTitleAndContent}
@@ -411,7 +404,6 @@ const App = (props: Types.AppProps) => {
               handleEmailChange={handleEmailChange}
               authorbio={authorbio}
               setAuthorBio={setAuthorBio}
-              chefskiss={chefskiss}
               handleAuthorBioChange={handleAuthorBioChange}
               navToAuthors={navToAuthors}
               navToAuthorContact={navToAuthorContact}

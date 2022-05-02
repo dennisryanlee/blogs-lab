@@ -88,8 +88,6 @@ export interface BlogDetailsProps {
   isEditing: boolean;
   title: string;
   content: string;
-  chefskiss: Function;
-  stuckem: Function;
   navToBlogs: Function;
   setTitle: Function;
   setContent: Function;
@@ -110,7 +108,6 @@ export interface AuthorDetailsProps {
   authorbio: string;
   isEditing: boolean;
   setEmail: Function;
-  chefskiss: Function;
   setAuthorBio: Function;
   handleAuthorBioChange: Function;
   handleEmailChange: Function;

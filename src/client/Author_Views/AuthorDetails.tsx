@@ -8,6 +8,11 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
   const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
   const [authorname, setAuthorName] = useState<string>("");
 
+  const chefskiss = () => {
+    const secretTrackz3 = new Audio(`../wow.mp3`);
+    secretTrackz3.play();
+  };
+
   const handleSetAuthorName = (e: ChangeEvent<HTMLInputElement>) => {
     return setAuthorName(e.target.value);
   };
@@ -113,7 +118,7 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
                   type="button"
                   onClick={() => {
                     props.setIsEditing(false);
-                    props.chefskiss();
+                    chefskiss();
                     updateAuthor();
                   }}
                 >

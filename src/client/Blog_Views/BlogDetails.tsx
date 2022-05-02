@@ -47,6 +47,16 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
       .catch((error) => console.log(error));
   };
 
+  const stuckem = () => {
+    const secretTrackz4 = new Audio(`../stuckem.mp3`);
+    secretTrackz4.play();
+  };
+
+  const chefskiss = () => {
+    const secretTrackz3 = new Audio(`../wow.mp3`);
+    secretTrackz3.play();
+  };
+
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
@@ -91,7 +101,7 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                   className="btn my-2 ms-2 col-md-2"
                   type="button"
                   onClick={() => {
-                    props.stuckem();
+                    stuckem();
                     deleteBlog();
                   }}
                 >
@@ -127,7 +137,7 @@ const BlogDetails = (props: Types.BlogDetailsProps) => {
                   type="button"
                   onClick={() => {
                     updateBlog();
-                    props.chefskiss();
+                    chefskiss();
                     props.setIsEditing(false);
                     props.handleClearTitleAndContent();
                   }}
