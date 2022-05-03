@@ -63,18 +63,6 @@ export interface NewAuthorProps {
   handleNewAuthorLogin: Function;
 }
 
-export interface NewBlogProps {
-  title: string;
-  content: string;
-  tagsArray: Tag[];
-  selectedTagId: Number;
-  setSelectedTagId: Function;
-  handleNewBlog: Function;
-  handleContentChange: Function;
-  handleTitleChange: Function;
-  handleClearTitleAndContent: Function;
-}
-
 export interface NavbarProps {}
 
 export interface BlogsProps {

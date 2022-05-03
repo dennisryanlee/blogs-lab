@@ -24,8 +24,9 @@ const App = (props: Types.AppProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [tagsArray, setTagsArray] = useState<Types.Tag[]>([]);
-  const [selectedTagId, setSelectedTagId] = useState<number>(0);
+  //! moving to new blog - moved
+  // const [tagsArray, setTagsArray] = useState<Types.Tag[]>([]);
+  // const [selectedTagId, setSelectedTagId] = useState<number>(0);
 
   //! move these to new author - moved
   const [email, setEmail] = useState<string>("");
@@ -33,14 +34,15 @@ const App = (props: Types.AppProps) => {
   const [authorid, setAuthorId] = useState<number>(25);
 
   //! move these to new blog - moved
-  const [title, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  // const [title, setTitle] = useState<string>("");
+  // const [content, setContent] = useState<string>("");
 
   //! jwt should be able to handle this when i implement it
   const [loggedIn, setloggedIn] = useState<boolean>(false);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
+  //! moved to Blogs
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
 
   //! move to authors
@@ -86,11 +88,11 @@ const App = (props: Types.AppProps) => {
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    return setContent(e.target.value);
+    // return setContent(e.target.value);
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setTitle(e.target.value);
+    // return setTitle(e.target.value);
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -106,8 +108,8 @@ const App = (props: Types.AppProps) => {
   };
 
   const handleClearTitleAndContent = () => {
-    setTitle("");
-    setContent("");
+    // setTitle("");
+    // setContent("");
   };
 
   // New Blogs / Authors ***************************************************************************************************
@@ -366,22 +368,7 @@ const App = (props: Types.AppProps) => {
             />
           }
         />
-        <Route
-          path="/newblog"
-          element={
-            <NewBlog
-              title={title}
-              content={content}
-              tagsArray={tagsArray}
-              selectedTagId={selectedTagId}
-              setSelectedTagId={setSelectedTagId}
-              handleNewBlog={handleNewBlog}
-              handleContentChange={handleContentChange}
-              handleTitleChange={handleTitleChange}
-              handleClearTitleAndContent={handleClearTitleAndContent}
-            />
-          }
-        />
+        <Route path="/newblog" element={<NewBlog />} />
         <Route path="/blogs" element={<Blogs username={username} setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
         <Route
           path="/blogs/:id"

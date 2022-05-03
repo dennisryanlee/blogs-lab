@@ -2,9 +2,11 @@ import { Button } from "@mui/material";
 import * as React from "react";
 import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
-import { Rotate90DegreesCcw } from "@mui/icons-material";
+import { useState, useEffect } from "react";
 
 const Blogs = (props: Types.BlogsProps) => {
+  const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
+
   const nav = useNavigate();
 
   const getSingleBlog = (blogid: number) => {
@@ -26,6 +28,28 @@ const Blogs = (props: Types.BlogsProps) => {
       .catch((error) => console.log(error));
     nav(`/blogs/${blogid}`);
   };
+
+  const getAllBlogs = () => {
+    fetch("/api/blogs") // GET from "/api/blogs"
+      .then((res) => {
+        // then with that response
+        res.json().then((data) => {
+          // parse as JSON data, then with that data
+          if (res.ok) {
+            // if there was an OK response
+            setBlogsArray(data); // set the data to state
+          } else {
+            // if there was not an OK response
+            throw new Error(data.message); // throw a new error
+          }
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getAllBlogs();
+  }, []);
 
   return (
     <>
