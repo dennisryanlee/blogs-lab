@@ -47,26 +47,6 @@ export interface newBlogTagInfo {
   tagid: number;
 }
 
-export interface LoginPageProps {
-  username: string;
-  password: string;
-  loggedIn: boolean;
-  handleUsernameChange: Function;
-  handlePasswordChange: Function;
-  handleLoggingIn: Function;
-  handleLoggingOut?: Function;
-}
-
-export interface NavbarProps {}
-
-export interface BlogsProps {
-  username: string;
-}
-
-export interface DonateProps {
-  navToPaymentReceiptPage: Function;
-}
-
 export interface MySQLResponse {
   affectedRows?: number;
   insertID?: number;

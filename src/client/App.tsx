@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import * as Types from "../types";
 import Navbar from "./Navbar";
 import Loginpage from "./Login";
@@ -15,306 +15,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentReceiptPage from "./Payment_Views/PaymentReceiptPage";
 import AuthorContact from "./Author_Views/AuthorContact";
-import Validation from "./Client_Utils/DataValidation";
 
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
 const App = (props: Types.AppProps) => {
-  //! move these to login (and new author) - moved
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
-  //! moving to new blog - moved
-  // const [tagsArray, setTagsArray] = useState<Types.Tag[]>([]);
-  // const [selectedTagId, setSelectedTagId] = useState<number>(0);
-
-  //! move these to new author - moved
-  const [email, setEmail] = useState<string>("");
-  const [authorbio, setAuthorBio] = useState<string>("");
-  const [authorid, setAuthorId] = useState<number>(25);
-
-  //! move these to new blog - moved
-  // const [title, setTitle] = useState<string>("");
-  // const [content, setContent] = useState<string>("");
-
-  //! jwt should be able to handle this when i implement it
   const [loggedIn, setloggedIn] = useState<boolean>(false);
-
-  //! moved to BlogDetails
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  //! moved to Blogs
-  const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
-
-  //! move to authors
-  const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
-
-  const [authorToContact, setAuthorToContact] = useState<string>("");
-
-  const nav = useNavigate(); // lets us navigate the user around
-
-  // Navs ***************************************************************************************************
-
-  const navToAuthors = () => {
-    getAllAuthors(); // get all authors
-    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
-    nav("/users"); // nav to authors view
-  };
-
-  const navToBlogs = () => {
-    // getAllBlogs(); // get all blogs
-    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
-    nav("/blogs"); // nav to blogs view
-  };
-
-  const navToNewBlog = () => {
-    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
-    nav("/newblog"); // nav to new blog view
-  };
-
-  const navToDonate = () => {
-    getAllAuthors(); // get all authors
-    setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
-    nav("/donate"); // nav to donate view
-  };
-
-  const navToPaymentReceiptPage = () => {
-    nav("/receipt");
-  };
-
-  // Inputs ***************************************************************************************************
-
-  const handleAuthorBioChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    return setAuthorBio(e.target.value);
-  };
-
-  // const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-  //   // return setContent(e.target.value);
-  // };
-
-  // const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   // return setTitle(e.target.value);
-  // };
-
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setPassword(e.target.value);
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    return setEmail(e.target.value);
-  };
-
-  // const handleClearTitleAndContent = () => {
-  //   // setTitle("");
-  //   // setContent("");
-  // };
-
-  // New Blogs / Authors ***************************************************************************************************
-
-  const handleNewAuthorLogin = () => {
-    // Validation
-
-    Validation.isValidString([username, email, authorbio])
-      .then(() =>
-        Validation.isValidStringLength([
-          [username, 45],
-          [email, 45],
-          [authorbio, 500],
-        ])
-      )
-      .then(() => Validation.isValidEmail(email))
-      .then(() => console.log(`Validation complete.`))
-      .catch((error) => {
-        console.error(error);
-        alert("Please check your data");
-        return;
-      });
-
-    fetch("/api/users/", {
-      // use the route:  /api/chirps/ ...
-      method: "POST", // ...send a POST request...
-      headers: {
-        // ...specifying the type of content...
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ username, authorbio, email }), // ...and deliver the content
-    })
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setPassword("New Author Pass"); // set the password
-            setAuthorId(42); // this should be dynamic, but thatd involve another fetch req and is a feature i can add later
-            setEmail(""); // clear input fields
-            setAuthorBio(""); // clear input fields
-            setloggedIn(!loggedIn); // update state to reflect a logged in status
-
-            return navToBlogs(); // navigate user to blogs
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  };
-
-  // const handleNewBlog = () => {
-  //   // Validation
-
-  //   Validation.isValidString([title, content])
-  //     .then(() =>
-  //       Validation.isValidStringLength([
-  //         [content, 1500],
-  //         [title, 45],
-  //       ])
-  //     )
-  //     .then(() => Validation.isValidInteger(selectedTagId))
-  //     .then(() => console.log(`Validation complete.`))
-
-  //     .catch((error) => {
-  //       console.error(error);
-  //       alert("Please check your data");
-  //       return;
-  //     });
-
-  //   if (!selectedTagId) {
-  //     alert("Hey don't forget your tag!");
-  //   }
-
-  //   fetch("/api/blogs/", {
-  //     // use the route:  /api/chirps/ ...
-  //     method: "POST", // ...send a POST request...
-  //     headers: {
-  //       // ...specifying the type of content...
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify({ title, content, authorid, tagid: selectedTagId }), // ...and deliver the content
-  //   })
-  //     .then((res) => {
-  //       // then with that response
-  //       res.json().then((data) => {
-  //         // parse as JSON data, then with that data
-  //         if (res.ok) {
-  //           // if there was an OK response
-  //           getAllBlogs(); // get all blogs - now with the newly created blog
-  //           handleClearTitleAndContent(); // clear the inputs
-  //           return navToBlogs(); // navigate user to blogs
-  //         } else {
-  //           // if there was not an OK response
-  //           throw new Error(data.message); // throw a new error
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  // Logging in and out ***************************************************************************************************
-
-  const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    Validation.isValidString([username, password])
-      .then(() => console.log(`Validation complete.`))
-      .catch((error) => {
-        console.error(error);
-        alert("Please check your credentials");
-        return;
-      });
-
-    if (password.length <= 8) {
-      alert("Check your credentials");
-      return;
-    }
-    if (username === "Ervin Howell") {
-      const secretTrackz = new Audio(`../secretTrack.mp3`);
-      secretTrackz.play();
-    }
-    setAuthorId(42); // this should be dynamic, but thatd involve another fetch req and is a feature i can add later
-
-    navToBlogs();
-
-    return setloggedIn(!loggedIn);
-  };
-
-  //! move this to navbar
-  // const handleLoggingOut = () => {
-  //   // setUsername("");
-  //   // setPassword("");
-  //   // setloggedIn(!loggedIn);
-  //   // const secretTrackz2 = new Audio(`../okbye.mp3`);
-  //   // secretTrackz2.play();
-
-  //   // nav("/");
-  // };
-
-  // Thats SO Fetch! ***************************************************************************************************
-
-  // const getAllBlogs = () => {
-  //   fetch("/api/blogs") // GET from "/api/blogs"
-  //     .then((res) => {
-  //       // then with that response
-  //       res.json().then((data) => {
-  //         // parse as JSON data, then with that data
-  //         if (res.ok) {
-  //           // if there was an OK response
-  //           setBlogsArray(data); // set the data to state
-  //         } else {
-  //           // if there was not an OK response
-  //           throw new Error(data.message); // throw a new error
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  const getAllAuthors = () => {
-    fetch("/api/users") // GET from "/api/users"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setAuthorsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  };
-
-  // const getAllTags = () => {
-  //   fetch(`/api/tags`)
-  //     .then((res) => {
-  //       // then with that response
-  //       res.json().then((data) => {
-  //         // parse as JSON data, then with that data
-  //         if (res.ok) {
-  //           // if there was an OK response
-  //           setTagsArray(data); // set the data to state
-  //         } else {
-  //           // if there was not an OK response
-  //           throw new Error(data.message); // throw a new error
-  //         }
-  //       });
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  useEffect(() => {
-    // getAllBlogs();
-    getAllAuthors();
-    // getAllTags();
-  }, []);
+  //! watch video from 5/2 on showing navbar based on logging in,  that way i wont need this state
 
   return (
     <>
@@ -328,25 +34,13 @@ const App = (props: Types.AppProps) => {
       )}
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Loginpage
-              username={username}
-              password={password}
-              loggedIn={loggedIn}
-              handleUsernameChange={handleUsernameChange}
-              handlePasswordChange={handlePasswordChange}
-              handleLoggingIn={handleLoggingIn}
-            />
-          }
-        />
+        <Route path="/" element={<Loginpage />} />
 
         <Route
           path="/donate"
           element={
             <Elements stripe={stripe}>
-              <Donate navToPaymentReceiptPage={navToPaymentReceiptPage} />
+              <Donate />
             </Elements>
           }
         />
@@ -355,7 +49,7 @@ const App = (props: Types.AppProps) => {
         <Route path="/contact" element={<AuthorContact />} />
         <Route path="/newauthor" element={<NewAuthor />} />
         <Route path="/newblog" element={<NewBlog />} />
-        <Route path="/blogs" element={<Blogs username={username} />} />
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/users" element={<Authors />} />
         <Route path="/users/:id" element={<AuthorDetails />} />

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import * as Types from "../types";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import Validation from "./Client_Utils/DataValidation";
 
-const Loginpage = (props: Types.LoginPageProps) => {
+const Loginpage = () => {
   const nav = useNavigate();
 
   const [username, setUsername] = useState<string>("");
@@ -15,6 +16,32 @@ const Loginpage = (props: Types.LoginPageProps) => {
     //! This needs to do login / auth logic
     //fetch from /auth/login here
   };
+
+  // const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+
+  //   Validation.isValidString([username, password])
+  //     .then(() => console.log(`Validation complete.`))
+  //     .catch((error) => {
+  //       console.error(error);
+  //       alert("Please check your credentials");
+  //       return;
+  //     });
+
+  //   if (password.length <= 8) {
+  //     alert("Check your credentials");
+  //     return;
+  //   }
+  //   if (username === "Ervin Howell") {
+  //     const secretTrackz = new Audio(`../secretTrack.mp3`);
+  //     secretTrackz.play();
+  //   }
+
+  //   navToBlogs();
+
+  //   return setloggedIn(!loggedIn);
+  // };
+
   return (
     <>
       <div className="d-flex justify-content-center mt-5">

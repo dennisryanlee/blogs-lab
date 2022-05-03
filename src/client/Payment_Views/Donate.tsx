@@ -3,10 +3,9 @@ import * as React from "react";
 import * as Types from "../../types";
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import Validation from "../Client_Utils/DataValidation";
 import { useNavigate } from "react-router-dom";
 
-const Donate = (props: Types.DonateProps) => {
+const Donate = () => {
   const [name, setName] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
 
