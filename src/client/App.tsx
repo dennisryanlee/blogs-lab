@@ -374,7 +374,6 @@ const App = (props: Types.AppProps) => {
           path="/blogs/:id"
           element={
             <BlogDetails
-              blogsArray={blogsArray}
               isEditing={isEditing}
               title={title}
               content={content}

@@ -9,9 +9,9 @@ const Blogs = (props: Types.BlogsProps) => {
 
   const nav = useNavigate();
 
-  const getSingleBlog = (blogid: number) => {
-    console.log(blogid);
-    fetch(`/api/blogs/${blogid}`) // GET from "/api/blogs"
+  const getSingleBlog = (blog: Types.Blog) => {
+    console.log(`Fetching blog: ${blog.blogid}`);
+    fetch(`/api/blogs/${blog.blogid}`) // GET from "/api/blogs"
       .then((res) => {
         // then with that response
         res.json().then((data) => {
@@ -26,7 +26,8 @@ const Blogs = (props: Types.BlogsProps) => {
         });
       })
       .catch((error) => console.log(error));
-    nav(`/blogs/${blogid}`);
+    // navigate to a particular blog, passing along that blog's info as state
+    nav(`/blogs/${blog.blogid}`, { state: { blog: { ...blog } } });
   };
 
   const getAllBlogs = () => {
@@ -74,7 +75,7 @@ const Blogs = (props: Types.BlogsProps) => {
 
                 <hr></hr>
 
-                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
+                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(blog)}>
                   View this Blog
                 </Button>
               </div>
@@ -102,7 +103,7 @@ const Blogs = (props: Types.BlogsProps) => {
 
                 <hr></hr>
 
-                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(Number(blog.blogid))}>
+                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(blog)}>
                   View this Blog
                 </Button>
               </div>
