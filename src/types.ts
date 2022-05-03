@@ -69,20 +69,6 @@ export interface BlogsProps {
   username: string;
 }
 
-export interface BlogDetailsProps {
-  blogsArray: Blog[];
-  isEditing: boolean;
-  title: string;
-  content: string;
-  navToBlogs: Function;
-  setTitle: Function;
-  setContent: Function;
-  setIsEditing: Function;
-  handleContentChange: Function;
-  handleTitleChange: Function;
-  handleClearTitleAndContent: Function;
-}
-
 export interface AuthorDetailsProps {
   authorsArray: Author[];
   email: string;

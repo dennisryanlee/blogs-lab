@@ -45,6 +45,7 @@ const AuthorDetails = (props: Types.AuthorDetailsProps) => {
 
   const nav = useNavigate();
 
+  //! i can get author from nav&loc same as blog details
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">

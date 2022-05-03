@@ -25,11 +25,14 @@ const Authors = () => {
           }
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(`Get All Authors Error...\n`);
+        console.error(error);
+      });
   };
 
-  const getSingleAuthor = (authorid: Number) => {
-    fetch(`/api/authors/${authorid}`) // GET from "/api/authors"
+  const getSingleAuthor = (author: Types.Author) => {
+    fetch(`/api/authors/${author.id}`) // GET from "/api/authors"
       .then((res) => {
         // then with that response
         res.json().then((data) => {
@@ -43,8 +46,11 @@ const Authors = () => {
           }
         });
       })
-      .catch((error) => console.log(error));
-    nav(`/authors/${authorid}`);
+      .catch((error) => {
+        console.log(`Get Single Author Error...\n`);
+        console.error(error);
+      });
+    nav(`/authors/${author.id}`, { state: { author: { ...author } } });
   };
 
   useEffect(() => {
@@ -66,7 +72,7 @@ const Authors = () => {
 
               <hr></hr>
 
-              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleAuthor(Number(author.id))}>
+              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleAuthor(author)}>
                 View this Author
               </Button>
             </div>

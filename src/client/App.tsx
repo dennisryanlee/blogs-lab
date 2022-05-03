@@ -40,6 +40,7 @@ const App = (props: Types.AppProps) => {
   //! jwt should be able to handle this when i implement it
   const [loggedIn, setloggedIn] = useState<boolean>(false);
 
+  //! moved to BlogDetails
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   //! moved to Blogs
@@ -61,7 +62,7 @@ const App = (props: Types.AppProps) => {
   };
 
   const navToBlogs = () => {
-    getAllBlogs(); // get all blogs
+    // getAllBlogs(); // get all blogs
     setIsEditing(false); // prevent user from leaving author edit and going right into blog edit
     nav("/blogs"); // nav to blogs view
   };
@@ -255,23 +256,23 @@ const App = (props: Types.AppProps) => {
 
   // Thats SO Fetch! ***************************************************************************************************
 
-  const getAllBlogs = () => {
-    fetch("/api/blogs") // GET from "/api/blogs"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setBlogsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  };
+  // const getAllBlogs = () => {
+  //   fetch("/api/blogs") // GET from "/api/blogs"
+  //     .then((res) => {
+  //       // then with that response
+  //       res.json().then((data) => {
+  //         // parse as JSON data, then with that data
+  //         if (res.ok) {
+  //           // if there was an OK response
+  //           setBlogsArray(data); // set the data to state
+  //         } else {
+  //           // if there was not an OK response
+  //           throw new Error(data.message); // throw a new error
+  //         }
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   const getAllAuthors = () => {
     fetch("/api/users") // GET from "/api/users"
@@ -310,7 +311,7 @@ const App = (props: Types.AppProps) => {
   // };
 
   useEffect(() => {
-    getAllBlogs();
+    // getAllBlogs();
     getAllAuthors();
     // getAllTags();
   }, []);
@@ -370,23 +371,7 @@ const App = (props: Types.AppProps) => {
         />
         <Route path="/newblog" element={<NewBlog />} />
         <Route path="/blogs" element={<Blogs username={username} />} />
-        <Route
-          path="/blogs/:id"
-          element={
-            <BlogDetails
-              isEditing={isEditing}
-              title={title}
-              content={content}
-              navToBlogs={navToBlogs}
-              setTitle={setTitle}
-              setContent={setContent}
-              setIsEditing={setIsEditing}
-              handleContentChange={handleContentChange}
-              handleTitleChange={handleTitleChange}
-              handleClearTitleAndContent={handleClearTitleAndContent}
-            />
-          }
-        />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/users" element={<Authors />} />
         <Route
           path="/users/:id"

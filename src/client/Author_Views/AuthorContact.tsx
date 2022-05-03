@@ -31,6 +31,7 @@ const AuthorContact = (props: Types.AuthorContactProps) => {
         console.log(result);
       });
   };
+  //! i can get author to contact from nav&loc
 
   return (
     <>
