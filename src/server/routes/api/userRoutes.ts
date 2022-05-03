@@ -1,6 +1,8 @@
 import * as express from "express";
+import { Types } from "mysql";
 import db from "../../db";
 import Validation from "../../Server_Utils/DataValidation";
+import * as tsTypes from "../../../types";
 
 const usersRouter = express.Router();
 
@@ -90,28 +92,23 @@ usersRouter.put("/:id", async (req, res) => {
   const id = Number(req.params.id); // grab the id from req.params...
   req.body.parse;
   try {
-    const { authorname, authorbio, email } = req.body; // grab the updated info from the body...
+    const { authorbio } = req.body; // grab the updated info from the body...
     await Validation.isValidID(id);
 
-    await Validation.isValidString([authorname, authorbio, email]);
-    await Validation.isValidEmail(email);
-    await Validation.isValidStringLength([
-      [authorname, 45],
-      [authorbio, 500],
-      [email, 45],
-    ]);
+    await Validation.isValidString([authorbio]);
+    await Validation.isValidStringLength([[authorbio, 500]]);
 
-    const newAuthorInfo = { authorname, authorbio, email }; // package the updated info into an object
+    const updateAuthorInfo: tsTypes.updateAuthorInfo = { authorbio }; // package the updated info into an object
 
     const [results] = await db.Authors.readOneAuthor(id); // ...and use the id as a number to get that particular author.
 
     if (results) {
       // if the author exists in the database, send it as the response
 
-      const updateResults = await db.Authors.updateAuthor(newAuthorInfo, id); // newBlogInfo contains theupdated info, id specifies the blog
+      const updateResults = await db.Authors.updateAuthor(updateAuthorInfo, id); // newBlogInfo contains theupdated info, id specifies the blog
 
       if (updateResults.affectedRows) {
-        res.status(200).json({ message: `Author ${id} was updated to show ${authorname}, and ${email}` });
+        res.status(200).json({ message: `Author ${id} updated their bio!` });
       } else {
         res.status(400).json({ message: `Oh my stars, we could not update the Author with ID:${id}` });
       }

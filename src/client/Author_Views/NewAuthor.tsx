@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import * as Types from "../../types";
 
-const NewAuthor = (props: Types.NewAuthorProps) => {
+const NewAuthor = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [authorbio, setAuthorBio] = useState<string>("");

@@ -65,7 +65,10 @@ const NewBlog = () => {
           }
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(`New Blog Error...\n`);
+        console.error(error);
+      });
   };
 
   const getAllTags = () => {

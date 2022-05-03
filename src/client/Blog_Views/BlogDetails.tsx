@@ -2,18 +2,21 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const BlogDetails = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
   //! how to set isEditing back to false when user leaves this page?
   const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
 
   const nav = useNavigate();
   const loc = useLocation();
 
+  //! Need to type this better
+  //@ts-ignore
   const BLOG = loc.state.blog as Types.Blog;
 
   const updateBlog = () => {
@@ -182,6 +185,7 @@ const BlogDetails = () => {
                 onClick={() => {
                   setIsEditing(false);
                   handleClearTitleAndContent();
+                  //not sure if i need set title or set content here
                   setTitle(BLOG.title);
                   setContent(BLOG.content);
                 }}

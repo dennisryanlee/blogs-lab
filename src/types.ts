@@ -34,6 +34,10 @@ export interface newAuthorInfo {
   email: string;
 }
 
+export interface updateAuthorInfo {
+  authorbio: string;
+}
+
 export interface newTagInfo {
   tagname: string;
 }
@@ -53,43 +57,14 @@ export interface LoginPageProps {
   handleLoggingOut?: Function;
 }
 
-export interface NewAuthorProps {
-  username: string;
-  email: string;
-  authorbio: string;
-  handleUsernameChange: Function;
-  handleEmailChange: Function;
-  handleAuthorBioChange: Function;
-  handleNewAuthorLogin: Function;
-}
-
 export interface NavbarProps {}
 
 export interface BlogsProps {
   username: string;
 }
 
-export interface AuthorDetailsProps {
-  authorsArray: Author[];
-  email: string;
-  authorbio: string;
-  isEditing: boolean;
-  setEmail: Function;
-  setAuthorBio: Function;
-  handleAuthorBioChange: Function;
-  handleEmailChange: Function;
-  navToAuthors: Function;
-  setAuthorToContact: Function;
-  setIsEditing: Function;
-}
-
 export interface DonateProps {
   navToPaymentReceiptPage: Function;
-}
-
-export interface AuthorContactProps {
-  authorToContact: string;
-  navToAuthors: Function;
 }
 
 export interface MySQLResponse {

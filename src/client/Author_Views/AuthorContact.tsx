@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import * as Types from "../../types";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const AuthorContact = (props: Types.AuthorContactProps) => {
+const AuthorContact = () => {
   const [from, setFrom] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
   const nav = useNavigate();
+  const loc = useLocation();
+
+  //! Need to type this better
+  //@ts-ignore
+  const AUTHOR = loc.state.author as Types.Author;
 
   const clearEmailForm = () => {
     setFrom("");
@@ -25,20 +30,24 @@ const AuthorContact = (props: Types.AuthorContactProps) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        alert(`Your email to ${props.authorToContact} has been sent!`);
+        alert(`Your email to ${AUTHOR.authorname}} has been sent!`);
         clearEmailForm();
-        props.navToAuthors();
         console.log(result);
+        nav("/users"); // nav to authors view
+      })
+
+      .catch((error) => {
+        console.log(`Send Email To Author Error...\n`);
+        console.error(error);
       });
   };
-  //! i can get author to contact from nav&loc
 
   return (
     <>
       <div className="d-flex justify-content-center mt-5">
         <div className="card bg-light shadow col-md-4">
           <div className="card-body d-flex flex-wrap justify-content-center">
-            <h5 className="card-title text-center col-md-7">Emailing {props.authorToContact}</h5>
+            <h5 className="card-title text-center col-md-7">Emailing {AUTHOR.authorname}</h5>
             <input
               id="emailFrom"
               placeholder="Enter your email here"

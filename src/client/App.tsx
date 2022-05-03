@@ -352,45 +352,13 @@ const App = (props: Types.AppProps) => {
         />
 
         <Route path="/receipt" element={<PaymentReceiptPage />} />
-
-        <Route path="/contact" element={<AuthorContact navToAuthors={navToAuthors} authorToContact={authorToContact} />} />
-
-        <Route
-          path="/newauthor"
-          element={
-            <NewAuthor
-              username={username}
-              email={email}
-              authorbio={authorbio}
-              handleUsernameChange={handleUsernameChange}
-              handleEmailChange={handleEmailChange}
-              handleAuthorBioChange={handleAuthorBioChange}
-              handleNewAuthorLogin={handleNewAuthorLogin}
-            />
-          }
-        />
+        <Route path="/contact" element={<AuthorContact />} />
+        <Route path="/newauthor" element={<NewAuthor />} />
         <Route path="/newblog" element={<NewBlog />} />
         <Route path="/blogs" element={<Blogs username={username} />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/users" element={<Authors />} />
-        <Route
-          path="/users/:id"
-          element={
-            <AuthorDetails
-              email={email}
-              setEmail={setEmail}
-              handleEmailChange={handleEmailChange}
-              authorbio={authorbio}
-              setAuthorBio={setAuthorBio}
-              handleAuthorBioChange={handleAuthorBioChange}
-              navToAuthors={navToAuthors}
-              setAuthorToContact={setAuthorToContact}
-              authorsArray={authorsArray}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          }
-        />
+        <Route path="/users/:id" element={<AuthorDetails />} />
       </Routes>
     </>
   );

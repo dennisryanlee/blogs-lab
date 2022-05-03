@@ -10,7 +10,7 @@ const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors`);
 const readOneAuthor = (id: number) => Query<Type.Author[]>(`SELECT * FROM Authors WHERE id=?`, [id]);
 
 //*************************  UPDATE  *****************************/
-const updateAuthor = (newAuthorInfo: Type.newAuthorInfo, id: number) => Query(`UPDATE Authors SET ? WHERE id = ?`, [newAuthorInfo, id]);
+const updateAuthor = (newAuthorInfo: Type.updateAuthorInfo, id: number) => Query(`UPDATE Authors SET ? WHERE id = ?`, [newAuthorInfo, id]);
 
 //*************************  DESTROY  *****************************/
 const deleteAuthor = (id: number) => Query(`DELETE FROM Authors WHERE id = ?`, [id]);
