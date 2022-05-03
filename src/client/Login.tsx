@@ -9,8 +9,11 @@ const Loginpage = (props: Types.LoginPageProps) => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
+  //!  this needs to accept username or email to log in;  plus the password
+
   const handleLogin = () => {
     //! This needs to do login / auth logic
+    //fetch from /auth/login here
   };
   return (
     <>

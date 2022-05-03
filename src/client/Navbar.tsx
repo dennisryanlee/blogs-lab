@@ -3,7 +3,31 @@ import * as React from "react";
 import * as Types from "../types";
 import { Link } from "react-router-dom";
 
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import fetcher from "./Client_Utils/fetcher";
+
 const Navbar = (props: Types.NavbarProps) => {
+  const loc = useLocation();
+
+  const protectedRoutes = [`/someroute`, `someotherroute`];
+
+  useEffect(() => {
+    //this will fire every time the user navigates to a new path
+    console.log(`You are on ${loc.pathname}`);
+
+    if (protectedRoutes.includes(loc.pathname)) {
+      //token check here
+      fetcher
+        .GET("my auth route here")
+        .then((data) => console.log(data))
+        .catch((error) => {
+          console.log(`error...\n`);
+          console.error(error);
+          //! maybe nav back somwhere?
+        });
+    }
+  }, [loc.pathname]);
   const handleLoggingOut = () => {
     // setUsername("");
     // setPassword("");

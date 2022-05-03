@@ -53,14 +53,12 @@ const Donate = (props: Types.DonateProps) => {
             // console.log(data);
             if (res.ok) {
               // if there was an OK response
-              // navigate to receipt page here
               const receipt = data.charges.data[0].receipt_url;
               nav(`/receipt`, {
                 state: {
                   receipt,
                 },
               });
-              // props.navToPaymentReceiptPage();
             } else {
               // if there was not an OK response
               throw new Error(data.message); // throw a new error

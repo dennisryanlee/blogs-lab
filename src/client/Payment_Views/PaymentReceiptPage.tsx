@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as Types from "../../types";
 import { useLocation } from "react-router-dom";
 
 const PaymentReceiptPage = () => {
