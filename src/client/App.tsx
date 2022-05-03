@@ -87,13 +87,13 @@ const App = (props: Types.AppProps) => {
     return setAuthorBio(e.target.value);
   };
 
-  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    // return setContent(e.target.value);
-  };
+  // const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  //   // return setContent(e.target.value);
+  // };
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // return setTitle(e.target.value);
-  };
+  // const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   // return setTitle(e.target.value);
+  // };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     return setUsername(e.target.value);
@@ -107,10 +107,10 @@ const App = (props: Types.AppProps) => {
     return setEmail(e.target.value);
   };
 
-  const handleClearTitleAndContent = () => {
-    // setTitle("");
-    // setContent("");
-  };
+  // const handleClearTitleAndContent = () => {
+  //   // setTitle("");
+  //   // setContent("");
+  // };
 
   // New Blogs / Authors ***************************************************************************************************
 
@@ -243,15 +243,15 @@ const App = (props: Types.AppProps) => {
   };
 
   //! move this to navbar
-  const handleLoggingOut = () => {
-    setUsername("");
-    setPassword("");
-    setloggedIn(!loggedIn);
-    const secretTrackz2 = new Audio(`../okbye.mp3`);
-    secretTrackz2.play();
+  // const handleLoggingOut = () => {
+  //   // setUsername("");
+  //   // setPassword("");
+  //   // setloggedIn(!loggedIn);
+  //   // const secretTrackz2 = new Audio(`../okbye.mp3`);
+  //   // secretTrackz2.play();
 
-    nav("/");
-  };
+  //   // nav("/");
+  // };
 
   // Thats SO Fetch! ***************************************************************************************************
 

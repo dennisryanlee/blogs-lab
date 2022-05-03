@@ -1,19 +1,19 @@
 import { Button } from "@mui/material";
 import * as React from "react";
-import * as Types from "../types";
 import { Link } from "react-router-dom";
 
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import fetcher from "./Client_Utils/fetcher";
 
-const Navbar = (props: Types.NavbarProps) => {
+const Navbar = () => {
+  const nav = useNavigate();
   const loc = useLocation();
 
   const protectedRoutes = [`/someroute`, `someotherroute`];
 
   useEffect(() => {
-    //this will fire every time the user navigates to a new path
+    //this will fire every time the user navigates to a new path, checking if tey have a valid token
     console.log(`You are on ${loc.pathname}`);
 
     if (protectedRoutes.includes(loc.pathname)) {
@@ -24,16 +24,11 @@ const Navbar = (props: Types.NavbarProps) => {
         .catch((error) => {
           console.log(`error...\n`);
           console.error(error);
-          //! maybe nav back somwhere?
+          nav("/"); // Navigate user to login page if error occurs
         });
     }
   }, [loc.pathname]);
-  const handleLoggingOut = () => {
-    // setUsername("");
-    // setPassword("");
-    // setloggedIn(!loggedIn);
-    // nav("/");
-  };
+
   return (
     <>
       <div className="mb-4">
@@ -63,6 +58,7 @@ const Navbar = (props: Types.NavbarProps) => {
             onClick={() => {
               const secretTrackz2 = new Audio(`../okbye.mp3`);
               secretTrackz2.play();
+              nav("/");
             }}
             className="btn btn-primary mx-1"
           >
