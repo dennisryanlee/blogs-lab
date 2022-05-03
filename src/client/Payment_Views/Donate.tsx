@@ -5,6 +5,8 @@ import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 
+//todo - ask for email on payment - use mailgun to send the receipt url
+
 const Donate = () => {
   const [name, setName] = useState<string>("");
   const [amount, setAmount] = useState<string>("");

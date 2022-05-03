@@ -15,9 +15,7 @@ const BlogDetails = () => {
   const nav = useNavigate();
   const loc = useLocation();
 
-  //! Need to type this better
-  //@ts-ignore
-  const BLOG = loc.state.blog as Types.Blog;
+  const BLOG = loc.state as Types.Blog;
 
   const updateBlog = () => {
     fetch(`/api/blogs/${id}`, {

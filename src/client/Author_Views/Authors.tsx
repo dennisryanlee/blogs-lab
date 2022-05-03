@@ -50,7 +50,7 @@ const Authors = () => {
         console.log(`Get Single Author Error...\n`);
         console.error(error);
       });
-    nav(`/authors/${author.id}`, { state: { author: { ...author } } });
+    nav(`/authors/${author.id}`, { state: { ...author } });
   };
 
   useEffect(() => {

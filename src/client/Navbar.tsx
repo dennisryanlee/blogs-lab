@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
 import * as React from "react";
-import { Link } from "react-router-dom";
 
+import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import fetcher from "./Client_Utils/fetcher";
+import Fetcher from "./Client_Utils/Fetcher";
 
 const Navbar = () => {
   const nav = useNavigate();
@@ -17,15 +17,19 @@ const Navbar = () => {
     console.log(`You are on ${loc.pathname}`);
 
     if (protectedRoutes.includes(loc.pathname)) {
-      //token check here
-      fetcher
-        .GET("my auth route here")
-        .then((data) => console.log(data))
-        .catch((error) => {
-          console.log(`error...\n`);
-          console.error(error);
-          nav("/"); // Navigate user to login page if error occurs
-        });
+      try {
+        //token check here
+        Fetcher.GET("my auth route here")
+          .then((data) => console.log(data))
+          .catch((error) => {
+            console.log(`error...\n`);
+            console.error(error);
+            nav("/"); // Navigate user to login page if error occurs
+          });
+      } catch (error) {
+        console.log(`Fetcher.Get From Navbar Error...\n`);
+        console.error(error);
+      }
     }
   }, [loc.pathname]);
 

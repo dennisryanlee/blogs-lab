@@ -1,6 +1,6 @@
 const TOKEN_KEY = `token`;
 
-const fetcher = async (url: string, method: string, data?: unknown) => {
+const Fetcher = async (url: string, method: string, data?: unknown) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const fetchOptions = {
     headers: {
@@ -30,6 +30,7 @@ const fetcher = async (url: string, method: string, data?: unknown) => {
     console.log(`Bad Fetcher Call - Error...\n`);
     console.error(error);
     throw new Error(`Bad Fetcher Call Happened!`);
+    // This throw will not be caught in this catch block, thus, ALL Fetcher calls need to be in a try catch block
   }
 };
 
@@ -38,10 +39,10 @@ interface FetchData {
   [key: string]: string | number | boolean;
 }
 
-const GET = (url: string) => fetcher(url, "GET");
-const POST = (url: string, data: FetchData) => fetcher(url, "POST", data);
-const PUT = (url: string, data: FetchData) => fetcher(url, "PUT", data);
-const DELETE = (url: string) => fetcher(url, "DELETE");
+const GET = (url: string) => Fetcher(url, "GET");
+const POST = (url: string, data: FetchData) => Fetcher(url, "POST", data);
+const PUT = (url: string, data: FetchData) => Fetcher(url, "PUT", data);
+const DELETE = (url: string) => Fetcher(url, "DELETE");
 
 export default {
   GET,

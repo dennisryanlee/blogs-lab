@@ -14,9 +14,7 @@ const AuthorDetails = () => {
   const nav = useNavigate();
   const loc = useLocation();
 
-  //! Need to type this better
-  //@ts-ignore
-  const AUTHOR = loc.state.author as Types.Author;
+  const AUTHOR = loc.state as Types.Author;
 
   const chefskiss = () => {
     const secretTrackz3 = new Audio(`../wow.mp3`);
@@ -96,7 +94,7 @@ const AuthorDetails = () => {
                 className="btn my-2 ms-2 col-md-2"
                 type="button"
                 onClick={() => {
-                  nav("/contact", { state: { author: { ...AUTHOR } } });
+                  nav("/contact", { state: { ...AUTHOR } });
                 }}
               >
                 Email

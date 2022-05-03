@@ -4,6 +4,7 @@ import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+//@ts-ignore
 const Blogs = (props: Types.BlogsProps) => {
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
 
@@ -27,7 +28,7 @@ const Blogs = (props: Types.BlogsProps) => {
       })
       .catch((error) => console.log(error));
     // navigate to a particular blog, passing along that blog's info as state
-    nav(`/blogs/${blog.blogid}`, { state: { blog: { ...blog } } });
+    nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
   };
 
   const getAllBlogs = () => {

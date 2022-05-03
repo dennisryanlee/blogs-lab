@@ -11,9 +11,7 @@ const AuthorContact = () => {
   const nav = useNavigate();
   const loc = useLocation();
 
-  //! Need to type this better
-  //@ts-ignore
-  const AUTHOR = loc.state.author as Types.Author;
+  const AUTHOR = loc.state as Types.Author;
 
   const clearEmailForm = () => {
     setFrom("");
