@@ -164,55 +164,55 @@ const App = (props: Types.AppProps) => {
       .catch((error) => console.log(error));
   };
 
-  const handleNewBlog = () => {
-    // Validation
+  // const handleNewBlog = () => {
+  //   // Validation
 
-    Validation.isValidString([title, content])
-      .then(() =>
-        Validation.isValidStringLength([
-          [content, 1500],
-          [title, 45],
-        ])
-      )
-      .then(() => Validation.isValidInteger(selectedTagId))
-      .then(() => console.log(`Validation complete.`))
+  //   Validation.isValidString([title, content])
+  //     .then(() =>
+  //       Validation.isValidStringLength([
+  //         [content, 1500],
+  //         [title, 45],
+  //       ])
+  //     )
+  //     .then(() => Validation.isValidInteger(selectedTagId))
+  //     .then(() => console.log(`Validation complete.`))
 
-      .catch((error) => {
-        console.error(error);
-        alert("Please check your data");
-        return;
-      });
+  //     .catch((error) => {
+  //       console.error(error);
+  //       alert("Please check your data");
+  //       return;
+  //     });
 
-    if (!selectedTagId) {
-      alert("Hey don't forget your tag!");
-    }
+  //   if (!selectedTagId) {
+  //     alert("Hey don't forget your tag!");
+  //   }
 
-    fetch("/api/blogs/", {
-      // use the route:  /api/chirps/ ...
-      method: "POST", // ...send a POST request...
-      headers: {
-        // ...specifying the type of content...
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ title, content, authorid, tagid: selectedTagId }), // ...and deliver the content
-    })
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            getAllBlogs(); // get all blogs - now with the newly created blog
-            handleClearTitleAndContent(); // clear the inputs
-            return navToBlogs(); // navigate user to blogs
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  };
+  //   fetch("/api/blogs/", {
+  //     // use the route:  /api/chirps/ ...
+  //     method: "POST", // ...send a POST request...
+  //     headers: {
+  //       // ...specifying the type of content...
+  //       "content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({ title, content, authorid, tagid: selectedTagId }), // ...and deliver the content
+  //   })
+  //     .then((res) => {
+  //       // then with that response
+  //       res.json().then((data) => {
+  //         // parse as JSON data, then with that data
+  //         if (res.ok) {
+  //           // if there was an OK response
+  //           getAllBlogs(); // get all blogs - now with the newly created blog
+  //           handleClearTitleAndContent(); // clear the inputs
+  //           return navToBlogs(); // navigate user to blogs
+  //         } else {
+  //           // if there was not an OK response
+  //           throw new Error(data.message); // throw a new error
+  //         }
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   // Logging in and out ***************************************************************************************************
 
@@ -291,28 +291,28 @@ const App = (props: Types.AppProps) => {
       .catch((error) => console.log(error));
   };
 
-  const getAllTags = () => {
-    fetch(`/api/tags`)
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setTagsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
-      })
-      .catch((error) => console.log(error));
-  };
+  // const getAllTags = () => {
+  //   fetch(`/api/tags`)
+  //     .then((res) => {
+  //       // then with that response
+  //       res.json().then((data) => {
+  //         // parse as JSON data, then with that data
+  //         if (res.ok) {
+  //           // if there was an OK response
+  //           setTagsArray(data); // set the data to state
+  //         } else {
+  //           // if there was not an OK response
+  //           throw new Error(data.message); // throw a new error
+  //         }
+  //       });
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   useEffect(() => {
     getAllBlogs();
     getAllAuthors();
-    getAllTags();
+    // getAllTags();
   }, []);
 
   return (
@@ -369,7 +369,7 @@ const App = (props: Types.AppProps) => {
           }
         />
         <Route path="/newblog" element={<NewBlog />} />
-        <Route path="/blogs" element={<Blogs username={username} setBlogsArray={setBlogsArray} blogsArray={blogsArray} />} />
+        <Route path="/blogs" element={<Blogs username={username} />} />
         <Route
           path="/blogs/:id"
           element={

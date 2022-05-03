@@ -67,8 +67,6 @@ export interface NavbarProps {}
 
 export interface BlogsProps {
   username: string;
-  setBlogsArray: Function;
-  blogsArray: Blog[];
 }
 
 export interface BlogDetailsProps {

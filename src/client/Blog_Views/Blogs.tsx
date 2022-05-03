@@ -18,7 +18,7 @@ const Blogs = (props: Types.BlogsProps) => {
           // parse as JSON data, then with that data
           if (res.ok) {
             // if there was an OK response
-            props.setBlogsArray(data); // set the data to state
+            setBlogsArray(data); // set the data to state
           } else {
             // if there was not an OK response
             throw new Error(data.message); // throw a new error
@@ -51,11 +51,12 @@ const Blogs = (props: Types.BlogsProps) => {
     getAllBlogs();
   }, []);
 
+  //! get the username from token to check for Ervin
   return (
     <>
       {props.username === "Ervin Howell" && (
         <div className="d-flex flex-wrap justify-content-around">
-          {props.blogsArray.map((blog) => (
+          {blogsArray.map((blog) => (
             // @ts-ignore
             <marquee key={`blog-${blog.blogid}`} className="card col-md-2">
               <div className="card-body">
@@ -84,7 +85,7 @@ const Blogs = (props: Types.BlogsProps) => {
       )}
       {props.username !== "Ervin Howell" && (
         <div className="d-flex flex-wrap justify-content-around">
-          {props.blogsArray.map((blog) => (
+          {blogsArray.map((blog) => (
             <div key={`blog-${blog.blogid}`} className="card col-md-2">
               <div className="card-body">
                 <h5 className="card-title">{blog.title.toLocaleUpperCase()}</h5>
@@ -114,5 +115,3 @@ const Blogs = (props: Types.BlogsProps) => {
 };
 
 export default Blogs;
-
-// style={{ transform: [{ rotate: getRandomDegree() }] }}
