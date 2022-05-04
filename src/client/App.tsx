@@ -19,19 +19,15 @@ import AuthorContact from "./Author_Views/AuthorContact";
 const stripe = loadStripe("pk_test_51Kr0L7EnuysmmtJOkyeBUywjbunbFLeBsT9gwdTcYkSMGy27sGg0NG2VH8ZQi4D1fbK5xfO2N6vGmyhHJ2G7MxlF00SU1EuUkl");
 
 const App = (props: Types.AppProps) => {
-  const [loggedIn, setloggedIn] = useState<boolean>(false);
-  //! watch video from 5/2 on showing navbar based on logging in,  that way i wont need this state
-
   return (
     <>
       <main className="container my-5">
         <h1 className="text-primary text-center">Blogs, duh.</h1>
       </main>
-      {loggedIn && (
-        <div className="d-flex justify-content-center">
-          <Navbar></Navbar>
-        </div>
-      )}
+      {/* need to make sure navbar only shows up when logged in */}
+      <div className="d-flex justify-content-center">
+        <Navbar></Navbar>
+      </div>
 
       <Routes>
         <Route path="/" element={<Loginpage />} />

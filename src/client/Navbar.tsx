@@ -2,16 +2,17 @@ import * as React from "react";
 
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Fetcher from "./Client_Utils/Fetcher";
 
 const Navbar = () => {
+  const [loggedIn, setloggedIn] = useState<boolean>(false);
   const nav = useNavigate();
   const loc = useLocation();
 
   //! change these
-  const protectedRoutes = [`/someroute`, `someotherroute`];
+  const protectedRoutes = [`/api`];
 
   useEffect(() => {
     //this will fire every time the user navigates to a new path, checking if they have a valid token
@@ -21,8 +22,12 @@ const Navbar = () => {
       try {
         //token check here
         Fetcher.GET("my auth route here")
-          .then((data) => console.log(data))
+          .then((data) => {
+            setloggedIn(true);
+            console.log(data);
+          })
           .catch((error) => {
+            setloggedIn(false);
             console.log(`error...\n`);
             console.error(error);
             nav("/"); // Navigate user to login page if error occurs
@@ -36,41 +41,43 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="mb-4">
-        <Link to="/newblog">
-          <Button variant="contained" className="btn btn-primary mx-1">
-            New Blog
-          </Button>
-        </Link>
-        <Link to="/blogs">
-          <Button variant="contained" className="btn btn-primary mx-1">
-            Blogs
-          </Button>
-        </Link>
-        <Link to="/users">
-          <Button variant="contained" className="btn btn-primary mx-1">
-            Authors
-          </Button>
-        </Link>
-        <Link to="/donate">
-          <Button variant="contained" className="btn btn-primary mx-1">
-            Donate
-          </Button>
-        </Link>
-        <Link to="/">
-          <Button
-            variant="contained"
-            onClick={() => {
-              const secretTrackz2 = new Audio(`../okbye.mp3`);
-              secretTrackz2.play();
-              nav("/");
-            }}
-            className="btn btn-primary mx-1"
-          >
-            Logout
-          </Button>
-        </Link>
-      </div>
+      {loggedIn && (
+        <div className="mb-4">
+          <Link to="/newblog">
+            <Button variant="contained" className="btn btn-primary mx-1">
+              New Blog
+            </Button>
+          </Link>
+          <Link to="/blogs">
+            <Button variant="contained" className="btn btn-primary mx-1">
+              Blogs
+            </Button>
+          </Link>
+          <Link to="/users">
+            <Button variant="contained" className="btn btn-primary mx-1">
+              Authors
+            </Button>
+          </Link>
+          <Link to="/donate">
+            <Button variant="contained" className="btn btn-primary mx-1">
+              Donate
+            </Button>
+          </Link>
+          <Link to="/">
+            <Button
+              variant="contained"
+              onClick={() => {
+                const secretTrackz2 = new Audio(`../okbye.mp3`);
+                secretTrackz2.play();
+                nav("/");
+              }}
+              className="btn btn-primary mx-1"
+            >
+              Logout
+            </Button>
+          </Link>
+        </div>
+      )}
     </>
   );
 };
