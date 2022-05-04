@@ -7,40 +7,31 @@ import Validation from "./Client_Utils/DataValidation";
 const Loginpage = () => {
   const nav = useNavigate();
 
-  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
-  //!  this needs to accept username or email to log in;  plus the password
+  //!  this needs to accept email to log in; plus the password
 
-  const handleLogin = () => {
-    //! This needs to do login / auth logic
-    //fetch from /auth/login here
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    Validation.isValidEmail(email)
+      .then(() => console.log(`Validation Complete.`))
+      .catch((error) => {
+        console.log(`Bad Email Check Error...\n`);
+        console.error(error);
+        alert("Please check your credentials");
+        return;
+      });
+
+    //!gotta make this work lol
+    // if (username === "Ervin Howell") {
+    //   const secretTrackz = new Audio(`../secretTrack.mp3`);
+    //   secretTrackz.play();
+    // }
+
+    nav(`/blogs`);
   };
-
-  // const handleLoggingIn = (e: MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-
-  //   Validation.isValidString([username, password])
-  //     .then(() => console.log(`Validation complete.`))
-  //     .catch((error) => {
-  //       console.error(error);
-  //       alert("Please check your credentials");
-  //       return;
-  //     });
-
-  //   if (password.length <= 8) {
-  //     alert("Check your credentials");
-  //     return;
-  //   }
-  //   if (username === "Ervin Howell") {
-  //     const secretTrackz = new Audio(`../secretTrack.mp3`);
-  //     secretTrackz.play();
-  //   }
-
-  //   navToBlogs();
-
-  //   return setloggedIn(!loggedIn);
-  // };
 
   return (
     <>
@@ -48,14 +39,7 @@ const Loginpage = () => {
         <div className="card bg-light shadow col-md-4">
           <div className="card-body d-flex flex-wrap justify-content-center">
             <h5 className="card-title text-center col-md-7">Please log in, or click the new user button</h5>
-            <input
-              id="username"
-              placeholder="Username"
-              type="text"
-              value={username}
-              className="form-control col-md-7 mb-1"
-              onChange={(e) => setUsername(e.target.value)}
-            />
+
             <input
               id="email"
               placeholder="email"
@@ -64,7 +48,17 @@ const Loginpage = () => {
               className="form-control col-md-7 mt-1"
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => handleLogin()}>
+
+            <input
+              id="password"
+              placeholder="password"
+              type="text"
+              value={password}
+              className="form-control col-md-7 mb-1"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleLogin(e)}>
               Login
             </Button>
             <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => nav("/newauthor")}>

@@ -6,7 +6,7 @@ import db from "../../db";
 import { JWT_CONFIG } from "../../config";
 import { compareHash } from "../../Server_Utils/Passwords";
 import Validation from "../../Server_Utils/DataValidation";
-import { giveToken, validateToken } from "../../Middleware";
+import { giveTokenToNewUser, giveTokenToExistingUser, validateToken } from "../../Middleware";
 
 const authRouter = express.Router();
 
@@ -18,7 +18,7 @@ authRouter.post(`/`, validateToken, (req, res) => {
 });
 
 // Log a user in
-authRouter.post("/login", giveToken, async (req, res) => {
+authRouter.post("/login", giveTokenToExistingUser, async (req, res) => {
   // pull out the email and plaintext password for convenience
   const email = req.body.email;
   const password = req.body.password;
@@ -50,7 +50,7 @@ authRouter.post("/login", giveToken, async (req, res) => {
 });
 
 // Register an account
-authRouter.post("/register", giveToken, (req, res) => {
+authRouter.post("/register", giveTokenToNewUser, (req, res) => {
   try {
     res.status(200).json({ message: `register successful!` });
   } catch (error) {

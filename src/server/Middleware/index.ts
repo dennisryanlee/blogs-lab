@@ -3,6 +3,8 @@ import * as jwt from "jsonwebtoken";
 import { JWT_CONFIG } from "../config";
 import db from "../db";
 import { generateHash, compareHash } from "../Server_Utils/Passwords";
+import * as Types from "../../types";
+const HIBP = require("@atlc/hibp");
 
 // checks if a token is valid
 export const validateToken = (req: Request, res: Response, next: NextFunction) => {
@@ -77,15 +79,26 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
      * send new author info to db
      *
      */
-
     // pull out the new author info
     const authorname = req.body.authorname;
     const email = req.body.email;
-    const password = generateHash(req.body.password); // hash the password for delivery to db!
     const authorbio = req.body.authorbio;
+    const plainTextPassword = req.body.password; // hash the password for delivery to db!
+
+    //! implement hibp here, then move forward
+
+    const passCheck = HIBP(plainTextPassword) as Types.HIBPResponse;
+
+    if (passCheck.isPwned) {
+      // If crap pass, do this
+      res.status(401).json({ message: `Bad Password`, breaches: passCheck.breaches });
+      return next();
+    }
+
+    const hashedPassword = generateHash(plainTextPassword); // hash the password for delivery to db!
 
     // put new author info into an object
-    const newAuthorInfo = { authorname, email, password, authorbio };
+    const newAuthorInfo = { authorname, email, hashedPassword, authorbio };
 
     //register a new author with the new author info
     const newAuthorRes = await db.Login.registerNewAuthor(newAuthorInfo);
