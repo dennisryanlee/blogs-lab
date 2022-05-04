@@ -79,13 +79,12 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
      * send new author info to db
      *
      */
+
     // pull out the new author info
     const authorname = req.body.authorname;
     const email = req.body.email;
     const authorbio = req.body.authorbio;
-    const plainTextPassword = req.body.password; // hash the password for delivery to db!
-
-    //! implement hibp here, then move forward
+    const plainTextPassword = req.body.password;
 
     const passCheck = HIBP(plainTextPassword) as Types.HIBPResponse;
 
