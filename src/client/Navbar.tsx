@@ -10,10 +10,11 @@ const Navbar = () => {
   const nav = useNavigate();
   const loc = useLocation();
 
+  //! change these
   const protectedRoutes = [`/someroute`, `someotherroute`];
 
   useEffect(() => {
-    //this will fire every time the user navigates to a new path, checking if tey have a valid token
+    //this will fire every time the user navigates to a new path, checking if they have a valid token
     console.log(`You are on ${loc.pathname}`);
 
     if (protectedRoutes.includes(loc.pathname)) {

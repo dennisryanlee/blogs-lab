@@ -2,7 +2,7 @@ import { Query } from ".";
 import * as Type from "../../types";
 
 const FindAuthor = (column: string, value: string) => Query<Type.Author[]>("SELECT * FROM Authors WHERE ?? = ?", [column, value]);
-// const Insert = () => Query<Type.MySQLResponse>("");
+
 const registerNewAuthor = (newAuthorInfo: Type.newAuthorInfo) => Query(`INSERT INTO Authors SET ?`, [newAuthorInfo]);
 
 export default {

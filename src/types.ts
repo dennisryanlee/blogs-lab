@@ -51,3 +51,8 @@ export interface MySQLResponse {
   affectedRows?: number;
   insertID?: number;
 }
+
+export interface HIBPResponse {
+  isPwned: boolean;
+  breaches: number;
+}

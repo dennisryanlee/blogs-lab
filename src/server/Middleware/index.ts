@@ -2,12 +2,12 @@ import { Request, Response, NextFunction, Router } from "express";
 import * as jwt from "jsonwebtoken";
 import { JWT_CONFIG } from "../config";
 import db from "../db";
-import { compareHash } from "../Server_Utils/Passwords";
+import { generateHash, compareHash } from "../Server_Utils/Passwords";
 
 // checks if a token is valid
 export const validateToken = (req: Request, res: Response, next: NextFunction) => {
   try {
-    //grab the token from the headers and split it
+    // grab the token from the headers and split it
     // bearerToken is expected to be an array: [`bearer`, `tokenhere`]
     const bearerToken: string[] = req.headers.authorization?.split(` `);
 
@@ -24,13 +24,14 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
 
     next();
   } catch (error) {
-    console.log(error);
+    console.log(`Validate Token Error...\n`);
+    console.error(error);
     res.status(401).json({ message: "Invalid Credentials" });
   }
 };
 
-// Gives a token to a registered user
-export const giveToken = async (req: Request, res: Response, next: NextFunction) => {
+// Gives a token to an existing user
+export const giveTokenToExistingUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // pull out the email and plaintext password for convenience
     const email = req.body.email;
@@ -39,6 +40,8 @@ export const giveToken = async (req: Request, res: Response, next: NextFunction)
     // if the email provided is in the db, then userFound is an author entry, else is undefined
     // userFound is our author from the database
     const [userFound] = await db.Login.FindAuthor("email", email);
+    console.log(`userFound: `, userFound);
+
     if (userFound && compareHash(password, userFound.password)) {
       //! I can probably put some payloads for different roles in the Utils folder and use them here
       // token takes a payload as the first argument
@@ -51,15 +54,54 @@ export const giveToken = async (req: Request, res: Response, next: NextFunction)
         { expiresIn: `10d` }
       );
       // if user is found && the provided password matches the hashed pass on the db
+      console.log(`Token: `, token);
       res.status(200).json({ token });
     } else {
       // if user fails the checks above, then we return with a 401, and stop execution
+      console.log(`Token was not found`);
       res.status(401).json({ message: "Invalid Credentials" });
     }
     next();
   } catch (error) {
-    console.log(`Give Token Middleware error...`);
-    console.log(error);
+    console.log(`Give Token To Existing User Middleware error...`);
+    console.error(error);
+    res.status(401).json({ message: `Login Failed` });
+  }
+};
+
+// Register a new user and give a token
+export const giveTokenToNewUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    /**
+     * get pass, then hash pass
+     * send new author info to db
+     *
+     */
+
+    // pull out the new author info
+    const authorname = req.body.authorname;
+    const email = req.body.email;
+    const password = generateHash(req.body.password); // hash the password for delivery to db!
+    const authorbio = req.body.authorbio;
+
+    // put new author info into an object
+    const newAuthorInfo = { authorname, email, password, authorbio };
+
+    //register a new author with the new author info
+    const newAuthorRes = await db.Login.registerNewAuthor(newAuthorInfo);
+
+    if (newAuthorRes.affectedRows === 1) {
+      // If the use was added to the db, issue a token to the new user
+      const token = jwt.sign({ username: authorname, userid: newAuthorRes.insertId, email, role: `guest` }, JWT_CONFIG.jwtSecretKey, {
+        expiresIn: `10d`,
+      });
+      console.log(`Token: `, token);
+      res.status(200).json({ token });
+    }
+    next();
+  } catch (error) {
+    console.log(`Give Token New User Middleware error...`);
+    console.error(error);
     res.status(401).json({ message: `Login Failed` });
   }
 };
