@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Validation from "../Client_Utils/DataValidation";
 import * as Types from "../../types";
+import Fetcher from "../Client_Utils/Fetcher";
 
 const NewAuthor = () => {
   const [authorname, setAuthorname] = useState<string>("");
@@ -32,33 +33,43 @@ const NewAuthor = () => {
         return;
       });
 
-    fetch("/auth/register/", {
-      // use the route:  /api/chirps/ ...
-      method: "POST", // ...send a POST request...
-      headers: {
-        // ...specifying the type of content...
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ authorname, authorbio, email, password }), // ...and deliver the content
-    })
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            console.log(`New Author Added!`);
-            nav(`/blogs`); // navigate user to blogs
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
+    Fetcher.POST("/auth/register/", { authorname, authorbio, email, password })
+      .then((data) => {
+        console.log(`New Author Added!`);
+        nav(`/blogs`); // navigate user to blogs if no error
       })
       .catch((error) => {
         console.log(`New Author Error...\n`);
         console.error(error);
       });
+
+    // fetch("/auth/register/", {
+    //   // use the route:  /api/chirps/ ...
+    //   method: "POST", // ...send a POST request...
+    //   headers: {
+    //     // ...specifying the type of content...
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({ authorname, authorbio, email, password }), // ...and deliver the content
+    // })
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse as JSON data, then with that data
+    //       if (res.ok) {
+    //         // if there was an OK response
+    //         console.log(`New Author Added!`);
+    //         nav(`/blogs`); // navigate user to blogs
+    //       } else {
+    //         // if there was not an OK response
+    //         throw new Error(data.message); // throw a new error
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(`New Author Error...\n`);
+    //     console.error(error);
+    //   });
   };
 
   return (
