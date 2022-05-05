@@ -3,6 +3,7 @@ import * as React from "react";
 import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Fetcher from "../Client_Utils/Fetcher";
 
 //@ts-ignore
 const Blogs = (props: Types.BlogsProps) => {
@@ -12,41 +13,61 @@ const Blogs = (props: Types.BlogsProps) => {
 
   const getSingleBlog = (blog: Types.Blog) => {
     console.log(`Fetching blog: ${blog.blogid}`);
-    fetch(`/api/blogs/${blog.blogid}`) // GET from "/api/blogs"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setBlogsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
+
+    Fetcher.GET(`/api/blogs/${blog.blogid}`)
+      .then((data) => {
+        setBlogsArray(data); // set the data to state if no errors
       })
-      .catch((error) => console.log(error));
-    // navigate to a particular blog, passing along that blog's info as state
+      .catch((error) => {
+        console.log(`Get Single Blog Error.  Blog ID: ${blog.blogid}...\n`);
+        console.error(error);
+      });
     nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
+
+    // fetch(`/api/blogs/${blog.blogid}`) // GET from "/api/blogs"
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse as JSON data, then with that data
+    //       if (res.ok) {
+    //         // if there was an OK response
+    //         setBlogsArray(data); // set the data to state
+    //       } else {
+    //         // if there was not an OK response
+    //         throw new Error(data.message); // throw a new error
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
+    // // navigate to a particular blog, passing along that blog's info as state
+    // nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
   };
 
   const getAllBlogs = () => {
-    fetch("/api/blogs") // GET from "/api/blogs"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setBlogsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
+    Fetcher.GET("/api/blogs")
+      .then((data) => {
+        setBlogsArray(data); // set the data to state if no errors
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(`Get All Blogs Error...\n`);
+        console.error(error);
+      });
+
+    // fetch("/api/blogs") // GET from "/api/blogs"
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse as JSON data, then with that data
+    //       if (res.ok) {
+    //         // if there was an OK response
+    //         setBlogsArray(data); // set the data to state
+    //       } else {
+    //         // if there was not an OK response
+    //         throw new Error(data.message); // throw a new error
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   useEffect(() => {
