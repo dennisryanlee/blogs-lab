@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as Types from "../../types";
-
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Fetcher from "../Client_Utils/Fetcher";
 
 const Authors = () => {
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);
@@ -11,46 +11,61 @@ const Authors = () => {
   const nav = useNavigate();
 
   const getAllAuthors = () => {
-    fetch("/api/users") // GET from "/api/users"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setAuthorsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
+    Fetcher.GET("/api/users")
+      .then((data) => {
+        setAuthorsArray(data); // set the data to state if no errors
       })
       .catch((error) => {
         console.log(`Get All Authors Error...\n`);
         console.error(error);
       });
+
+    // fetch("/api/users") // GET from "/api/users"
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse as JSON data, then with that data
+    //       if (res.ok) {
+    //         // if there was an OK response
+    //         setAuthorsArray(data); // set the data to state
+    //       } else {
+    //         // if there was not an OK response
+    //         throw new Error(data.message); // throw a new error
+    //       }
+    //     });
+    //   });
   };
 
   const getSingleAuthor = (author: Types.Author) => {
-    fetch(`/api/authors/${author.id}`) // GET from "/api/authors"
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse as JSON data, then with that data
-          if (res.ok) {
-            // if there was an OK response
-            setAuthorsArray(data); // set the data to state
-          } else {
-            // if there was not an OK response
-            throw new Error(data.message); // throw a new error
-          }
-        });
+    Fetcher.GET(`/api/authors/${author.id}`)
+      .then((data) => {
+        setAuthorsArray(data); // set the data to state if no errors
       })
       .catch((error) => {
         console.log(`Get Single Author Error...\n`);
         console.error(error);
       });
-    nav(`/authors/${author.id}`, { state: { ...author } });
+    nav(`/authors/${author.id}`, { state: { ...author } }); // nav to author details with the selected author data
+
+    // fetch(`/api/authors/${author.id}`) // GET from "/api/authors"
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse as JSON data, then with that data
+    //       if (res.ok) {
+    //         // if there was an OK response
+    //         setAuthorsArray(data); // set the data to state
+    //       } else {
+    //         // if there was not an OK response
+    //         throw new Error(data.message); // throw a new error
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(`Get Single Author Error...\n`);
+    //     console.error(error);
+    //   });
+    // nav(`/authors/${author.id}`, { state: { ...author } });
   };
 
   useEffect(() => {
