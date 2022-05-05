@@ -1,3 +1,5 @@
+import { PaymentMethod } from "@stripe/stripe-js";
+
 const TOKEN_KEY = `token`;
 
 //
@@ -41,8 +43,9 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
 };
 
 // we type FetchData as an object, with many keys of type string, whose values can be string, number, or boolean
+// PaymentMethod type added to enable Fetcher to work on Donate Component
 interface FetchData {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | PaymentMethod;
 }
 
 const GET = (url: string) => Fetcher(url, "GET");
