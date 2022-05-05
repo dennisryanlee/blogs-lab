@@ -1,5 +1,11 @@
 const TOKEN_KEY = `token`;
 
+//
+/**
+ * Wrap all Fetcher calls in a try catch block.
+ * res.json() is already done
+ * body will already be stringified
+ */
 const Fetcher = async (url: string, method: string, data?: unknown) => {
   const token = localStorage.getItem(TOKEN_KEY);
   const fetchOptions = {
@@ -29,7 +35,7 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
   } catch (error) {
     console.log(`Bad Fetcher Call - Error...\n`);
     console.error(error);
-    throw new Error(`Bad Fetcher Call Happened!`);
+    throw new Error(`Bad Fetcher Call Happened`);
     // This throw will not be caught in this catch block, thus, ALL Fetcher calls need to be in a try catch block
   }
 };

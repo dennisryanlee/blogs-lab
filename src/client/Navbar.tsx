@@ -20,7 +20,7 @@ const Navbar = () => {
 
     if (protectedRoutes.includes(loc.pathname)) {
       try {
-        //token check here
+        //! this is my verify token route
         Fetcher.GET("my auth route here")
           .then((data) => {
             setloggedIn(true);
@@ -69,6 +69,7 @@ const Navbar = () => {
               onClick={() => {
                 const secretTrackz2 = new Audio(`../okbye.mp3`);
                 secretTrackz2.play();
+                localStorage.clear(); // clear any data (our token) in local storage
                 nav("/");
               }}
               className="btn btn-primary mx-1"
