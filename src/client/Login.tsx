@@ -3,14 +3,14 @@ import * as Types from "../types";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Validation from "./Client_Utils/DataValidation";
+import Fetcher from "./Client_Utils/Fetcher";
+import { TOKEN_KEY } from "../client/Client_Utils/Fetcher";
 
 const Loginpage = () => {
   const nav = useNavigate();
 
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-
-  //!  this needs to accept email to log in; plus the password
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -24,13 +24,18 @@ const Loginpage = () => {
         return;
       });
 
+    Fetcher.POST("/auth/login", { email, password }).then((data) => {
+      if (data.token) {
+        localStorage.setItem(TOKEN_KEY, data.token);
+        nav(`/blogs`);
+      }
+    });
+
     //!gotta make this work lol
     // if (username === "Ervin Howell") {
     //   const secretTrackz = new Audio(`../secretTrack.mp3`);
     //   secretTrackz.play();
     // }
-
-    nav(`/blogs`);
   };
 
   return (

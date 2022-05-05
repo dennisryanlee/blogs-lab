@@ -7,15 +7,16 @@ import blogRouter from "./blogRoutes";
 import contactRouter from "./contactRoutes";
 import donateRouter from "./donateRoutes";
 import tagRouter from "./tagRoutes";
+import { validateToken } from "../../Middleware";
 
 const apiRouter = express.Router();
 
 // Current Route is /api
 
-apiRouter.use("/users", usersRouter);
-apiRouter.use("/blogs", blogRouter);
-apiRouter.use("/contact", contactRouter);
+apiRouter.use("/users", validateToken, usersRouter);
+apiRouter.use("/blogs", validateToken, blogRouter);
+apiRouter.use("/contact", validateToken, contactRouter);
 apiRouter.use("/donate", donateRouter);
-apiRouter.use("/tags", tagRouter);
+apiRouter.use("/tags", validateToken, tagRouter);
 
 export default apiRouter;

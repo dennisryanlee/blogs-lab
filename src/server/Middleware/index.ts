@@ -7,7 +7,7 @@ import * as Types from "../../types";
 const HIBP = require("@atlc/hibp");
 
 // checks if a token is valid
-export const validateToken = (req: Request, res: Response, next: NextFunction) => {
+export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunction) => {
   try {
     // grab the token from the headers and split it
     // bearerToken is expected to be an array: [`bearer`, `tokenhere`]
@@ -20,9 +20,15 @@ export const validateToken = (req: Request, res: Response, next: NextFunction) =
     }
 
     // verify the token, and return the payload
-    const payload = jwt.verify(bearerToken[1], JWT_CONFIG.jwtSecretKey);
+    const payload = jwt.verify(bearerToken[1], JWT_CONFIG.jwtSecretKey, {
+      complete: false,
+    }) as Types.TokenPayload;
+
     console.log(payload);
+
     // res.status(200).json({ message: `good to go`, payload });
+
+    req.user = payload;
 
     next();
   } catch (error) {
@@ -63,7 +69,8 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
       console.log(`Token was not found`);
       res.status(401).json({ message: "Invalid Credentials" });
     }
-    next();
+
+    // next();  don't use this, since we send a response
   } catch (error) {
     console.log(`Give Token To Existing User Middleware error...`);
     console.error(error);
@@ -91,7 +98,7 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     if (passCheck.isPwned) {
       // If crap pass, do this
       res.status(401).json({ message: `Bad Password`, breaches: passCheck.breaches });
-      return next();
+      return;
     }
 
     const hashedPassword = generateHash(plainTextPassword); // hash the password for delivery to db!
@@ -109,8 +116,9 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
       });
       console.log(`Token: `, token);
       res.status(200).json({ token });
+    } else {
+      res.status(400).json({ message: `An unknown error occurred` });
     }
-    next();
   } catch (error) {
     console.log(`Give Token New User Middleware error...`);
     console.error(error);

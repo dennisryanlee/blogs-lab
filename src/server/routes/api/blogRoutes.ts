@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as Types from "../../../types";
 import db from "../../db";
 import Validation from "../../Server_Utils/DataValidation";
 
@@ -7,11 +8,11 @@ const blogRouter = express.Router();
 // Current route is /api/blogs
 
 // Create a Blog
-blogRouter.post("/", async (req, res) => {
+blogRouter.post("/", async (req: Types.ReqUser, res) => {
   try {
-    let { title, content, authorid, tagid } = req.body;
+    let { title, content, tagid } = req.body;
 
-    authorid = Number(authorid);
+    const authorid = Number(req.user.userid);
 
     // Validation
     await Validation.isValidString([title, content]);
@@ -97,12 +98,11 @@ blogRouter.get("/:id", async (req, res) => {
 });
 
 // Edit a Blog
-blogRouter.put("/:id", async (req, res) => {
-  const id = Number(req.params.id); // grab the id from req.params...
-  req.body.parse;
+blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
+  const id = Number(req.params.id); // grab the id of the blog i want to delete from req.params...
 
-  const { title, content, authorid } = req.body; // grab the updated info from the body...
-  const authoridnum = Number(authorid);
+  const { title, content } = req.body; // grab the updated info from the body...
+  const authoridnum = Number(req.user.userid); // get the author id from the request
 
   try {
     // Validation
@@ -113,14 +113,15 @@ blogRouter.put("/:id", async (req, res) => {
       [content, 1500],
       [title, 45],
     ]);
-    const newBlogInfo = { title, content, authorid }; // package the updated info into an object
+
+    const newBlogInfo = { title, content, authorid: authoridnum }; // package the updated info into an object
 
     const [results] = await db.Blogs.readOneBlog(id); // ...and use the id as a number to get that particular blog.
 
     if (results) {
       // if the blog exists in the database, send it as the response
 
-      const updateResults = await db.Blogs.updateBlog(newBlogInfo, Number(id)); // newBlogInfo contains theupdated info, id specifies the blog
+      const updateResults = await db.Blogs.updateBlog(newBlogInfo, Number(id), authoridnum); // newBlogInfo contains theupdated info, id specifies the blog
 
       if (updateResults.affectedRows) {
         //! if insert works, now we can add the tag
@@ -146,14 +147,15 @@ blogRouter.put("/:id", async (req, res) => {
 });
 
 // Delete a Blog
-blogRouter.delete("/:id", async (req, res) => {
-  const id = Number(req.params.id); // grab the id from req.params...
+blogRouter.delete("/:id", async (req: Types.ReqUser, res) => {
+  const id = Number(req.params.id); // grab the id of the blog we want to delete from req.params...
+  const authoridnum = Number(req.user.userid); // get the author id from the request
 
   try {
     // ID Validation
     await Validation.isValidID(id);
-    await db.Blogs.deleteBlogTag(id);
-    const DeleteBlogResponse = await db.Blogs.deleteBlog(id); // use the id to delete the blog
+
+    const DeleteBlogResponse = await db.Blogs.deleteBlog(id, authoridnum); // use the id to delete the blog
 
     if (DeleteBlogResponse.affectedRows) {
       // if it was deleted

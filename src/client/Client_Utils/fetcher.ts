@@ -1,6 +1,6 @@
 import { PaymentMethod } from "@stripe/stripe-js";
 
-const TOKEN_KEY = `token`;
+export const TOKEN_KEY = `token`;
 
 //
 /**

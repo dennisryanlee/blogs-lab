@@ -3,6 +3,7 @@ import MailGun from "mailgun.js";
 import * as Mailgun from "mailgun.js";
 import * as FormData from "form-data";
 import { MAILGUN_CONFIG } from "../../config";
+import * as Types from "../../../types";
 
 const mailgun = new (<typeof MailGun>(<any>Mailgun))(<any>FormData).client({
   username: "api",
@@ -13,13 +14,13 @@ const contactRouter = express.Router();
 
 // Current route is /api/contact
 
-contactRouter.post("/", async (req, res) => {
+contactRouter.post("/", async (req: Types.ReqUser, res) => {
   const newEmail = req.body;
   try {
     const result = await mailgun.messages.create(MAILGUN_CONFIG.mailgunDomain, {
       to: MAILGUN_CONFIG.mailgunToEmail,
       subject: newEmail.subject,
-      from: newEmail.from,
+      from: req.user.username,
       text: newEmail.message,
     });
     res.json(result);

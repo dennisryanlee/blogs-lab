@@ -1,3 +1,5 @@
+import * as Express from "express";
+
 export interface AppProps {}
 
 export interface Blog {
@@ -55,4 +57,15 @@ export interface MySQLResponse {
 export interface HIBPResponse {
   isPwned: boolean;
   breaches: number;
+}
+
+export interface TokenPayload {
+  username: string;
+  userid: number;
+  email: string;
+  role: string;
+}
+
+export interface ReqUser extends Express.Request {
+  user?: TokenPayload;
 }

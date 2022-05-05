@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Validation from "../Client_Utils/DataValidation";
 import * as Types from "../../types";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
 
 const NewAuthor = () => {
   const [authorname, setAuthorname] = useState<string>("");
@@ -35,6 +35,7 @@ const NewAuthor = () => {
 
     Fetcher.POST("/auth/register/", { authorname, authorbio, email, password })
       .then((data) => {
+        localStorage.setItem(TOKEN_KEY, data.token);
         console.log(`New Author Added!`);
         nav(`/blogs`); // navigate user to blogs if no error
       })

@@ -6,8 +6,8 @@ import * as Type from "../../types";
 // Creating an author is handled in LoginQueries
 
 //*************************  READ  *****************************/
-const readAllAuthors = () => Query<Type.Author[]>(`SELECT * FROM Authors`);
-const readOneAuthor = (id: number) => Query<Type.Author[]>(`SELECT * FROM Authors WHERE id=?`, [id]);
+const readAllAuthors = () => Query<Type.Author[]>(`SELECT id, authorname, authorbio, email FROM Authors`);
+const readOneAuthor = (id: number) => Query<Type.Author[]>(`SELECT id, authorname, authorbio, email FROM Authors WHERE id=?`, [id]);
 
 //*************************  UPDATE  *****************************/
 const updateAuthor = (newAuthorInfo: Type.updateAuthorInfo, id: number) => Query(`UPDATE Authors SET ? WHERE id = ?`, [newAuthorInfo, id]);

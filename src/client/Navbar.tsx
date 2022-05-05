@@ -4,26 +4,24 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Fetcher from "./Client_Utils/Fetcher";
+import Fetcher, { TOKEN_KEY } from "./Client_Utils/Fetcher";
 
 const Navbar = () => {
   const [loggedIn, setloggedIn] = useState<boolean>(false);
   const nav = useNavigate();
   const loc = useLocation();
 
-  //! change these
-  const protectedRoutes = [`/api`];
+  const PublicPages = [`/`, `/donate`];
 
   useEffect(() => {
     //this will fire every time the user navigates to a new path, checking if they have a valid token
     console.log(`You are on ${loc.pathname}`);
 
-    if (protectedRoutes.includes(loc.pathname)) {
+    if (!PublicPages.includes(loc.pathname)) {
       try {
-        //! this is my verify token route
-        Fetcher.GET("my auth route here")
+        Fetcher.GET("/auth/checkToken")
           .then((data) => {
-            setloggedIn(true);
+            if (data.message === `valid token!`) setloggedIn(true);
             console.log(data);
           })
           .catch((error) => {
@@ -69,7 +67,7 @@ const Navbar = () => {
               onClick={() => {
                 const secretTrackz2 = new Audio(`../okbye.mp3`);
                 secretTrackz2.play();
-                localStorage.clear(); // clear any data (our token) in local storage
+                localStorage.removeItem(TOKEN_KEY); // clear any data (our token) in local storage
                 nav("/");
               }}
               className="btn btn-primary mx-1"

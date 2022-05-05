@@ -42,12 +42,13 @@ const readOneBlog = (id: number) =>
 //! if i make it possible to update the author on a particular blog, i first need to check if that author exists since that is a foreign key
 //! if the new author does not exist it will send an error, which i can send to the front end
 
-const updateBlog = (newBlogInfo: Type.newBlogInfo, id: number) => Query(`UPDATE Blogs SET ? WHERE id = ?`, [newBlogInfo, id]);
+const updateBlog = (newBlogInfo: Type.newBlogInfo, id: number, authorid: number) =>
+  Query(`UPDATE Blogs SET ? WHERE id = ? AND authorid = ?`, [newBlogInfo, id, authorid]);
 
 //*************************  DESTROY  *****************************/
 // delete-x will delete the row from the x table where the id matches
 
-const deleteBlog = (id: number) => Query(`DELETE FROM Blogs WHERE id = ?`, [id]);
+const deleteBlog = (id: number, authorid: number) => Query(`DELETE FROM Blogs WHERE id = ? AND authorid = ?`, [id, authorid]);
 const deleteBlogTag = (id: number) =>
   Query(
     `DELETE FROM BlogTags WHERE Blogid = ?;
