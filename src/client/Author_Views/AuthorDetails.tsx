@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import Fetcher from "../Client_Utils/Fetcher";
 
 const AuthorDetails = () => {
   const [authorbio, setAuthorBio] = useState<string>("");
@@ -22,32 +23,39 @@ const AuthorDetails = () => {
   };
 
   const updateAuthor = () => {
-    fetch(`/api/authors/${id}`, {
-      // use the route:  /api/authors/ ...
-      method: "PUT", // ...send a PUT request...
-      headers: {
-        // ...specifying the type of content...
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ authorbio }), // ...and deliver the content}
-    })
-      .then((res) => {
-        // then with that response
-        res.json().then((data) => {
-          // parse the response, then with the response
-          if (res.ok) {
-            // if it was a good response
-            nav("/users"); // nav to authors view
-          } else {
-            // if it was a bad response
-            throw new Error(data.message);
-          }
-        });
-      })
+    Fetcher.PUT(`/api/authors/${id}`, { authorbio })
+      .then((res) => nav("/users")) // navigate to authors view if no errors
       .catch((error) => {
         console.log(`Update Author Error...\n`);
         console.error(error);
       });
+
+    // fetch(`/api/authors/${id}`, {
+    //   // use the route:  /api/authors/ ...
+    //   method: "PUT", // ...send a PUT request...
+    //   headers: {
+    //     // ...specifying the type of content...
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({ authorbio }), // ...and deliver the content}
+    // })
+    //   .then((res) => {
+    //     // then with that response
+    //     res.json().then((data) => {
+    //       // parse the response, then with the response
+    //       if (res.ok) {
+    //         // if it was a good response
+    //         nav("/users"); // nav to authors view
+    //       } else {
+    //         // if it was a bad response
+    //         throw new Error(data.message);
+    //       }
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(`Update Author Error...\n`);
+    //     console.error(error);
+    //   });
   };
 
   return (

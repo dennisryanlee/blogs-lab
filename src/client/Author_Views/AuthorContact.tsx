@@ -34,6 +34,23 @@ const AuthorContact = () => {
         console.log(`Send Email To Author Error...\n`);
         console.error(error);
       });
+
+    // fetch("/contact", {
+    //   method: "POST",
+    //   headers: { "Content-type": "application/json" },
+    //   body: JSON.stringify({ from, subject, message }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     alert(`Your email to ${AUTHOR.authorname}} has been sent!`);
+    //     clearEmailForm();
+    //     console.log(result);
+    //     nav("/users"); // nav to authors view
+    //   })
+    //   .catch((error) => {
+    //     console.log(`Send Email To Author Error...\n`);
+    //     console.error(error);
+    //   });
   };
 
   return (
