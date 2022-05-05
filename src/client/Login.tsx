@@ -9,8 +9,8 @@ import { TOKEN_KEY } from "../client/Client_Utils/Fetcher";
 const Loginpage = () => {
   const nav = useNavigate();
 
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("hunter2");
+  const [email, setEmail] = useState<string>("test@test.com");
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

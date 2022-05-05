@@ -4,7 +4,7 @@ export const TOKEN_KEY = `token`;
 
 //
 /**
- * Wrap all Fetcher calls in a try catch block.
+ * use a .catch after every Fetcher call
  * res.json() is already done
  * body will already be stringified
  */
@@ -28,16 +28,22 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
 
   try {
     const res = await fetch(url, { method, ...fetchOptions });
-
+    const data = await res.json();
+    console.log({ data });
     if (res.ok) {
-      return res.json();
+      // console.log(`res was ok here`);
+      return data;
     } else {
-      throw new Error(`Bad Response - ${res.status}`);
+      console.log(`res was bad here`);
+      // throw new Error(`Bad Response - ${res.status}`);
+      return data;
     }
   } catch (error) {
+    // console.log(`res was super bad here`);
+
     console.log(`Bad Fetcher Call - Error...\n`);
     console.error(error);
-    throw new Error(`Bad Fetcher Call Happened`);
+    // throw new Error(`Bad Fetcher Call Happened`);
     // This throw will not be caught in this catch block, thus, ALL Fetcher calls need to be in a try catch block
   }
 };

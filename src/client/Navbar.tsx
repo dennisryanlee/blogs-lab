@@ -15,25 +15,22 @@ const Navbar = () => {
 
   useEffect(() => {
     //this will fire every time the user navigates to a new path, checking if they have a valid token
-    console.log(`You are on ${loc.pathname}`);
+    // console.log(`You are on ${loc.pathname}`);
 
     if (!PublicPages.includes(loc.pathname)) {
-      try {
-        Fetcher.GET("/auth/checkToken")
-          .then((data) => {
-            if (data.message === `valid token!`) setloggedIn(true);
-            console.log(data);
-          })
-          .catch((error) => {
-            setloggedIn(false);
-            console.log(`error...\n`);
-            console.error(error);
-            nav("/"); // Navigate user to login page if error occurs
-          });
-      } catch (error) {
-        console.log(`Fetcher.Get From Navbar Error...\n`);
-        console.error(error);
-      }
+      Fetcher.GET("/auth/checkToken")
+        .then((data) => {
+          console.log(data);
+          if (data.token) setloggedIn(true);
+          // console.log(`data will be below`);
+        })
+        .catch((error) => {
+          // setloggedIn(false);
+          console.log(`are we really here?`);
+          console.log(`error...\n`);
+          console.error(error);
+          // nav("/"); // Navigate user to login page if error occurs
+        });
     }
   }, [loc.pathname]);
 
