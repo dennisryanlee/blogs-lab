@@ -28,35 +28,6 @@ const BlogDetails = () => {
         console.log(`Update Blog Error...\n`);
         console.error(error);
       });
-
-    // fetch(`/api/blogs/${id}`, {
-    //   // use the route:  /api/chirps/ ...
-    //   method: "PUT", // ...send a PUT request...
-    //   headers: {
-    //     // ...specifying the type of content...
-    //     "content-type": "application/json",
-    //   },
-    //   //! grab the author id from jwt once i know how
-    //   body: JSON.stringify({ title, content, authorid: 25 }), // ...and deliver the content}
-    // })
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse the response, then with the response
-    //       if (res.ok) {
-    //         // if it was a good response
-    //         console.log(`Update Blog Successful!`);
-    //         nav("/blogs"); // nav to blogs view
-    //       } else {
-    //         // if it was a bad response
-    //         throw new Error(data.message);
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(`Update Blog Error...\n`);
-    //     console.error(error);
-    //   });
   };
 
   const deleteBlog = () => {
@@ -126,6 +97,7 @@ const BlogDetails = () => {
       </Button>
     </>;
   };
+
   const showWhenNotEditing = () => {
     return (
       <>

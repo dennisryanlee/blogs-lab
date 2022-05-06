@@ -2,20 +2,19 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Fetcher from "../Client_Utils/Fetcher";
 
 const AuthorDetails = () => {
   const [authorbio, setAuthorBio] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  //! how to set isEditing back to false when user leaves this page?
   const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
 
   const nav = useNavigate();
   const loc = useLocation();
 
-  const AUTHOR = loc.state as Types.Author;
+  const AUTHOR = loc.state as Types.Author; // grab the author from state passed from loc
 
   const chefskiss = () => {
     const secretTrackz3 = new Audio(`../wow.mp3`);
@@ -24,7 +23,7 @@ const AuthorDetails = () => {
 
   const updateAuthor = () => {
     Fetcher.PUT(`/api/authors/${id}`, { authorbio })
-      .then((res) => nav("/users")) // navigate to authors view if no errors
+      .then(() => nav("/users")) // navigate to authors view if no errors
       .catch((error) => {
         console.log(`Update Author Error...\n`);
         console.error(error);
@@ -105,6 +104,22 @@ const AuthorDetails = () => {
       </>
     );
   };
+
+  //! I shouldn't need to fetch an author, since I was already passed that author's info from the Authors Component
+  // const getSingleAuthor = (author: Types.Author) => {
+  //   Fetcher.GET(`/api/authors/${author.id}`)
+  //     .then((data) => {
+  //       setAuthor(data); // set the data to state if no errors
+  //     })
+  //     .catch((error) => {
+  //       console.log(`Get Single Author Error...\n`);
+  //       console.error(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getSingleAuthor(AUTHOR);
+  // }, []);
 
   return (
     <>

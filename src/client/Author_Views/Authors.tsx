@@ -19,21 +19,6 @@ const Authors = () => {
         console.log(`Get All Authors Error...\n`);
         console.error(error);
       });
-
-    // fetch("/api/users") // GET from "/api/users"
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse as JSON data, then with that data
-    //       if (res.ok) {
-    //         // if there was an OK response
-    //         setAuthorsArray(data); // set the data to state
-    //       } else {
-    //         // if there was not an OK response
-    //         throw new Error(data.message); // throw a new error
-    //       }
-    //     });
-    //   });
   };
 
   const getSingleAuthor = (author: Types.Author) => {
@@ -46,26 +31,6 @@ const Authors = () => {
         console.error(error);
       });
     nav(`/authors/${author.id}`, { state: { ...author } }); // nav to author details with the selected author data
-
-    // fetch(`/api/authors/${author.id}`) // GET from "/api/authors"
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse as JSON data, then with that data
-    //       if (res.ok) {
-    //         // if there was an OK response
-    //         setAuthorsArray(data); // set the data to state
-    //       } else {
-    //         // if there was not an OK response
-    //         throw new Error(data.message); // throw a new error
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(`Get Single Author Error...\n`);
-    //     console.error(error);
-    //   });
-    // nav(`/authors/${author.id}`, { state: { ...author } });
   };
 
   useEffect(() => {
