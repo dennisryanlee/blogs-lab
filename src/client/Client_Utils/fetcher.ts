@@ -29,6 +29,7 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
   try {
     const res = await fetch(url, { method, ...fetchOptions });
     const data = await res.json();
+
     console.log({ data });
     if (res.ok) {
       // console.log(`res was ok here`);

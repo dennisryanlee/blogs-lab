@@ -4,7 +4,7 @@ import { JWT_CONFIG } from "../config";
 import db from "../db";
 import { generateHash, compareHash } from "../Server_Utils/Passwords";
 import * as Types from "../../types";
-const HIBP = require("@atlc/hibp");
+import HIBP from "@atlc/hibp";
 
 // checks if a token is valid
 export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunction) => {
@@ -93,7 +93,7 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     const authorbio = req.body.authorbio;
     const plainTextPassword = req.body.password;
 
-    const passCheck = HIBP(plainTextPassword) as Types.HIBPResponse;
+    const passCheck = await HIBP.validate(plainTextPassword);
 
     if (passCheck.isPwned) {
       // If crap pass, do this
@@ -104,7 +104,7 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     const hashedPassword = generateHash(plainTextPassword); // hash the password for delivery to db!
 
     // put new author info into an object
-    const newAuthorInfo = { authorname, email, hashedPassword, authorbio };
+    const newAuthorInfo = { authorname, email, password: hashedPassword, authorbio };
 
     //register a new author with the new author info
     const newAuthorRes = await db.Login.registerNewAuthor(newAuthorInfo);
