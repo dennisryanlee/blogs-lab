@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
 
 const BlogDetails = () => {
   const [title, setTitle] = useState<string>("");
@@ -19,7 +19,7 @@ const BlogDetails = () => {
 
   //! this needs to grab the author id from the token
   const updateBlog = () => {
-    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid: 25 })
+    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid: BLOG.authorid })
       .then(() => {
         console.log(`Update Blog Successful!`);
         nav("/blogs"); // nav to blogs view if no errors
@@ -88,9 +88,6 @@ const BlogDetails = () => {
         onClick={() => {
           setIsEditing(false);
           handleClearTitleAndContent();
-          //not sure if i need set title or set content here
-          setTitle(BLOG.title);
-          setContent(BLOG.content);
         }}
       >
         Cancel
