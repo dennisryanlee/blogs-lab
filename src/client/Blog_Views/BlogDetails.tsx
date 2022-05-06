@@ -69,23 +69,6 @@ const BlogDetails = () => {
         console.log(`Delete Blog Error...\n`);
         console.error(error);
       });
-
-    // contact /api/blogs/:id with a DELETE request to delete the specified blog
-    // fetch(`/api/blogs/${id}`, { method: "DELETE" })
-    //   .then((res) => {
-    //     res.json().then((data) => {
-    //       if (res.ok) {
-    //         console.log(`Delete Blog Successful!`);
-    //         nav("/blogs"); // nav to blogs view
-    //       } else {
-    //         throw new Error(data.message);
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(`Delete Blog Error...\n`);
-    //     console.error(error);
-    //   });
   };
 
   const stuckem = () => {
@@ -103,115 +86,96 @@ const BlogDetails = () => {
     setContent("");
   };
 
+  const showWhenEditing = () => {
+    <>
+      <input value={title.toLocaleUpperCase()} onChange={(e) => setTitle(e.target.value)} className="card-title form-control" />
+
+      <hr></hr>
+
+      <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
+
+      <hr></hr>
+      <Button
+        variant="contained"
+        color="success"
+        className="btn my-2 ms-2 col-md-2"
+        type="button"
+        onClick={() => {
+          updateBlog();
+          chefskiss();
+          setIsEditing(false);
+          handleClearTitleAndContent();
+        }}
+      >
+        Submit
+      </Button>
+      <Button
+        variant="contained"
+        color="info"
+        className="btn my-2 ms-2 col-md-2"
+        type="button"
+        onClick={() => {
+          setIsEditing(false);
+          handleClearTitleAndContent();
+          //not sure if i need set title or set content here
+          setTitle(BLOG.title);
+          setContent(BLOG.content);
+        }}
+      >
+        Cancel
+      </Button>
+    </>;
+  };
+  const showWhenNotEditing = () => {
+    return (
+      <>
+        <h5 className="card-title">{BLOG.title.toLocaleUpperCase()}</h5>
+        <h6 className="card-subtitle">Writen by: {BLOG.authorname}</h6>
+
+        <hr></hr>
+
+        <div className="card-text">{BLOG.content}</div>
+
+        <hr></hr>
+        <span className="badge rounded-pill bg-secondary text-dark">{BLOG.tagname}</span>
+
+        <hr></hr>
+        <Button
+          variant="contained"
+          color="warning"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            setIsEditing(true);
+            setTitle(BLOG.title);
+            setContent(BLOG.content);
+          }}
+        >
+          Edit
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            stuckem();
+            deleteBlog();
+          }}
+        >
+          Delete
+        </Button>
+      </>
+    );
+  };
+
   return (
     <>
       <div className="d-flex flex-wrap justify-content-around">
         <div className="card col-md-6 mx-2">
           <div className="card-body">
-            {/* Show this when Not Editing ************************************************/}
-            {!isEditing && (
-              <>
-                <h5 className="card-title">{BLOG.title.toLocaleUpperCase()}</h5>
-                <h6 className="card-subtitle">Writen by: {BLOG.authorname}</h6>
-
-                <hr></hr>
-
-                <div className="card-text">{BLOG.content}</div>
-
-                <hr></hr>
-                <span className="badge rounded-pill bg-secondary text-dark">{BLOG.tagname}</span>
-
-                <hr></hr>
-              </>
-            )}
-
-            {/* Show this when Not Editing ************************************************/}
-            {!isEditing && (
-              <>
-                <Button
-                  variant="contained"
-                  color="warning"
-                  className="btn my-2 ms-2 col-md-2"
-                  type="button"
-                  onClick={() => {
-                    setIsEditing(true);
-                    setTitle(BLOG.title);
-                    setContent(BLOG.content);
-                  }}
-                >
-                  Edit
-                </Button>
-              </>
-            )}
-
-            {/* Show this when Not Editing ************************************************/}
-            {!isEditing && (
-              <>
-                <Button
-                  variant="contained"
-                  color="error"
-                  className="btn my-2 ms-2 col-md-2"
-                  type="button"
-                  onClick={() => {
-                    stuckem();
-                    deleteBlog();
-                  }}
-                >
-                  Delete
-                </Button>
-              </>
-            )}
-
-            {/* Show this when Editing ************************************************/}
-            {isEditing && (
-              <>
-                <input value={title.toLocaleUpperCase()} onChange={(e) => setTitle(e.target.value)} className="card-title form-control" />
-
-                <hr></hr>
-
-                <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
-
-                <hr></hr>
-              </>
-            )}
-
-            {/* Show this when Editing ************************************************/}
-            {isEditing && (
-              <>
-                <Button
-                  variant="contained"
-                  color="success"
-                  className="btn my-2 ms-2 col-md-2"
-                  type="button"
-                  onClick={() => {
-                    updateBlog();
-                    chefskiss();
-                    setIsEditing(false);
-                    handleClearTitleAndContent();
-                  }}
-                >
-                  Submit
-                </Button>
-              </>
-            )}
-            {/* Show this when Editing ************************************************/}
-            {isEditing && (
-              <Button
-                variant="contained"
-                color="info"
-                className="btn my-2 ms-2 col-md-2"
-                type="button"
-                onClick={() => {
-                  setIsEditing(false);
-                  handleClearTitleAndContent();
-                  //not sure if i need set title or set content here
-                  setTitle(BLOG.title);
-                  setContent(BLOG.content);
-                }}
-              >
-                Cancel
-              </Button>
-            )}
+            {!isEditing && showWhenNotEditing()}
+            {isEditing && showWhenEditing()}
           </div>
         </div>
       </div>
