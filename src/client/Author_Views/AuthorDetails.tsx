@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
 
 const AuthorDetails = () => {
   const [authorbio, setAuthorBio] = useState<string>("");
@@ -76,31 +76,35 @@ const AuthorDetails = () => {
         <div className="card-text">{AUTHOR.authorbio}</div>
 
         <hr></hr>
-        <Button
-          variant="contained"
-          color="warning"
-          className="btn my-2 ms-2 col-md-2"
-          type="button"
-          onClick={() => {
-            // I only want the Bio editable - removing old editable stuff may've led to layout shift
-            setAuthorBio(AUTHOR.authorbio);
-            setIsEditing(true);
-          }}
-        >
-          Edit
-        </Button>
+        {true && (
+          <>
+            <Button
+              variant="contained"
+              color="warning"
+              className="btn my-2 ms-2 col-md-2"
+              type="button"
+              onClick={() => {
+                // I only want the Bio editable, and when it is the actual author
+                setAuthorBio(AUTHOR.authorbio);
+                setIsEditing(true);
+              }}
+            >
+              Edit
+            </Button>
 
-        <Button
-          variant="contained"
-          color="primary"
-          className="btn my-2 ms-2 col-md-2"
-          type="button"
-          onClick={() => {
-            nav("/contact", { state: { ...AUTHOR } });
-          }}
-        >
-          Email
-        </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className="btn my-2 ms-2 col-md-2"
+              type="button"
+              onClick={() => {
+                nav("/contact", { state: { ...AUTHOR } });
+              }}
+            >
+              Email
+            </Button>
+          </>
+        )}
       </>
     );
   };

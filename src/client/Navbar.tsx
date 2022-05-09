@@ -1,10 +1,10 @@
 import * as React from "react";
-
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Fetcher, { TOKEN_KEY } from "./Client_Utils/Fetcher";
+import * as Types from "../types";
 
 const Navbar = () => {
   const [loggedIn, setloggedIn] = useState<boolean>(false);
@@ -16,6 +16,10 @@ const Navbar = () => {
   useEffect(() => {
     //this will fire every time the user navigates to a new path, checking if they have a valid token
     // console.log(`You are on ${loc.pathname}`);
+
+    // const tokenString: string = localStorage.getItem(TOKEN_KEY);
+    // const tokenClaims = atob(tokenString.split('.')[1])
+    // const tokenClaims = new Buffer(tokenString, `base64`)
 
     if (!PublicPages.includes(loc.pathname)) {
       Fetcher.POST("/auth/checkToken", null)
