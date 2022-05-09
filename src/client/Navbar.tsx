@@ -17,10 +17,6 @@ const Navbar = () => {
     //this will fire every time the user navigates to a new path, checking if they have a valid token
     // console.log(`You are on ${loc.pathname}`);
 
-    // const tokenString: string = localStorage.getItem(TOKEN_KEY);
-    // const tokenClaims = atob(tokenString.split('.')[1])
-    // const tokenClaims = new Buffer(tokenString, `base64`)
-
     if (!PublicPages.includes(loc.pathname)) {
       Fetcher.POST("/auth/checkToken", null)
         .then((data) => {
