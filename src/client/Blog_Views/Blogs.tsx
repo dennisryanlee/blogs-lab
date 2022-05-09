@@ -11,19 +11,19 @@ const Blogs = (props: Types.BlogsProps) => {
 
   const nav = useNavigate();
 
-  const getSingleBlog = (blog: Types.Blog) => {
-    console.log(`Fetching blog: ${blog.blogid}`);
+  // const getSingleBlog = (blog: Types.Blog) => {
+  //   console.log(`Fetching blog: ${blog.blogid}`);
 
-    Fetcher.GET(`/api/blogs/${blog.blogid}`)
-      .then((data) => {
-        setBlogsArray(data); // set the data to state if no errors
-      })
-      .catch((error) => {
-        console.log(`Get Single Blog Error.  Blog ID: ${blog.blogid}...\n`);
-        console.error(error);
-      });
-    nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
-  };
+  //   Fetcher.GET(`/api/blogs/${blog.blogid}`)
+  //     .then((data) => {
+  //       setBlogsArray(data); // set the data to state if no errors
+  //     })
+  //     .catch((error) => {
+  //       console.log(`Get Single Blog Error.  Blog ID: ${blog.blogid}...\n`);
+  //       console.error(error);
+  //     });
+  //   nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
+  // };
 
   const getAllBlogs = () => {
     Fetcher.GET("/api/blogs")
@@ -78,7 +78,11 @@ const Blogs = (props: Types.BlogsProps) => {
 
                 <hr></hr>
 
-                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(blog)}>
+                <Button
+                  variant="contained"
+                  className="btn btn-warning btn-sm"
+                  onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}
+                >
                   View this Blog
                 </Button>
               </div>
@@ -111,7 +115,11 @@ const Blogs = (props: Types.BlogsProps) => {
 
                 <hr></hr>
 
-                <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleBlog(blog)}>
+                <Button
+                  variant="contained"
+                  className="btn btn-warning btn-sm"
+                  onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}
+                >
                   View this Blog
                 </Button>
               </div>

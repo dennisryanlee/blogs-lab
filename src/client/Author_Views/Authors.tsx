@@ -21,17 +21,17 @@ const Authors = () => {
       });
   };
 
-  const getSingleAuthor = (author: Types.Author) => {
-    Fetcher.GET(`/api/authors/${author.id}`)
-      .then((data) => {
-        setAuthorsArray(data); // set the data to state if no errors
-      })
-      .catch((error) => {
-        console.log(`Get Single Author Error...\n`);
-        console.error(error);
-      });
-    nav(`/authors/${author.id}`, { state: { ...author } }); // nav to author details with the selected author data
-  };
+  // const getSingleAuthor = (author: Types.Author) => {
+  //   Fetcher.GET(`/api/authors/${author.id}`)
+  //     .then((data) => {
+  //       setAuthorsArray(data); // set the data to state if no errors
+  //     })
+  //     .catch((error) => {
+  //       console.log(`Get Single Author Error...\n`);
+  //       console.error(error);
+  //     });
+  //   nav(`/authors/${author.id}`, { state: { ...author } }); // nav to author details with the selected author data
+  // };
 
   useEffect(() => {
     getAllAuthors();
@@ -52,7 +52,11 @@ const Authors = () => {
 
               <hr></hr>
 
-              <Button variant="contained" className="btn btn-warning btn-sm" onClick={() => getSingleAuthor(author)}>
+              <Button
+                variant="contained"
+                className="btn btn-warning btn-sm"
+                onClick={() => nav(`/users/${author.id}`, { state: { ...author } })}
+              >
                 View this Author
               </Button>
             </div>
