@@ -63,6 +63,7 @@ const Navbar = () => {
               onClick={() => {
                 const secretTrackz2 = new Audio(`../okbye.mp3`);
                 secretTrackz2.play();
+                setloggedIn(false);
                 localStorage.removeItem(TOKEN_KEY); // clear any data (our token) in local storage
                 nav("/");
               }}

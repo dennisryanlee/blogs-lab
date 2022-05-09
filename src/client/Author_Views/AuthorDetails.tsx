@@ -105,21 +105,9 @@ const AuthorDetails = () => {
     );
   };
 
-  //! I shouldn't need to fetch an author, since I was already passed that author's info from the Authors Component
-  // const getSingleAuthor = (author: Types.Author) => {
-  //   Fetcher.GET(`/api/authors/${author.id}`)
-  //     .then((data) => {
-  //       setAuthor(data); // set the data to state if no errors
-  //     })
-  //     .catch((error) => {
-  //       console.log(`Get Single Author Error...\n`);
-  //       console.error(error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getSingleAuthor(AUTHOR);
-  // }, []);
+  useEffect(() => {
+    setAuthorBio(AUTHOR.authorbio);
+  }, []);
 
   return (
     <>

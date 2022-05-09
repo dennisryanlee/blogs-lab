@@ -93,13 +93,13 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     const authorbio = req.body.authorbio;
     const plainTextPassword = req.body.password;
 
-    const passCheck = await HIBP.validate(plainTextPassword);
+    // const passCheck = await HIBP.validate(plainTextPassword);
 
-    if (passCheck.isPwned) {
-      // If crap pass, do this
-      res.status(401).json({ message: `Bad Password`, breaches: passCheck.breaches });
-      return;
-    }
+    // if (passCheck.isPwned) {
+    //   // If crap pass, do this
+    //   res.status(401).json({ message: `Bad Password`, breaches: passCheck.breaches });
+    //   return;
+    // }
 
     const hashedPassword = generateHash(plainTextPassword); // hash the password for delivery to db!
 

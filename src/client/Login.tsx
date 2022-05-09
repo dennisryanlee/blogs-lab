@@ -9,8 +9,8 @@ import { TOKEN_KEY } from "../client/Client_Utils/Fetcher";
 const Loginpage = () => {
   const nav = useNavigate();
 
-  const [password, setPassword] = useState<string>("hunter2");
-  const [email, setEmail] = useState<string>("test@test.com");
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -24,12 +24,21 @@ const Loginpage = () => {
         return;
       });
 
-    Fetcher.POST("/auth/login", { email, password }).then((data) => {
-      if (data.token) {
-        localStorage.setItem(TOKEN_KEY, data.token);
-        nav(`/blogs`);
-      }
-    });
+    Fetcher.POST("/auth/login", { email, password })
+      .then((data) => {
+        console.log({ data });
+        if (data.token) {
+          localStorage.setItem(TOKEN_KEY, data.token);
+          nav(`/blogs`);
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(`Login Error...\n`);
+        console.error(error);
+        alert(`Something went wrong, please try again`);
+      });
 
     //!gotta make this work lol
     // if (username === "Ervin Howell") {
