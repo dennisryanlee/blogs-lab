@@ -5,6 +5,7 @@ import * as Types from "../../types";
 import Validation from "../Client_Utils/DataValidation";
 import { useNavigate } from "react-router-dom";
 import Fetcher from "../Client_Utils/Fetcher";
+import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const NewBlog = () => {
   const [title, setTitle] = useState<string>("");
@@ -19,6 +20,9 @@ const NewBlog = () => {
     setContent("");
     setSelectedTagId(0);
   };
+
+  const decodedToken = decodeMyToken();
+  const authorid = decodedToken.userid;
 
   const handleNewBlog = (e: React.MouseEvent<HTMLButtonElement>) => {
     // Validation
@@ -43,7 +47,7 @@ const NewBlog = () => {
       alert("Hey don't forget your tag!");
     }
 
-    Fetcher.POST("/api/blogs/", { title, content, authorid: localStorage.getItem(`authorid`), tagid: selectedTagId })
+    Fetcher.POST("/api/blogs/", { title, content, authorid, tagid: selectedTagId })
       .then(() => {
         handleClearTitleAndContent(); // clear the inputs
         nav("/blogs"); // nav to blogs view is no errors
@@ -52,34 +56,6 @@ const NewBlog = () => {
         console.log(`New Blog Error...\n`);
         console.error(error);
       });
-
-    // fetch("/api/blogs/", {
-    //   // use the route:  /api/chirps/ ...
-    //   method: "POST", // ...send a POST request...
-    //   headers: {
-    //     // ...specifying the type of content...
-    //     "content-type": "application/json",
-    //   }, //! Get the authorid from the token - not fully implemented yet
-    //   body: JSON.stringify({ title, content, authorid: localStorage.getItem, tagid: selectedTagId }), // ...and deliver the content
-    // })
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse as JSON data, then with that data
-    //       if (res.ok) {
-    //         // if there was an OK response
-    //         handleClearTitleAndContent(); // clear the inputs
-    //         nav("/blogs"); // nav to blogs view
-    //       } else {
-    //         // if there was not an OK response
-    //         throw new Error(data.message); // throw a new error
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(`New Blog Error...\n`);
-    //     console.error(error);
-    //   });
   };
 
   const getAllTags = () => {
@@ -91,22 +67,6 @@ const NewBlog = () => {
         console.log(`Get All Tags Error...\n`);
         console.error(error);
       });
-
-    // fetch(`/api/tags`)
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse as JSON data, then with that data
-    //       if (res.ok) {
-    //         // if there was an OK response
-    //         setTagsArray(data); // set the data to state
-    //       } else {
-    //         // if there was not an OK response
-    //         throw new Error(data.message); // throw a new error
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
   };
 
   useEffect(() => {
