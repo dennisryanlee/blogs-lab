@@ -4,11 +4,13 @@ import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
+import { decode, JwtPayload } from "jsonwebtoken";
 
 const BlogDetails = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
   const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
 
@@ -17,9 +19,18 @@ const BlogDetails = () => {
 
   const BLOG = loc.state as Types.Blog;
 
-  //! this needs to grab the author id from the token
+  const token: string | JwtPayload = localStorage.getItem(TOKEN_KEY);
+  const decodedToken = decode(token) as Types.TokenPayload;
+
+  if (decodedToken.userid === Number(BLOG.authorid)) {
+    // if userid from the token matches the id from the selected author, set isAuthor to true
+    // even if a malicious user changes their token, it will be an invalid token
+    // edit route is protected, so their request to edit will not go through
+    setIsAuthor(true);
+  }
+
   const updateBlog = () => {
-    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid: BLOG.authorid })
+    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid: decodedToken.userid })
       .then(() => {
         console.log(`Update Blog Successful!`);
         nav("/blogs"); // nav to blogs view if no errors
@@ -109,31 +120,37 @@ const BlogDetails = () => {
         <span className="badge rounded-pill bg-secondary text-dark">{BLOG.tagname}</span>
 
         <hr></hr>
-        <Button
-          variant="contained"
-          color="warning"
-          className="btn my-2 ms-2 col-md-2"
-          type="button"
-          onClick={() => {
-            setIsEditing(true);
-            setTitle(BLOG.title);
-            setContent(BLOG.content);
-          }}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="contained"
-          color="error"
-          className="btn my-2 ms-2 col-md-2"
-          type="button"
-          onClick={() => {
-            stuckem();
-            deleteBlog();
-          }}
-        >
-          Delete
-        </Button>
+
+        {isAuthor && (
+          <>
+            // Only Authors may edit
+            <Button
+              variant="contained"
+              color="warning"
+              className="btn my-2 ms-2 col-md-2"
+              type="button"
+              onClick={() => {
+                setIsEditing(true);
+                setTitle(BLOG.title);
+                setContent(BLOG.content);
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              className="btn my-2 ms-2 col-md-2"
+              type="button"
+              onClick={() => {
+                stuckem();
+                deleteBlog();
+              }}
+            >
+              Delete
+            </Button>
+          </>
+        )}
       </>
     );
   };

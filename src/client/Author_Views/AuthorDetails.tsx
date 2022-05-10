@@ -4,10 +4,12 @@ import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
+import { decode, JwtPayload } from "jsonwebtoken";
 
 const AuthorDetails = () => {
   const [authorbio, setAuthorBio] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
   const { id } = useParams(); // we just need the id from the useParams object, so we destructure it
 
@@ -15,6 +17,16 @@ const AuthorDetails = () => {
   const loc = useLocation();
 
   const AUTHOR = loc.state as Types.Author; // grab the author from state passed from loc
+
+  const token: string | JwtPayload = localStorage.getItem(TOKEN_KEY);
+  const decodedToken = decode(token) as Types.TokenPayload;
+
+  if (decodedToken.userid === Number(AUTHOR.id)) {
+    // if userid from the token matches the id from the selected author, set isAuthor to true
+    // even if a malicious user changes their token, it will be an invalid token
+    // edit route is protected, so their request to edit will not go through
+    setIsAuthor(true);
+  }
 
   const chefskiss = () => {
     const secretTrackz3 = new Audio(`../wow.mp3`);
@@ -76,35 +88,33 @@ const AuthorDetails = () => {
         <div className="card-text">{AUTHOR.authorbio}</div>
 
         <hr></hr>
-        {true && (
-          <>
-            <Button
-              variant="contained"
-              color="warning"
-              className="btn my-2 ms-2 col-md-2"
-              type="button"
-              onClick={() => {
-                // I only want the Bio editable, and when it is the actual author
-                setAuthorBio(AUTHOR.authorbio);
-                setIsEditing(true);
-              }}
-            >
-              Edit
-            </Button>
-
-            <Button
-              variant="contained"
-              color="primary"
-              className="btn my-2 ms-2 col-md-2"
-              type="button"
-              onClick={() => {
-                nav("/contact", { state: { ...AUTHOR } });
-              }}
-            >
-              Email
-            </Button>
-          </>
+        {isAuthor && (
+          // Only Authors may edit
+          <Button
+            variant="contained"
+            color="warning"
+            className="btn my-2 ms-2 col-md-2"
+            type="button"
+            onClick={() => {
+              setAuthorBio(AUTHOR.authorbio);
+              setIsEditing(true);
+            }}
+          >
+            Edit
+          </Button>
         )}
+
+        <Button
+          variant="contained"
+          color="primary"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            nav("/contact", { state: { ...AUTHOR } });
+          }}
+        >
+          Email
+        </Button>
       </>
     );
   };
