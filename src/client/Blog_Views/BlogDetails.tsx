@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
-import { decode, JwtPayload } from "jsonwebtoken";
+import Fetcher from "../Client_Utils/Fetcher";
+import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const BlogDetails = () => {
   const [title, setTitle] = useState<string>("");
@@ -18,11 +18,9 @@ const BlogDetails = () => {
   const loc = useLocation();
 
   const BLOG = loc.state as Types.Blog;
+  const authorid = decodeMyToken().userid;
 
-  const token: string | JwtPayload = localStorage.getItem(TOKEN_KEY);
-  const decodedToken = decode(token) as Types.TokenPayload;
-
-  if (decodedToken.userid === Number(BLOG.authorid)) {
+  if (authorid === Number(BLOG.authorid)) {
     // if userid from the token matches the id from the selected author, set isAuthor to true
     // even if a malicious user changes their token, it will be an invalid token
     // edit route is protected, so their request to edit will not go through
@@ -30,7 +28,7 @@ const BlogDetails = () => {
   }
 
   const updateBlog = () => {
-    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid: decodedToken.userid })
+    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid })
       .then(() => {
         console.log(`Update Blog Successful!`);
         nav("/blogs"); // nav to blogs view if no errors

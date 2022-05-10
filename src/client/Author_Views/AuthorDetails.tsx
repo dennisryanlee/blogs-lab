@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
-import { decode, JwtPayload } from "jsonwebtoken";
+import Fetcher from "../Client_Utils/Fetcher";
+import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const AuthorDetails = () => {
   const [authorbio, setAuthorBio] = useState<string>("");
@@ -18,10 +18,7 @@ const AuthorDetails = () => {
 
   const AUTHOR = loc.state as Types.Author; // grab the author from state passed from loc
 
-  const token: string | JwtPayload = localStorage.getItem(TOKEN_KEY);
-  const decodedToken = decode(token) as Types.TokenPayload;
-
-  if (decodedToken.userid === Number(AUTHOR.id)) {
+  if (decodeMyToken().userid === Number(AUTHOR.id)) {
     // if userid from the token matches the id from the selected author, set isAuthor to true
     // even if a malicious user changes their token, it will be an invalid token
     // edit route is protected, so their request to edit will not go through
