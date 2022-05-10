@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Fetcher from "../Client_Utils/Fetcher";
 import decodeMyToken from "../Client_Utils/TokenDecode";
 
@@ -20,17 +20,12 @@ const BlogDetails = () => {
   const BLOG = loc.state as Types.Blog;
   const authorid = decodeMyToken().userid;
 
-  if (authorid === Number(BLOG.authorid)) {
-    // if userid from the token matches the id from the selected author, set isAuthor to true
-    // even if a malicious user changes their token, it will be an invalid token
-    // edit route is protected, so their request to edit will not go through
-    setIsAuthor(true);
-  }
-
   const updateBlog = () => {
     Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid })
       .then(() => {
         console.log(`Update Blog Successful!`);
+        const secretTrackz3 = new Audio(`../wow.mp3`);
+        secretTrackz3.play();
         nav("/blogs"); // nav to blogs view if no errors
       })
       .catch((error) => {
@@ -43,6 +38,8 @@ const BlogDetails = () => {
     Fetcher.DELETE(`/api/blogs/${id}`)
       .then(() => {
         console.log(`Delete Blog Successful!`);
+        const secretTrackz4 = new Audio(`../stuckem.mp3`);
+        secretTrackz4.play();
         nav("/blogs"); // nav to blogs view if no errors
       })
       .catch((error) => {
@@ -51,17 +48,8 @@ const BlogDetails = () => {
       });
   };
 
-  const stuckem = () => {
-    const secretTrackz4 = new Audio(`../stuckem.mp3`);
-    secretTrackz4.play();
-  };
-
-  const chefskiss = () => {
-    const secretTrackz3 = new Audio(`../wow.mp3`);
-    secretTrackz3.play();
-  };
-
-  const handleClearTitleAndContent = () => {
+  const doneEditing = () => {
+    setIsEditing(false);
     setTitle("");
     setContent("");
   };
@@ -82,9 +70,7 @@ const BlogDetails = () => {
         type="button"
         onClick={() => {
           updateBlog();
-          chefskiss();
-          setIsEditing(false);
-          handleClearTitleAndContent();
+          doneEditing();
         }}
       >
         Submit
@@ -95,8 +81,7 @@ const BlogDetails = () => {
         className="btn my-2 ms-2 col-md-2"
         type="button"
         onClick={() => {
-          setIsEditing(false);
-          handleClearTitleAndContent();
+          doneEditing();
         }}
       >
         Cancel
@@ -121,7 +106,7 @@ const BlogDetails = () => {
 
         {isAuthor && (
           <>
-            // Only Authors may edit
+            {/* // Only Authors may edit */}
             <Button
               variant="contained"
               color="warning"
@@ -141,7 +126,6 @@ const BlogDetails = () => {
               className="btn my-2 ms-2 col-md-2"
               type="button"
               onClick={() => {
-                stuckem();
                 deleteBlog();
               }}
             >
@@ -152,6 +136,17 @@ const BlogDetails = () => {
       </>
     );
   };
+
+  useEffect(() => {
+    if (authorid === Number(BLOG.authorid)) {
+      // if userid from the token matches the id from the selected author, set isAuthor to true
+      // even if a malicious user changes their token, it will be an invalid token
+      // edit route is protected, so their request to edit will not go through
+      setIsAuthor(true);
+    }
+    console.log(`BLOG is next`);
+    console.log(BLOG);
+  }, []);
 
   return (
     <>

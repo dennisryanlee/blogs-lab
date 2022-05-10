@@ -18,13 +18,6 @@ const AuthorDetails = () => {
 
   const AUTHOR = loc.state as Types.Author; // grab the author from state passed from loc
 
-  if (decodeMyToken().userid === Number(AUTHOR.id)) {
-    // if userid from the token matches the id from the selected author, set isAuthor to true
-    // even if a malicious user changes their token, it will be an invalid token
-    // edit route is protected, so their request to edit will not go through
-    setIsAuthor(true);
-  }
-
   const chefskiss = () => {
     const secretTrackz3 = new Audio(`../wow.mp3`);
     secretTrackz3.play();
@@ -118,6 +111,12 @@ const AuthorDetails = () => {
 
   useEffect(() => {
     setAuthorBio(AUTHOR.authorbio);
+    if (decodeMyToken().userid === Number(AUTHOR.id)) {
+      // if userid from the token matches the id from the selected author, set isAuthor to true
+      // even if a malicious user changes their token, it will be an invalid token
+      // edit route is protected, so their request to edit will not go through
+      setIsAuthor(true);
+    }
   }, []);
 
   return (
