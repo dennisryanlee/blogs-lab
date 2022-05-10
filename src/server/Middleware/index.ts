@@ -4,7 +4,7 @@ import { JWT_CONFIG } from "../config";
 import db from "../db";
 import { generateHash, compareHash } from "../Server_Utils/Passwords";
 import * as Types from "../../types";
-import HIBP from "@atlc/hibp";
+// import HIBP from "@atlc/hibp";
 
 // checks if a token is valid
 export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunction) => {

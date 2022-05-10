@@ -1,7 +1,7 @@
 import { TOKEN_KEY } from "../Client_Utils/Fetcher";
-import { decode, JwtPayload } from "jsonwebtoken";
+import decode, { JwtPayload } from "jwt-decode";
 import * as Types from "../../types";
-//! import decodeMyToken from "../Client_Utils/TokenDecode";
+//this import statement - import decodeMyToken from "../Client_Utils/TokenDecode";
 
 // Returns a decoded JWT from local storage
 export default function decodeMyToken() {
