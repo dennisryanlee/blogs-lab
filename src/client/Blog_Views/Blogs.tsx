@@ -4,26 +4,15 @@ import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Fetcher from "../Client_Utils/Fetcher";
+import decodeMyToken from "../Client_Utils/TokenDecode";
 
-//@ts-ignore
-const Blogs = (props: Types.BlogsProps) => {
+const Blogs = () => {
   const [blogsArray, setBlogsArray] = useState<Types.Blog[]>([]);
 
   const nav = useNavigate();
 
-  // const getSingleBlog = (blog: Types.Blog) => {
-  //   console.log(`Fetching blog: ${blog.blogid}`);
-
-  //   Fetcher.GET(`/api/blogs/${blog.blogid}`)
-  //     .then((data) => {
-  //       setBlogsArray(data); // set the data to state if no errors
-  //     })
-  //     .catch((error) => {
-  //       console.log(`Get Single Blog Error.  Blog ID: ${blog.blogid}...\n`);
-  //       console.error(error);
-  //     });
-  //   nav(`/blogs/${blog.blogid}`, { state: { ...blog } });
-  // };
+  const decodedToken = decodeMyToken();
+  decodedToken.username;
 
   const getAllBlogs = () => {
     Fetcher.GET("/api/blogs")
@@ -130,11 +119,10 @@ const Blogs = (props: Types.BlogsProps) => {
     );
   };
 
-  //! get the username from token to check for Ervin
   return (
     <>
-      {props.username === "Ervin Howell" && ErvinIsUser()}
-      {props.username !== "Ervin Howell" && ErvinIsNotUser()}
+      {decodedToken.username === "Ervin Howell" && ErvinIsUser()}
+      {decodedToken.username !== "Ervin Howell" && ErvinIsNotUser()}
     </>
   );
 };
