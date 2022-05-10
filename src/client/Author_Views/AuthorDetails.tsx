@@ -33,38 +33,40 @@ const AuthorDetails = () => {
   };
 
   const showWhenEditing = () => {
-    <>
-      <hr></hr>
+    return (
+      <>
+        <hr></hr>
 
-      <textarea value={authorbio} onChange={(e) => setAuthorBio(e.target.value)} className="card-text form-control"></textarea>
+        <textarea value={authorbio} onChange={(e) => setAuthorBio(e.target.value)} className="card-text form-control"></textarea>
 
-      <hr></hr>
+        <hr></hr>
 
-      <Button
-        variant="contained"
-        color="success"
-        className="btn my-2 ms-2 col-md-2"
-        type="button"
-        onClick={() => {
-          setIsEditing(false);
-          chefskiss();
-          updateAuthor();
-        }}
-      >
-        Submit
-      </Button>
-      <Button
-        variant="contained"
-        color="info"
-        className="btn my-2 ms-2 col-md-2"
-        type="button"
-        onClick={() => {
-          setIsEditing(false);
-        }}
-      >
-        Cancel
-      </Button>
-    </>;
+        <Button
+          variant="contained"
+          color="success"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            setIsEditing(false);
+            chefskiss();
+            updateAuthor();
+          }}
+        >
+          Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="info"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            setIsEditing(false);
+          }}
+        >
+          Cancel
+        </Button>
+      </>
+    );
   };
 
   const showWhenNotEditing = () => {

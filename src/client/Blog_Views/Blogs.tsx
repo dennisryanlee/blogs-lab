@@ -23,22 +23,6 @@ const Blogs = () => {
         console.log(`Get All Blogs Error...\n`);
         console.error(error);
       });
-
-    // fetch("/api/blogs") // GET from "/api/blogs"
-    //   .then((res) => {
-    //     // then with that response
-    //     res.json().then((data) => {
-    //       // parse as JSON data, then with that data
-    //       if (res.ok) {
-    //         // if there was an OK response
-    //         setBlogsArray(data); // set the data to state
-    //       } else {
-    //         // if there was not an OK response
-    //         throw new Error(data.message); // throw a new error
-    //       }
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
   };
 
   useEffect(() => {

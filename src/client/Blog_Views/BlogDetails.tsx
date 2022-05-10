@@ -55,38 +55,40 @@ const BlogDetails = () => {
   };
 
   const showWhenEditing = () => {
-    <>
-      <input value={title.toLocaleUpperCase()} onChange={(e) => setTitle(e.target.value)} className="card-title form-control" />
+    return (
+      <>
+        <input value={title.toLocaleUpperCase()} onChange={(e) => setTitle(e.target.value)} className="card-title form-control" />
 
-      <hr></hr>
+        <hr></hr>
 
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
+        <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
 
-      <hr></hr>
-      <Button
-        variant="contained"
-        color="success"
-        className="btn my-2 ms-2 col-md-2"
-        type="button"
-        onClick={() => {
-          updateBlog();
-          doneEditing();
-        }}
-      >
-        Submit
-      </Button>
-      <Button
-        variant="contained"
-        color="info"
-        className="btn my-2 ms-2 col-md-2"
-        type="button"
-        onClick={() => {
-          doneEditing();
-        }}
-      >
-        Cancel
-      </Button>
-    </>;
+        <hr></hr>
+        <Button
+          variant="contained"
+          color="success"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            updateBlog();
+            doneEditing();
+          }}
+        >
+          Submit
+        </Button>
+        <Button
+          variant="contained"
+          color="info"
+          className="btn my-2 ms-2 col-md-2"
+          type="button"
+          onClick={() => {
+            doneEditing();
+          }}
+        >
+          Cancel
+        </Button>
+      </>
+    );
   };
 
   const showWhenNotEditing = () => {
