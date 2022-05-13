@@ -1,4 +1,5 @@
 import { PaymentMethod } from "@stripe/stripe-js";
+import * as Types from "../../types";
 
 export const TOKEN_KEY = `token`;
 
@@ -7,8 +8,8 @@ export const TOKEN_KEY = `token`;
  * res.json() is already done
  * body will already be stringified
  */
-const Fetcher = async (url: string, method: string, data?: unknown) => {
-  const token = localStorage.getItem(TOKEN_KEY);
+const Fetcher = async (url: string, method: string, data?: Types.FetchData) => {
+  const token: string = localStorage.getItem(TOKEN_KEY);
   const fetchOptions = {
     headers: {
       "Content-Type": "application/json",
@@ -48,15 +49,9 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
   }
 };
 
-// we type FetchData as an object, with many keys of type string, whose values can be string, number, or boolean
-// PaymentMethod type added to enable Fetcher to work on Donate Component
-interface FetchData {
-  [key: string]: string | number | boolean | PaymentMethod;
-}
-
 const GET = (url: string) => Fetcher(url, "GET");
-const POST = (url: string, data: FetchData) => Fetcher(url, "POST", data);
-const PUT = (url: string, data: FetchData) => Fetcher(url, "PUT", data);
+const POST = (url: string, data: Types.FetchData) => Fetcher(url, "POST", data);
+const PUT = (url: string, data: Types.FetchData) => Fetcher(url, "PUT", data);
 const DELETE = (url: string) => Fetcher(url, "DELETE");
 
 export default {

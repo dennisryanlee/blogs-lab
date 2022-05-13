@@ -1,3 +1,4 @@
+import { PaymentMethod } from "@stripe/stripe-js";
 import * as Express from "express";
 
 export interface AppProps {}
@@ -68,4 +69,10 @@ export interface TokenPayload {
 
 export interface ReqUser extends Express.Request {
   user?: TokenPayload;
+}
+
+// we type FetchData as an object, with many keys of type string, whose values can be string, number, or boolean
+// PaymentMethod type added to enable Fetcher to work on Donate Component
+export interface FetchData {
+  [key: string]: string | number | boolean | PaymentMethod;
 }
