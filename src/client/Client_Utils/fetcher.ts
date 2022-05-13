@@ -1,4 +1,3 @@
-import { PaymentMethod } from "@stripe/stripe-js";
 import * as Types from "../../types";
 
 export const TOKEN_KEY = `token`;
