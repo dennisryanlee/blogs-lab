@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Validation from "../Client_Utils/DataValidation";
-import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetcher";
+import Fetcher, { TOKEN_KEY } from "../Client_Utils/Fetch_Service";
 
 const NewAuthor = () => {
   const [authorname, setAuthorname] = useState<string>("");

@@ -3,7 +3,7 @@ import * as Types from "../../types";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher from "../Client_Utils/Fetch_Service";
 
 const Authors = () => {
   const [authorsArray, setAuthorsArray] = useState<Types.Author[]>([]);

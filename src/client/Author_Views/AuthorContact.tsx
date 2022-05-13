@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as Types from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher from "../Client_Utils/Fetch_Service";
 
 const AuthorContact = () => {
   const [from, setFrom] = useState<string>("");

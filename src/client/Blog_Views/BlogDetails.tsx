@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher from "../Client_Utils/Fetch_Service";
 import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const BlogDetails = () => {

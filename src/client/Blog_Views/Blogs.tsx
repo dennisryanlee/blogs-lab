@@ -3,7 +3,7 @@ import * as React from "react";
 import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher from "../Client_Utils/Fetch_Service";
 import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const Blogs = () => {

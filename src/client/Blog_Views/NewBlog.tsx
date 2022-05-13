@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import * as Types from "../../types";
 import Validation from "../Client_Utils/DataValidation";
 import { useNavigate } from "react-router-dom";
-import Fetcher from "../Client_Utils/Fetcher";
+import Fetcher from "../Client_Utils/Fetch_Service";
 import decodeMyToken from "../Client_Utils/TokenDecode";
 
 const NewBlog = () => {

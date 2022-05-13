@@ -3,8 +3,7 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Fetcher, { TOKEN_KEY } from "./Client_Utils/Fetcher";
-import * as Types from "../types";
+import Fetcher, { TOKEN_KEY } from "./Client_Utils/Fetch_Service";
 
 const Navbar = () => {
   const [loggedIn, setloggedIn] = useState<boolean>(false);
