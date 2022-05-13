@@ -76,3 +76,5 @@ export interface ReqUser extends Express.Request {
 export interface FetchData {
   [key: string]: string | number | boolean | PaymentMethod;
 }
+
+//pls work haha...
