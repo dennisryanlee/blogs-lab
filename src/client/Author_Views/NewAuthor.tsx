@@ -34,7 +34,7 @@ const NewAuthor = () => {
     Fetcher.POST("/auth/register/", { authorname, authorbio, email, password })
       .then((data) => {
         localStorage.setItem(TOKEN_KEY, data.token);
-        console.log(`New Author Added!`);
+        // console.log(`New Author Added!`);
         nav(`/blogs`); // navigate user to blogs if no error
       })
       .catch((error) => {

@@ -20,12 +20,12 @@ const Navbar = () => {
     if (!PublicPages.includes(loc.pathname)) {
       Fetcher.POST("/auth/checkToken", null)
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (data.message === `valid token!`) setloggedIn(true);
         })
         .catch((error) => {
           setloggedIn(false);
-          console.log(`are we really here?`);
+          // console.log(`are we really here?`);
           console.log(`error...\n`);
           console.error(error);
           nav("/"); // Navigate user to login page if error occurs

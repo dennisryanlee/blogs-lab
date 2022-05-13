@@ -23,7 +23,6 @@ const App = (props: Types.AppProps) => {
       <main className="container my-5">
         <h1 className="text-primary text-center">Blogs, duh.</h1>
       </main>
-      {/* need to make sure navbar only shows up when logged in */}
       <div className="d-flex justify-content-center">
         <Navbar></Navbar>
       </div>

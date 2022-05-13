@@ -26,7 +26,7 @@ const Loginpage = () => {
 
     Fetcher.POST("/auth/login", { email, password })
       .then((data) => {
-        console.log({ data });
+        // console.log({ data });
         if (data.token) {
           localStorage.setItem(TOKEN_KEY, data.token);
           nav(`/blogs`);
@@ -39,12 +39,6 @@ const Loginpage = () => {
         console.error(error);
         alert(`Something went wrong, please try again`);
       });
-
-    //!gotta make this work lol
-    // if (username === "Ervin Howell") {
-    //   const secretTrackz = new Audio(`../secretTrack.mp3`);
-    //   secretTrackz.play();
-    // }
   };
 
   return (

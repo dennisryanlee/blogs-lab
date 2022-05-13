@@ -24,7 +24,7 @@ export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunct
       complete: false,
     }) as Types.TokenPayload;
 
-    console.log(payload);
+    // console.log(payload);
 
     // res.status(200).json({ message: `good to go`, payload });
 
@@ -48,7 +48,7 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
     // if the email provided is in the db, then userFound is an author entry, else is undefined
     // userFound is our author from the database
     const [userFound] = await db.Login.FindAuthor("email", email);
-    console.log(`userFound: `, userFound);
+    // console.log(`userFound: `, userFound);
 
     if (userFound && compareHash(password, userFound.password)) {
       //! I can probably put some payloads for different roles in the Utils folder and use them here
@@ -62,7 +62,7 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
         { expiresIn: `10d` }
       );
       // if user is found && the provided password matches the hashed pass on the db
-      console.log(`Token: `, token);
+      // console.log(`Token: `, token);
       res.status(200).json({ token });
     } else {
       // if user fails the checks above, then we return with a 401, and stop execution
@@ -114,7 +114,7 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
       const token = jwt.sign({ username: authorname, userid: newAuthorRes.insertId, email, role: `guest` }, JWT_CONFIG.jwtSecretKey, {
         expiresIn: `10d`,
       });
-      console.log(`Token: `, token);
+      // console.log(`Token: `, token);
       res.status(200).json({ token });
     } else {
       res.status(400).json({ message: `An unknown error occurred` });

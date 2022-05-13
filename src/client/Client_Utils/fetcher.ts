@@ -2,7 +2,6 @@ import { PaymentMethod } from "@stripe/stripe-js";
 
 export const TOKEN_KEY = `token`;
 
-//
 /**
  * use a .catch after every Fetcher call
  * res.json() is already done
@@ -30,7 +29,7 @@ const Fetcher = async (url: string, method: string, data?: unknown) => {
     const res = await fetch(url, { method, ...fetchOptions });
     const data = await res.json();
 
-    console.log({ data });
+    // console.log({ data });
     if (res.ok) {
       // console.log(`res was ok here`);
       return data;

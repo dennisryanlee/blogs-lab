@@ -40,7 +40,7 @@ const Donate = () => {
       console.error(error);
     } else {
       // if there was no error, log the paymentMethod
-      console.log("Payment method: ", paymentMethod);
+      // console.log("Payment method: ", paymentMethod);
 
       // fetch '/donate' with a POST req and include amount and paymentMethod in the body
 
@@ -57,35 +57,6 @@ const Donate = () => {
           console.log(`Posting Payment Error...\n`);
           console.error(error);
         });
-
-      // fetch("/donate", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ amount, paymentMethod: paymentMethod }),
-      // })
-      //   .then((res) => {
-      //     // then with that response
-      //     res.json().then((data) => {
-      //       // parse as JSON data, then with that data
-      //       // console.log(data);
-      //       if (res.ok) {
-      //         // if there was an OK response
-      //         const receipt = data.charges.data[0].receipt_url;
-      //         nav(`/receipt`, {
-      //           state: {
-      //             receipt,
-      //           },
-      //         });
-      //       } else {
-      //         // if there was not an OK response
-      //         throw new Error(data.message); // throw a new error
-      //       }
-      //     });
-      //   })
-      //   .catch((error) => {
-      //     console.log(`Posting Payment Error...\n`);
-      //     console.error(error);
-      //   });
     }
   };
 

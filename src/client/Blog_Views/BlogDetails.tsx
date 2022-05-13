@@ -23,7 +23,7 @@ const BlogDetails = () => {
   const updateBlog = () => {
     Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid })
       .then(() => {
-        console.log(`Update Blog Successful!`);
+        // console.log(`Update Blog Successful!`);
         const secretTrackz3 = new Audio(`../wow.mp3`);
         secretTrackz3.play();
         nav("/blogs"); // nav to blogs view if no errors
@@ -37,7 +37,7 @@ const BlogDetails = () => {
   const deleteBlog = () => {
     Fetcher.DELETE(`/api/blogs/${id}`)
       .then(() => {
-        console.log(`Delete Blog Successful!`);
+        // console.log(`Delete Blog Successful!`);
         const secretTrackz4 = new Audio(`../stuckem.mp3`);
         secretTrackz4.play();
         nav("/blogs"); // nav to blogs view if no errors
@@ -146,8 +146,8 @@ const BlogDetails = () => {
       // edit route is protected, so their request to edit will not go through
       setIsAuthor(true);
     }
-    console.log(`BLOG is next`);
-    console.log(BLOG);
+    // console.log(`BLOG is next`);
+    // console.log(BLOG);
   }, []);
 
   return (
