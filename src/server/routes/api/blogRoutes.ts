@@ -12,7 +12,7 @@ blogRouter.post("/", async (req: Types.ReqUser, res) => {
   try {
     let { title, content, tagid } = req.body;
 
-    const authorid = Number(req.user.userid);
+    const authorid = Number(req!.user!.userid);
 
     // Validation
     await Validation.isValidString([title, content]);
@@ -102,7 +102,7 @@ blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
   const id = Number(req.params.id); // grab the id of the blog i want to delete from req.params...
 
   const { title, content } = req.body; // grab the updated info from the body...
-  const authoridnum = Number(req.user.userid); // get the author id from the request
+  const authoridnum = Number(req!.user!?.userid); // get the author id from the request
 
   try {
     // Validation
@@ -149,7 +149,7 @@ blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
 // Delete a Blog
 blogRouter.delete("/:id", async (req: Types.ReqUser, res) => {
   const id = Number(req.params.id); // grab the id of the blog we want to delete from req.params...
-  const authoridnum = Number(req.user.userid); // get the author id from the request
+  const authoridnum = Number(req!.user!.userid); // get the author id from the request
 
   try {
     // ID Validation

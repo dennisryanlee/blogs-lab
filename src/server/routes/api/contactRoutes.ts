@@ -7,7 +7,7 @@ import * as Types from "../../../types";
 
 const mailgun = new (<typeof MailGun>(<any>Mailgun))(<any>FormData).client({
   username: "api",
-  key: MAILGUN_CONFIG.mailgunAPIKey,
+  key: MAILGUN_CONFIG.mailgunAPIKey!,
 });
 
 const contactRouter = express.Router();
@@ -17,10 +17,10 @@ const contactRouter = express.Router();
 contactRouter.post("/", async (req: Types.ReqUser, res) => {
   const newEmail = req.body;
   try {
-    const result = await mailgun.messages.create(MAILGUN_CONFIG.mailgunDomain, {
+    const result = await mailgun.messages.create(MAILGUN_CONFIG.mailgunDomain!, {
       to: MAILGUN_CONFIG.mailgunToEmail,
       subject: newEmail.subject,
-      from: req.user.username,
+      from: req!.user!.username,
       text: newEmail.message,
     });
     res.json(result);

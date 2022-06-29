@@ -8,39 +8,6 @@ const usersRouter = express.Router();
 // Current route is /api/users
 
 //! Create an Author will be handled in auth routes
-// usersRouter.post("/", async (req, res) => {
-//   req.body.parse;
-//   const { authorname, authorbio, email } = req.body;
-
-//   try {
-//     await Validation.isValidString([authorname, authorbio, email]);
-//     await Validation.isValidEmail(email);
-//     await Validation.isValidStringLength([
-//       [authorname, 45],
-//       [authorbio, 500],
-//       [email, 45],
-//     ]);
-//     const newAuthorInfo = { authorname, authorbio, email }; // package the new info into an object
-//     const results = await db.Authors.createNewAuthor(newAuthorInfo);
-
-//     if (results.affectedRows) {
-//       // if the author was added
-//       res.status(200).json({ message: `Welcome ${authorname}!` });
-//     } else {
-//       // if the author was not added
-//       res.status(400).json({ message: `Sorry, ${authorname}, there isn't any room for you just yet` });
-//     }
-//   } catch (error) {
-//     if (error.sqlMessage) {
-//       console.log(`\n${error.sqlMessage}\n`); // log the sql error if there is one
-//     }
-
-//     console.log(`\n`);
-//     console.error(error); // if an error happens, log the error
-
-//     res.status(500).json({ message: `Sorry ${authorname}, we're having a tough time.` }); // send status of 500
-//   }
-// });
 
 // Get all Authors
 usersRouter.get("/", async (req, res) => {
@@ -88,7 +55,7 @@ usersRouter.get("/:id", async (req, res) => {
 
 // Edit an Author
 usersRouter.put("/:id", async (req: Types.ReqUser, res) => {
-  const authorid = req.user.userid;
+  const authorid = req!.user!.userid;
 
   try {
     const { authorbio } = req.body; // grab the updated info from the body...
@@ -122,7 +89,7 @@ usersRouter.put("/:id", async (req: Types.ReqUser, res) => {
 
 // Delete an Author
 usersRouter.delete("/:id", async (req: Types.ReqUser, res) => {
-  const authorid = req.user.userid;
+  const authorid = req!.user!.userid;
 
   try {
     await Validation.isValidID(authorid);

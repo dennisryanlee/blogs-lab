@@ -11,7 +11,7 @@ export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunct
   try {
     // grab the token from the headers and split it
     // bearerToken is expected to be an array: [`bearer`, `tokenhere`]
-    const bearerToken: string[] = req.headers.authorization?.split(` `);
+    const bearerToken: string[] = req.headers.authorization?.split(` `)!;
 
     // check the authorization scheme AND existence of the token
     if (bearerToken[0] !== `Bearer` || !bearerToken[1]) {
@@ -20,7 +20,7 @@ export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunct
     }
 
     // verify the token, and return the payload
-    const payload = jwt.verify(bearerToken[1], JWT_CONFIG.jwtSecretKey, {
+    const payload = jwt.verify(bearerToken[1], JWT_CONFIG.jwtSecretKey!, {
       complete: false,
     }) as Types.TokenPayload;
 
@@ -28,7 +28,7 @@ export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunct
 
     // res.status(200).json({ message: `good to go`, payload });
 
-    req.user = payload;
+    req!.user! = payload;
 
     next();
   } catch (error) {
@@ -50,7 +50,7 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
     const [userFound] = await db.Login.FindAuthor("email", email);
     // console.log(`userFound: `, userFound);
 
-    if (userFound && compareHash(password, userFound.password)) {
+    if (userFound && compareHash(password, userFound.password!)) {
       //! I can probably put some payloads for different roles in the Utils folder and use them here
       // token takes a payload as the first argument
       // and the jwt secret signature as the second
@@ -58,7 +58,7 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
 
       const token = jwt.sign(
         { username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` },
-        JWT_CONFIG.jwtSecretKey,
+        JWT_CONFIG.jwtSecretKey!,
         { expiresIn: `10d` }
       );
       // if user is found && the provided password matches the hashed pass on the db
@@ -111,7 +111,7 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
 
     if (newAuthorRes.affectedRows === 1) {
       // If the use was added to the db, issue a token to the new user
-      const token = jwt.sign({ username: authorname, userid: newAuthorRes.insertId, email, role: `guest` }, JWT_CONFIG.jwtSecretKey, {
+      const token = jwt.sign({ username: authorname, userid: newAuthorRes.insertId, email, role: `guest` }, JWT_CONFIG.jwtSecretKey!, {
         expiresIn: `10d`,
       });
       // console.log(`Token: `, token);
