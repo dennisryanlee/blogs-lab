@@ -4,7 +4,7 @@ import { STRIPE_CONFIG } from "../../config";
 
 const donateRouter = express.Router();
 
-const stripe = new Stripe(STRIPE_CONFIG.stripeSecretKey, { apiVersion: "2020-08-27" });
+const stripe = new Stripe(STRIPE_CONFIG.stripeSecretKey!, { apiVersion: "2020-08-27" });
 
 // Current route is /api/donate
 

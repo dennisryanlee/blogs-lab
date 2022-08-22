@@ -26,7 +26,7 @@ const Donate = () => {
     // pass in the cardData, and from the return, destructure the error and paymentMethod for later use
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
-      card: cardData,
+      card: cardData!,
       billing_details: {
         name,
       },
