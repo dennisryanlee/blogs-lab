@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -37,28 +36,19 @@ const Navbar = () => {
       {loggedIn && (
         <div className="mb-4">
           <Link to="/newblog">
-            <Button variant="contained" className="btn btn-primary mx-1">
-              New Blog
-            </Button>
+            <button className="btn btn-primary mx-1">New Blog</button>
           </Link>
           <Link to="/blogs">
-            <Button variant="contained" className="btn btn-primary mx-1">
-              Blogs
-            </Button>
+            <button className="btn btn-primary mx-1">Blogs</button>
           </Link>
           <Link to="/users">
-            <Button variant="contained" className="btn btn-primary mx-1">
-              Authors
-            </Button>
+            <button className="btn btn-primary mx-1">Authors</button>
           </Link>
           <Link to="/donate">
-            <Button variant="contained" className="btn btn-primary mx-1">
-              Donate
-            </Button>
+            <button className="btn btn-primary mx-1">Donate</button>
           </Link>
           <Link to="/">
-            <Button
-              variant="contained"
+            <button
               onClick={() => {
                 const secretTrackz2 = new Audio(`../okbye.mp3`);
                 secretTrackz2.play();
@@ -69,7 +59,7 @@ const Navbar = () => {
               className="btn btn-primary mx-1"
             >
               Logout
-            </Button>
+            </button>
           </Link>
         </div>
       )}

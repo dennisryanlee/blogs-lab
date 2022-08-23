@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as Types from "../../types";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Fetcher from "../Client_Utils/Fetch_Service";
@@ -40,13 +39,9 @@ const Authors = () => {
 
               <hr></hr>
 
-              <Button
-                variant="contained"
-                className="btn btn-warning btn-sm"
-                onClick={() => nav(`/users/${author.id}`, { state: { ...author } })}
-              >
+              <button className="btn btn-warning btn-sm" onClick={() => nav(`/users/${author.id}`, { state: { ...author } })}>
                 View this Author
-              </Button>
+              </button>
             </div>
           </div>
         ))}

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -64,8 +63,7 @@ const BlogDetails = () => {
         <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
 
         <hr></hr>
-        <Button
-          variant="contained"
+        <button
           color="success"
           className="btn my-2 ms-2 col-md-2"
           type="button"
@@ -75,9 +73,8 @@ const BlogDetails = () => {
           }}
         >
           Submit
-        </Button>
-        <Button
-          variant="contained"
+        </button>
+        <button
           color="info"
           className="btn my-2 ms-2 col-md-2"
           type="button"
@@ -86,7 +83,7 @@ const BlogDetails = () => {
           }}
         >
           Cancel
-        </Button>
+        </button>
       </>
     );
   };
@@ -109,9 +106,7 @@ const BlogDetails = () => {
         {isAuthor && (
           <>
             {/* // Only Authors may edit */}
-            <Button
-              variant="contained"
-              color="warning"
+            <button
               className="btn my-2 ms-2 col-md-2"
               type="button"
               onClick={() => {
@@ -121,10 +116,8 @@ const BlogDetails = () => {
               }}
             >
               Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
+            </button>
+            <button
               className="btn my-2 ms-2 col-md-2"
               type="button"
               onClick={() => {
@@ -132,7 +125,7 @@ const BlogDetails = () => {
               }}
             >
               Delete
-            </Button>
+            </button>
           </>
         )}
       </>

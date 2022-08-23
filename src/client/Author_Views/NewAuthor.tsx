@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -58,13 +57,7 @@ const NewAuthor = () => {
               onChange={(e) => setAuthorname(e.target.value)}
             />
 
-            <input
-              placeholder="Email"
-              type="email"
-              value={email}
-              className="form-control col-md-7 my-1"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input placeholder="Email" type="email" value={email} className="form-control col-md-7 my-1" onChange={(e) => setEmail(e.target.value)} />
 
             <input
               placeholder="Password"
@@ -81,9 +74,9 @@ const NewAuthor = () => {
               onChange={(e) => setAuthorBio(e.target.value)}
             ></textarea>
 
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => handleNewAuthorLogin()}>
+            <button className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => handleNewAuthorLogin()}>
               Register!
-            </Button>
+            </button>
           </div>
         </div>
       </div>

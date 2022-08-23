@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import * as Types from "../types";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import Validation from "./Client_Utils/DataValidation";
 import Fetcher, { TOKEN_KEY } from "../client/Client_Utils/Fetch_Service";
 
@@ -65,12 +64,12 @@ const Loginpage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleLogin(e)}>
+            <button className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleLogin(e)}>
               Login
-            </Button>
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => nav("/newauthor")}>
+            </button>
+            <button className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={() => nav("/newauthor")}>
               I am a new Author
-            </Button>
+            </button>
           </div>
         </div>
       </div>

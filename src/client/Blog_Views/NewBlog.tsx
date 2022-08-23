@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import * as Types from "../../types";
@@ -79,13 +78,7 @@ const NewBlog = () => {
         <div className="card bg-light shadow col-md-4">
           <div className="card-body d-flex flex-wrap justify-content-center">
             <h5 className="card-title text-center col-md-7">Blog Away!</h5>
-            <input
-              placeholder="Blog Title"
-              type="text"
-              value={title}
-              className="form-control col-md-7 mb-1"
-              onChange={(e) => setTitle(e.target.value)}
-            />
+            <input placeholder="Blog Title" type="text" value={title} className="form-control col-md-7 mb-1" onChange={(e) => setTitle(e.target.value)} />
             <textarea
               placeholder="Your content here"
               value={content}
@@ -102,11 +95,10 @@ const NewBlog = () => {
               ))}
             </select>
 
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleNewBlog(e)}>
+            <button className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleNewBlog(e)}>
               Submit
-            </Button>
-            <Button
-              variant="contained"
+            </button>
+            <button
               className="btn btn-primary my-2 ms-2 col-md-6"
               type="button"
               onClick={() => {
@@ -114,7 +106,7 @@ const NewBlog = () => {
               }}
             >
               Cancel
-            </Button>
+            </button>
           </div>
         </div>
       </div>

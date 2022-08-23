@@ -4,7 +4,6 @@ import { JWT_CONFIG } from "../config";
 import db from "../db";
 import { generateHash, compareHash } from "../Server_Utils/Passwords";
 import * as Types from "../../types";
-// import HIBP from "@atlc/hibp";
 
 // checks if a token is valid
 export const validateToken = (req: Types.ReqUser, res: Response, next: NextFunction) => {
@@ -56,11 +55,9 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
       // and the jwt secret signature as the second
       // optionally provide an expiration for the token as a third argument
 
-      const token = jwt.sign(
-        { username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` },
-        JWT_CONFIG.jwtSecretKey!,
-        { expiresIn: `10d` }
-      );
+      const token = jwt.sign({ username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` }, JWT_CONFIG.jwtSecretKey!, {
+        expiresIn: `10d`,
+      });
       // if user is found && the provided password matches the hashed pass on the db
       // console.log(`Token: `, token);
       res.status(200).json({ token });
@@ -92,8 +89,6 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     const email = req.body.email;
     const authorbio = req.body.authorbio;
     const plainTextPassword = req.body.password;
-
-    // const passCheck = await HIBP.validate(plainTextPassword);
 
     // if (passCheck.isPwned) {
     //   // If crap pass, do this

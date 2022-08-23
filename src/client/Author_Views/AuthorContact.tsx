@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import * as Types from "../../types";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import Fetcher from "../Client_Utils/Fetch_Service";
 
 const AuthorContact = () => {
@@ -64,9 +63,9 @@ const AuthorContact = () => {
               className="form-control col-md-7 mt-1"
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
-            <Button variant="contained" className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleSendEmail(e)}>
+            <button className="btn btn-primary my-2 ms-2 col-md-6" type="button" onClick={(e) => handleSendEmail(e)}>
               Send
-            </Button>
+            </button>
           </div>
         </div>
       </div>

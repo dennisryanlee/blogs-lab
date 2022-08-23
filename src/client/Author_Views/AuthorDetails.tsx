@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Button } from "@mui/material";
 import * as Types from "../../types";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -41,9 +40,7 @@ const AuthorDetails = () => {
 
         <hr></hr>
 
-        <Button
-          variant="contained"
-          color="success"
+        <button
           className="btn my-2 ms-2 col-md-2"
           type="button"
           onClick={() => {
@@ -53,10 +50,8 @@ const AuthorDetails = () => {
           }}
         >
           Submit
-        </Button>
-        <Button
-          variant="contained"
-          color="info"
+        </button>
+        <button
           className="btn my-2 ms-2 col-md-2"
           type="button"
           onClick={() => {
@@ -64,7 +59,7 @@ const AuthorDetails = () => {
           }}
         >
           Cancel
-        </Button>
+        </button>
       </>
     );
   };
@@ -72,7 +67,7 @@ const AuthorDetails = () => {
   const showWhenNotEditing = () => {
     return (
       <>
-        <h5 className="card-title">{AUTHOR.authorname.toLocaleUpperCase()}</h5>
+        <h5 className="card-title">{AUTHOR.authorname!.toLocaleUpperCase()}</h5>
         <h6 className="card-subtitle">Contact this author at {AUTHOR.email}</h6>
 
         <hr></hr>
@@ -82,22 +77,20 @@ const AuthorDetails = () => {
         <hr></hr>
         {isAuthor && (
           // Only Authors may edit
-          <Button
-            variant="contained"
+          <button
             color="warning"
             className="btn my-2 ms-2 col-md-2"
             type="button"
             onClick={() => {
-              setAuthorBio(AUTHOR.authorbio);
+              setAuthorBio(AUTHOR.authorbio!);
               setIsEditing(true);
             }}
           >
             Edit
-          </Button>
+          </button>
         )}
 
-        <Button
-          variant="contained"
+        <button
           color="primary"
           className="btn my-2 ms-2 col-md-2"
           type="button"
@@ -106,13 +99,13 @@ const AuthorDetails = () => {
           }}
         >
           Email
-        </Button>
+        </button>
       </>
     );
   };
 
   useEffect(() => {
-    setAuthorBio(AUTHOR.authorbio);
+    setAuthorBio(AUTHOR.authorbio!);
     if (decodeMyToken().userid === Number(AUTHOR.id)) {
       // if userid from the token matches the id from the selected author, set isAuthor to true
       // even if a malicious user changes their token, it will be an invalid token

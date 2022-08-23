@@ -55,11 +55,6 @@ export interface MySQLResponse {
   insertID?: number;
 }
 
-export interface HIBPResponse {
-  isPwned: boolean;
-  breaches: number;
-}
-
 export interface TokenPayload {
   username: string;
   userid: number;

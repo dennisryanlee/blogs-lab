@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import * as React from "react";
 import * as Types from "../../types";
 import { useNavigate } from "react-router-dom";
@@ -51,13 +50,9 @@ const Blogs = () => {
 
                 <hr></hr>
 
-                <Button
-                  variant="contained"
-                  className="btn btn-warning btn-sm"
-                  onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}
-                >
+                <button className="btn btn-warning btn-sm" onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}>
                   View this Blog
-                </Button>
+                </button>
               </div>
               {/*// @ts-ignore */}
             </marquee>
@@ -88,13 +83,9 @@ const Blogs = () => {
 
                 <hr></hr>
 
-                <Button
-                  variant="contained"
-                  className="btn btn-warning btn-sm"
-                  onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}
-                >
+                <button className="btn btn-warning btn-sm" onClick={() => nav(`/blogs/${blog.blogid}`, { state: { ...blog } })}>
                   View this Blog
-                </Button>
+                </button>
               </div>
             </div>
           ))}
