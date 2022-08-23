@@ -7,7 +7,7 @@
     "watch:build": "webpack -w",
     "watch:server": "nodemon dist/server.js",
     "dev": "npm-run-all --parallel watch:*",
-    "start": "node dist/server.js",
+    "start": "node --optimize_for_size --max_old_space_size=460 dist/server.js",
     "build": "webpack"
   },
   "keywords": [],
