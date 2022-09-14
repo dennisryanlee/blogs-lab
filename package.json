@@ -6,9 +6,10 @@
   "scripts": {
     "watch:build": "webpack -w",
     "watch:server": "nodemon dist/server.js",
+    "postinstall":"webpack",
     "dev": "npm-run-all --parallel watch:*",
     "start": "node dist/server.js",
-    "build": "export NODE_ENV=production webpack"
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
