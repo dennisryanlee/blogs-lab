@@ -18,7 +18,7 @@ const AuthorDetails = () => {
   const AUTHOR = loc.state as Types.Author; // grab the author from state passed from loc
 
   const chefskiss = () => {
-    const secretTrackz3 = new Audio(`../wow.mp3`);
+    const secretTrackz3 = new Audio(`https://github.com/emoran0403/Assets/blob/main/wow.mp3?raw=true`);
     secretTrackz3.play();
   };
 
@@ -45,7 +45,7 @@ const AuthorDetails = () => {
         <hr></hr>
 
         <button
-          className="btn my-2 ms-2 col-md-2"
+          className="btn btn-success my-2 ms-2 col-md-2"
           type="button"
           onClick={() => {
             setIsEditing(false);
@@ -56,7 +56,7 @@ const AuthorDetails = () => {
           Submit
         </button>
         <button
-          className="btn my-2 ms-2 col-md-2"
+          className="btn btn-warning my-2 ms-2 col-md-2"
           type="button"
           onClick={() => {
             setIsEditing(false);
@@ -83,7 +83,7 @@ const AuthorDetails = () => {
           // Only Authors may edit
           <button
             color="warning"
-            className="btn my-2 ms-2 col-md-2"
+            className="btn btn-info my-2 ms-2 col-md-2"
             type="button"
             onClick={() => {
               setAuthorBio(AUTHOR.authorbio!);
@@ -95,8 +95,7 @@ const AuthorDetails = () => {
         )}
 
         <button
-          color="primary"
-          className="btn my-2 ms-2 col-md-2"
+          className="btn btn-primary my-2 ms-2 col-md-2"
           type="button"
           onClick={() => {
             nav("/contact", { state: { ...AUTHOR } });

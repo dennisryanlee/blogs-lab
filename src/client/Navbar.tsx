@@ -50,7 +50,7 @@ const Navbar = () => {
           <Link to="/">
             <button
               onClick={() => {
-                const secretTrackz2 = new Audio(`../okbye.mp3`);
+                const secretTrackz2 = new Audio(`https://github.com/emoran0403/Assets/blob/main/okbye.mp3?raw=true`);
                 secretTrackz2.play();
                 setloggedIn(false);
                 localStorage.removeItem(TOKEN_KEY); // clear any data (our token) in local storage

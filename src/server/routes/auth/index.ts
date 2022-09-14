@@ -8,7 +8,7 @@ const authRouter = express.Router();
 // Current Route is /auth
 
 //Auth test route
-authRouter.post(`/checkToken`, validateToken, (req, res) => {
+authRouter.get(`/checkToken`, validateToken, (req, res) => {
   res.json({ message: `valid token!` });
 });
 

@@ -24,7 +24,7 @@ const AuthorContact = () => {
 
     Fetcher.POST("/contact", { from, subject, message })
       .then((result) => {
-        alert(`Your email to ${AUTHOR.authorname}} has been sent!`);
+        alert(`Your email to ${AUTHOR.authorname} has been sent!`);
         clearEmailForm();
         // console.log(result);
         nav("/users"); // nav to authors view

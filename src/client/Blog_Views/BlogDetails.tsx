@@ -69,7 +69,7 @@ const BlogDetails = () => {
         <hr></hr>
         <button
           color="success"
-          className="btn my-2 ms-2 col-md-2"
+          className="btn my-2 ms-2 col-md-2 btn-success"
           type="button"
           onClick={() => {
             updateBlog();
@@ -80,7 +80,7 @@ const BlogDetails = () => {
         </button>
         <button
           color="info"
-          className="btn my-2 ms-2 col-md-2"
+          className="btn my-2 ms-2 col-md-2 btn-warning"
           type="button"
           onClick={() => {
             doneEditing();
@@ -111,7 +111,7 @@ const BlogDetails = () => {
           <>
             {/* // Only Authors may edit */}
             <button
-              className="btn my-2 ms-2 col-md-2"
+              className="btn my-2 ms-2 col-md-2 btn-info"
               type="button"
               onClick={() => {
                 setIsEditing(true);
@@ -122,7 +122,7 @@ const BlogDetails = () => {
               Edit
             </button>
             <button
-              className="btn my-2 ms-2 col-md-2"
+              className="btn my-2 ms-2 col-md-2 btn-danger"
               type="button"
               onClick={() => {
                 deleteBlog();
