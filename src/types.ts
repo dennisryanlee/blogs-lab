@@ -1,5 +1,6 @@
 import { PaymentMethod } from "@stripe/stripe-js";
 import * as Express from "express";
+import { JwtPayload } from "jwt-decode";
 
 export interface AppProps {}
 

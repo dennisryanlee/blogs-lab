@@ -36,7 +36,11 @@ const AuthorDetails = () => {
       <>
         <hr></hr>
 
-        <textarea value={authorbio} onChange={(e) => setAuthorBio(e.target.value)} className="card-text form-control"></textarea>
+        <textarea
+          value={authorbio}
+          onChange={(e) => setAuthorBio(e.target.value)}
+          className="card-text form-control"
+        ></textarea>
 
         <hr></hr>
 

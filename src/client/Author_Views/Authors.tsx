@@ -39,7 +39,10 @@ const Authors = () => {
 
               <hr></hr>
 
-              <button className="btn btn-warning btn-sm" onClick={() => nav(`/users/${author.id}`, { state: { ...author } })}>
+              <button
+                className="btn btn-warning btn-sm"
+                onClick={() => nav(`/users/${author.id}`, { state: { ...author } })}
+              >
                 View this Author
               </button>
             </div>

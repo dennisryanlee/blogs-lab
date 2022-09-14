@@ -8,7 +8,7 @@ export const TOKEN_KEY = `token`;
  * body will already be stringified
  */
 const Fetcher = async (url: string, method: string, data?: Types.FetchData) => {
-  const token: string = localStorage.getItem(TOKEN_KEY);
+  const token: string | null = localStorage.getItem(TOKEN_KEY);
   const fetchOptions = {
     headers: {
       "Content-Type": "application/json",
