@@ -20,7 +20,7 @@ const BlogDetails = () => {
   const authorid = decodeMyToken().userid;
 
   const updateBlog = () => {
-    Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid })
+    Fetcher.PUT(`/api/blogs/${id}`, { title, content })
       .then(() => {
         // console.log(`Update Blog Successful!`);
         nav("/blogs"); // nav to blogs view if no errors

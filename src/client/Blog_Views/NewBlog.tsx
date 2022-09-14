@@ -46,7 +46,7 @@ const NewBlog = () => {
       alert("Hey don't forget your tag!");
     }
 
-    Fetcher.POST("/api/blogs/", { title, content, authorid, tagid: selectedTagId })
+    Fetcher.POST("/api/blogs/", { title, content, tagid: selectedTagId })
       .then(() => {
         handleClearTitleAndContent(); // clear the inputs
         nav("/blogs"); // nav to blogs view is no errors
@@ -78,7 +78,13 @@ const NewBlog = () => {
         <div className="card bg-light shadow col-md-4">
           <div className="card-body d-flex flex-wrap justify-content-center">
             <h5 className="card-title text-center col-md-7">Blog Away!</h5>
-            <input placeholder="Blog Title" type="text" value={title} className="form-control col-md-7 mb-1" onChange={(e) => setTitle(e.target.value)} />
+            <input
+              placeholder="Blog Title"
+              type="text"
+              value={title}
+              className="form-control col-md-7 mb-1"
+              onChange={(e) => setTitle(e.target.value)}
+            />
             <textarea
               placeholder="Your content here"
               value={content}
@@ -86,7 +92,11 @@ const NewBlog = () => {
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
 
-            <select onChange={(e) => setSelectedTagId(Number(e.target.value))} className="form-select my-1" value={Number(selectedTagId)}>
+            <select
+              onChange={(e) => setSelectedTagId(Number(e.target.value))}
+              className="form-select my-1"
+              value={Number(selectedTagId)}
+            >
               <option value={0}>Pick a tag</option>
               {tagsArray.map((tag) => (
                 <option key={`Tag-${tag.id}`} value={tag.id}>

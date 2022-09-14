@@ -72,3 +72,11 @@ export interface ReqUser extends Express.Request {
 export interface FetchData {
   [key: string]: string | number | boolean | PaymentMethod;
 }
+
+export interface fetchOptions {
+  headers: {
+    "Content-Type"?: string;
+    Authorization?: string;
+  };
+  body?: string;
+}

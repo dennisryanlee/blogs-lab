@@ -30,12 +30,12 @@ const Authors = () => {
         {authorsArray.map((author) => (
           <div key={`author-${author.id}`} className="card col-md-2">
             <div className="card-body">
-              <h5 className="card-title">{author.authorname.toLocaleUpperCase()}</h5>
+              <h5 className="card-title">{author.authorname!.toLocaleUpperCase()}</h5>
 
               <hr></hr>
 
-              {author.authorbio?.length < 50 && <div className="card-text">{author.authorbio}</div>}
-              {author.authorbio?.length > 50 && <div className="card-text">{author.authorbio.slice(0, 50)}...</div>}
+              {author.authorbio!.length < 50 && <div className="card-text">{author.authorbio!}</div>}
+              {author.authorbio!.length > 50 && <div className="card-text">{author.authorbio!.slice(0, 50)}...</div>}
 
               <hr></hr>
 

@@ -9,7 +9,7 @@ export const TOKEN_KEY = `token`;
  */
 const Fetcher = async (url: string, method: string, data?: Types.FetchData) => {
   const token: string | null = localStorage.getItem(TOKEN_KEY);
-  const fetchOptions = {
+  const fetchOptions: Types.fetchOptions = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

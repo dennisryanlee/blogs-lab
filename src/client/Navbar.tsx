@@ -16,7 +16,7 @@ const Navbar = () => {
     // console.log(`You are on ${loc.pathname}`);
 
     if (!PublicPages.includes(loc.pathname)) {
-      Fetcher.POST("/auth/checkToken", null)
+      Fetcher.GET("/auth/checkToken")
         .then((data) => {
           // console.log(data);
           if (data.message === `valid token!`) setloggedIn(true);
