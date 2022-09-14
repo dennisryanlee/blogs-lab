@@ -23,8 +23,6 @@ const BlogDetails = () => {
     Fetcher.PUT(`/api/blogs/${id}`, { title, content, authorid })
       .then(() => {
         // console.log(`Update Blog Successful!`);
-        const secretTrackz3 = new Audio(`../wow.mp3`);
-        secretTrackz3.play();
         nav("/blogs"); // nav to blogs view if no errors
       })
       .catch((error) => {
@@ -37,8 +35,6 @@ const BlogDetails = () => {
     Fetcher.DELETE(`/api/blogs/${id}`)
       .then(() => {
         // console.log(`Delete Blog Successful!`);
-        const secretTrackz4 = new Audio(`../stuckem.mp3`);
-        secretTrackz4.play();
         nav("/blogs"); // nav to blogs view if no errors
       })
       .catch((error) => {
@@ -56,11 +52,19 @@ const BlogDetails = () => {
   const showWhenEditing = () => {
     return (
       <>
-        <input value={title.toLocaleUpperCase()} onChange={(e) => setTitle(e.target.value)} className="card-title form-control" />
+        <input
+          value={title.toLocaleUpperCase()}
+          onChange={(e) => setTitle(e.target.value)}
+          className="card-title form-control"
+        />
 
         <hr></hr>
 
-        <textarea value={content} onChange={(e) => setContent(e.target.value)} className="card-text form-control"></textarea>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="card-text form-control"
+        ></textarea>
 
         <hr></hr>
         <button
