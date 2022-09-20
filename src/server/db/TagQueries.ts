@@ -2,10 +2,10 @@ import { Query } from ".";
 import * as Type from "../../types";
 // mysql knows to evaluate each query parameter separately to prevent bad things from happening
 
-const createNewTag = ({ tagname }: Type.newTagInfo) => Query(`INSERT INTO Tags SET tagname = $1`, [tagname]);
+const createNewTag = ({ tagname }: Type.newTagInfo) => Query(`INSERT INTO Tags (tagname) VALUES ($1)`, [tagname]);
 
 const createNewBlogTag = ({ blogid, tagid }: Type.newBlogTagInfo) =>
-  Query(`INSERT INTO Blogtags SET blogid = $1, tagid = $2`, [blogid, tagid]);
+  Query(`INSERT INTO Blogtags (blogid, tagid) VALUES ($1, $2) `, [blogid, tagid]);
 
 const readAllTags = () => Query<Type.Tag[]>(`SELECT * FROM Tags`, []);
 

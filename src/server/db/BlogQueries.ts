@@ -2,7 +2,7 @@ import { Query } from ".";
 import * as Types from "../../types";
 
 const createNewBlog = ({ title, content, authorid }: Types.newBlogInfo) =>
-  Query(`INSERT INTO Blogs SET title = $1, content = $2, authorid = $3`, [title, content, authorid]);
+  Query(`INSERT INTO Blogs (title, content, authorid) VALUES ($1, $2, $3)`, [title, content, authorid]);
 
 const readAllBlogs = () =>
   Query<Types.Blog[]>(
@@ -24,10 +24,8 @@ const readOneBlog = (id: number) =>
     [id]
   );
 
-const updateBlog = ({ title, content }: Types.updateBlogInfo, id: number, authorid: number) => {
+const updateBlog = ({ title, content }: Types.updateBlogInfo, id: number, authorid: number) =>
   Query(`UPDATE Blogs SET title = $1, content = $2 WHERE id = $3 AND authorid = $4`, [title, content, id, authorid]);
-};
-
 const deleteBlog = (id: number, authorid: number) =>
   Query(`DELETE FROM Blogs WHERE id = $1 AND authorid = $2`, [id, authorid]);
 

@@ -142,7 +142,11 @@ blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
     console.log(`Update Blog error...\n`);
     console.error(error); // if an error happens, log the error
 
-    res.status(500).json({ message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}` }); // send status of 500
+    res
+      .status(500)
+      .json({
+        message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}`,
+      }); // send status of 500
   }
 });
 
