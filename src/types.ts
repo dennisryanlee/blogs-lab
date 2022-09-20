@@ -32,10 +32,16 @@ export interface newBlogInfo {
   content: string;
   authorid: number;
 }
+export interface updateBlogInfo {
+  title: string;
+  content: string;
+}
 
 export interface newAuthorInfo {
   authorname: string;
   email: string;
+  password: string;
+  authorbio: string;
 }
 
 export interface updateAuthorInfo {

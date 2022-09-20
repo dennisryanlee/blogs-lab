@@ -46,7 +46,7 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
 
     // if the email provided is in the db, then userFound is an author entry, else is undefined
     // userFound is our author from the database
-    const [userFound] = await db.Login.FindAuthor("email", email);
+    const [userFound] = await db.Login.FindAuthor(email);
     // console.log(`userFound: `, userFound);
 
     if (userFound && compareHash(password, userFound.password!)) {
@@ -55,9 +55,13 @@ export const giveTokenToExistingUser = async (req: Request, res: Response, next:
       // and the jwt secret signature as the second
       // optionally provide an expiration for the token as a third argument
 
-      const token = jwt.sign({ username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` }, JWT_CONFIG.jwtSecretKey!, {
-        expiresIn: `10d`,
-      });
+      const token = jwt.sign(
+        { username: userFound.authorname, userid: userFound.id, email: userFound.email, role: `guest` },
+        JWT_CONFIG.jwtSecretKey!,
+        {
+          expiresIn: `10d`,
+        }
+      );
       // if user is found && the provided password matches the hashed pass on the db
       // console.log(`Token: `, token);
       res.status(200).json({ token });
@@ -99,16 +103,20 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     const hashedPassword = generateHash(plainTextPassword); // hash the password for delivery to db!
 
     // put new author info into an object
-    const newAuthorInfo = { authorname, email, password: hashedPassword, authorbio };
+    const newAuthorInfo: Types.newAuthorInfo = { authorname, email, password: hashedPassword, authorbio };
 
     //register a new author with the new author info
     const newAuthorRes = await db.Login.registerNewAuthor(newAuthorInfo);
 
     if (newAuthorRes.affectedRows === 1) {
       // If the use was added to the db, issue a token to the new user
-      const token = jwt.sign({ username: authorname, userid: newAuthorRes.insertId, email, role: `guest` }, JWT_CONFIG.jwtSecretKey!, {
-        expiresIn: `10d`,
-      });
+      const token = jwt.sign(
+        { username: authorname, userid: newAuthorRes.insertId, email, role: `guest` },
+        JWT_CONFIG.jwtSecretKey!,
+        {
+          expiresIn: `10d`,
+        }
+      );
       // console.log(`Token: `, token);
       res.status(200).json({ token });
     } else {
