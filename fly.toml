@@ -1,6 +1,6 @@
-# fly.toml file generated for ejm-dev-blogslab on 2022-09-14T16:08:57-04:00
+# fly.toml file generated for ejm-dev-blogs on 2022-09-15T16:57:27-04:00
 
-app = "ejm-dev-blogslab"
+app = "ejm-dev-blogs"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
