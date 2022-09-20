@@ -2,7 +2,7 @@ import { Query } from ".";
 import * as Types from "../../types";
 
 const createNewBlog = ({ title, content, authorid }: Types.newBlogInfo) =>
-  Query(`INSERT INTO Blogs (title, content, authorid) VALUES ($1, $2, $3)`, [title, content, authorid]);
+  Query(`INSERT INTO Blogs (title, content, authorid) VALUES ($1, $2, $3) RETURNING id`, [title, content, authorid]);
 
 const readAllBlogs = () =>
   Query<Types.Blog[]>(

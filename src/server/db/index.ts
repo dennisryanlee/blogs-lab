@@ -5,9 +5,13 @@ import Login from "./LoginQueries";
 import { DB_CONFIG } from "../config"; // import the database config object containing the connection info
 import * as postgres from "pg";
 
+interface QueryResultExtended extends postgres.QueryResult {
+  affectedRows: number;
+}
+
 export const Connection_postgres = new postgres.Pool(DB_CONFIG);
 
-export const Query = <T = any>(query: string, values: unknown[] = []) => {
+export const Query = <T = QueryResultExtended>(query: string, values: unknown[] = []) => {
   console.log({ Connection_postgres });
 
   return new Promise<T>((resolve, reject) => {
@@ -15,8 +19,12 @@ export const Query = <T = any>(query: string, values: unknown[] = []) => {
       if (err) {
         reject(err);
       } else {
-        console.log({ results });
-        resolve(results);
+        if (results.command === "SELECT") {
+          resolve(results.rows as unknown as T);
+        } else {
+          console.log({ results });
+          resolve({ ...results, affectedRows: results.rowCount } as unknown as T);
+        }
       }
     });
   });
@@ -27,5 +35,5 @@ export default {
   Blogs, // Blogs contains the query functions defined in BlogQueries.ts
   Authors, // Authors contains the query functions defined in AuthorQueries.ts
   Tags, // Tags contains the query functions defined in TagQueries.ts
-  Login,
+  Login, // Login contains the query functions defined in LoginQueries.ts
 };

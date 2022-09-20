@@ -8,7 +8,7 @@ const registerNewAuthor = ({ authorname, email, password, authorbio }: Type.newA
     `INSERT INTO Authors (authorname,
     email,
     password,
-    authorbio,) VALUES ($1, $2, $3, $4) `,
+    authorbio) VALUES ($1, $2, $3, $4) RETURNING id`,
     [authorname, email, password, authorbio]
   );
 
