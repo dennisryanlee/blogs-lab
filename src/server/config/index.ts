@@ -3,7 +3,7 @@ dotenv.config();
 
 export const DB_CONFIG = {
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
+  port: Number(5433), // use default port 5433 if not specified
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,

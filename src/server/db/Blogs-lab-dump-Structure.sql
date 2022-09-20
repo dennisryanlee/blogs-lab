@@ -24,15 +24,15 @@ USE `blogslab`;
 DROP TABLE IF EXISTS `authors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authors` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `authorname` varchar(45) NOT NULL,
-  `authorbio` varchar(500) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `password` varchar(60) NOT NULL,
-  `_created` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+CREATE TABLE "authors" (
+  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "authorname" varchar(45) NOT NULL,
+  "authorbio" varchar(500) NOT NULL,
+  "email" varchar(45) NOT NULL,
+  "password" varchar(60) NOT NULL,
+  "_created" datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id"),
+  UNIQUE KEY "email" ("email")
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -43,15 +43,15 @@ CREATE TABLE `authors` (
 DROP TABLE IF EXISTS `blogs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blogs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(45) NOT NULL,
-  `content` varchar(1500) NOT NULL,
-  `authorid` int(11) NOT NULL,
-  `_created` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `fk_author` (`authorid`),
-  CONSTRAINT `fk_author` FOREIGN KEY (`authorid`) REFERENCES `authors` (`id`)
+CREATE TABLE "blogs" (
+  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "title" varchar(45) NOT NULL,
+  "content" varchar(1500) NOT NULL,
+  "authorid" int(11) NOT NULL,
+  "_created" datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id"),
+  KEY "fk_author" ("authorid"),
+  CONSTRAINT "fk_author" FOREIGN KEY ("authorid") REFERENCES "authors" ("id")
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -62,13 +62,13 @@ CREATE TABLE `blogs` (
 DROP TABLE IF EXISTS `blogtags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `blogtags` (
-  `blogid` int(11) NOT NULL,
-  `tagid` int(11) NOT NULL,
-  PRIMARY KEY (`blogid`,`tagid`),
-  KEY `tagid` (`tagid`),
-  CONSTRAINT `blogtags_ibfk_2` FOREIGN KEY (`tagid`) REFERENCES `tags` (`id`),
-  CONSTRAINT `pizza` FOREIGN KEY (`blogid`) REFERENCES `blogs` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+CREATE TABLE "blogtags" (
+  "blogid" int(11) NOT NULL,
+  "tagid" int(11) NOT NULL,
+  PRIMARY KEY ("blogid","tagid"),
+  KEY "tagid" ("tagid"),
+  CONSTRAINT "blogtags_ibfk_2" FOREIGN KEY ("tagid") REFERENCES "tags" ("id"),
+  CONSTRAINT "pizza" FOREIGN KEY ("blogid") REFERENCES "blogs" ("id") ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -79,11 +79,11 @@ CREATE TABLE `blogtags` (
 DROP TABLE IF EXISTS `tags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tags` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tagname` varchar(45) NOT NULL,
-  `_created` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+CREATE TABLE "tags" (
+  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "tagname" varchar(45) NOT NULL,
+  "_created" datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY ("id")
 ) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

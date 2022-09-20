@@ -48,7 +48,8 @@ const updateBlog = (newBlogInfo: Type.newBlogInfo, id: number, authorid: number)
 //*************************  DESTROY  *****************************/
 // delete-x will delete the row from the x table where the id matches
 
-const deleteBlog = (id: number, authorid: number) => Query(`DELETE FROM Blogs WHERE id = ? AND authorid = ?`, [id, authorid]);
+const deleteBlog = (id: number, authorid: number) =>
+  Query(`DELETE FROM Blogs WHERE id = ? AND authorid = ?`, [id, authorid]);
 const deleteBlogTag = (id: number) =>
   Query(
     `DELETE FROM BlogTags WHERE Blogid = ?;
