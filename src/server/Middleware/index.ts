@@ -108,20 +108,15 @@ export const giveTokenToNewUser = async (req: Request, res: Response, next: Next
     //register a new author with the new author info
     const newAuthorRes = await db.Login.registerNewAuthor(newAuthorInfo);
 
-    if (newAuthorRes.affectedRows === 1) {
-      // If the use was added to the db, issue a token to the new user
-      const token = jwt.sign(
-        { username: authorname, userid: newAuthorRes.insertId, email, role: `guest` },
-        JWT_CONFIG.jwtSecretKey!,
-        {
-          expiresIn: `10d`,
-        }
-      );
-      // console.log(`Token: `, token);
-      res.status(200).json({ token });
-    } else {
-      res.status(400).json({ message: `An unknown error occurred` });
-    }
+    const token = jwt.sign(
+      { username: authorname, userid: newAuthorRes.rows[0].id, email, role: `guest` },
+      JWT_CONFIG.jwtSecretKey!,
+      {
+        expiresIn: `10d`,
+      }
+    );
+    // console.log(`Token: `, token);
+    res.status(200).json({ token });
   } catch (error) {
     console.log(`Give Token New User Middleware error...`);
     console.error(error);

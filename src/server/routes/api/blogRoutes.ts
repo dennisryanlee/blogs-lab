@@ -26,8 +26,8 @@ blogRouter.post("/", async (req: Types.ReqUser, res) => {
     const newBlogInfo = { title, content, authorid }; // package the new info into an object
     const results = await db.Blogs.createNewBlog(newBlogInfo);
 
-    if (results.affectedRows) {
-      let blogid = results.insertId; // insert Id is the Id of the blog we've just created
+    if (results.rowCount) {
+      let blogid = results.rows[0].id; // insert Id is the Id of the blog we've just created
 
       tagid = Number(tagid); // cast to type number
       blogid = Number(blogid); // cast to type number
@@ -123,7 +123,7 @@ blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
 
       const updateResults = await db.Blogs.updateBlog(newBlogInfo, Number(id), authoridnum); // newBlogInfo contains theupdated info, id specifies the blog
 
-      if (updateResults.affectedRows) {
+      if (updateResults.rowCount) {
         //! if insert works, now we can add the tag
         // updateResults.insertId gives the new blog id
 
@@ -142,11 +142,9 @@ blogRouter.put("/:id", async (req: Types.ReqUser, res) => {
     console.log(`Update Blog error...\n`);
     console.error(error); // if an error happens, log the error
 
-    res
-      .status(500)
-      .json({
-        message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}`,
-      }); // send status of 500
+    res.status(500).json({
+      message: `Updating Blogs is hard!  Something went wrong when we tried to update the blog with ID:${id}`,
+    }); // send status of 500
   }
 });
 
@@ -161,7 +159,7 @@ blogRouter.delete("/:id", async (req: Types.ReqUser, res) => {
 
     const DeleteBlogResponse = await db.Blogs.deleteBlog(id, authoridnum); // use the id to delete the blog
 
-    if (DeleteBlogResponse.affectedRows) {
+    if (DeleteBlogResponse.rowCount) {
       // if it was deleted
       res.status(200).json({ message: `Blog ${id} was deleted!` });
     } else {

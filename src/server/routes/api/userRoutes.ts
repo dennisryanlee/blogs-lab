@@ -66,7 +66,7 @@ usersRouter.put("/:id", async (req: Types.ReqUser, res) => {
 
     // if the author exists in the database, send it as the response
 
-    const updateResults = await db.Authors.updateAuthor(updateAuthorInfo, authorid); // newBlogInfo contains theupdated info, id specifies the blog
+    const updateResults = await db.Authors.updateAuthor(updateAuthorInfo, authorid); // newBlogInfo contains the updated info, id specifies the blog
 
     if (updateResults.affectedRows) {
       res.status(200).json({ message: `Author ${authorid} updated their bio!` });
@@ -81,9 +81,9 @@ usersRouter.put("/:id", async (req: Types.ReqUser, res) => {
     console.log(`Update Author Error...\n`);
     console.error(error); // if an error happens, log the error
 
-    res
-      .status(500)
-      .json({ message: `Updating Authors is hard!  Something went wrong when we tried to update the author with ID:${authorid}` }); // send status of 500
+    res.status(500).json({
+      message: `Updating Authors is hard!  Something went wrong when we tried to update the author with ID:${authorid}`,
+    }); // send status of 500
   }
 });
 
