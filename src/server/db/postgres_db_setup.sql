@@ -1,4 +1,4 @@
-CREATE DATABASE "blogslab";
+-- CREATE DATABASE "blogslab"
 
 CREATE TABLE "authors" (
   "id" serial NOT NULL,

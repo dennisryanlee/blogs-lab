@@ -15,10 +15,8 @@ const apiRouter = express.Router();
 
 // apiRouter
 
-// apiRouter.use("/users", validateToken, usersRouter);
-apiRouter.use("/users", usersRouter);
-apiRouter.use("/blogs", blogRouter);
-// apiRouter.use("/blogs", validateToken, blogRouter);
+apiRouter.use("/users", validateToken, usersRouter);
+apiRouter.use("/blogs", validateToken, blogRouter);
 apiRouter.use("/contact", validateToken, contactRouter);
 apiRouter.use("/donate", donateRouter);
 apiRouter.use("/tags", validateToken, tagRouter);

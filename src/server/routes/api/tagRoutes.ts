@@ -7,6 +7,7 @@ const tagRouter = express.Router();
 // Current route is /api/tags
 //! let admins add/edit/delete
 
+//@ creating tags from the front end or server is not yet supported
 // Create a Tag
 // tagRouter.post("/", async (req, res) => {
 //   req.body.parse;

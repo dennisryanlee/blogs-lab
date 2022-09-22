@@ -9,6 +9,10 @@ export const DB_CONFIG = {
   database: process.env.DB_DATABASE,
 };
 
+export const POSTGRES_CONFIG = {
+  connectionString: process.env.POSTGRES_URL!,
+};
+
 export const STRIPE_CONFIG = { stripeSecretKey: process.env.STRIPE_API_SECRET_KEY };
 
 export const MAILGUN_CONFIG = {
