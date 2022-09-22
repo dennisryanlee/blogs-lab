@@ -58,7 +58,7 @@ const Loginpage = () => {
             <input
               id="password"
               placeholder="password"
-              type="text"
+              type="password"
               value={password}
               className="form-control col-md-7 mb-1"
               onChange={(e) => setPassword(e.target.value)}
