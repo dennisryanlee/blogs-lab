@@ -83,7 +83,3 @@ My Blogs Lab also incorporates Mailgun and Stripe. I've implemented Mailgun with
 - [ ] Allow users to add multiple tags to a post
 - [ ] Add a search feature to search by author / title / tags
 - [ ] Public and private profile pages
-
-## Contact
-
-Eric Moran - emoran0403@gmail.com
